@@ -1,0 +1,517 @@
+{
+  "usuarios": [
+    {
+      "id": "USER001",
+      "tipo": "comprador",
+      "email": "maria.rodriguez@email.com",
+      "password": "password123",
+      "datos_personales": {
+        "nombre": "María",
+        "apellidos": "Rodríguez Mora",
+        "fecha_nacimiento": "1985-03-15",
+        "telefono": "+506 8765-4321",
+        "cedula": "1-1234-5678"
+      },
+      "direccion": {
+        "provincia": "San José",
+        "canton": "San José", 
+        "distrito": "Carmen",
+        "direccion_exacta": "100m norte del Banco Nacional, casa azul",
+        "codigo_postal": "10101"
+      },
+      "perfil_accesibilidad": {
+        "tiene_discapacidad": false,
+        "es_cuidador": true,
+        "tipo_cuidado": "madre adulto mayor",
+        "necesidades_especificas": ["productos movilidad", "amplificadores auditivos"],
+        "preferencias_navegacion": {
+          "alto_contraste": false,
+          "tamaño_texto": "normal",
+          "navegacion_teclado": false
+        }
+      },
+      "historial_compras": [
+        {
+          "fecha": "2024-12-15T10:30:00Z",
+          "productos": ["MOV002", "AUD001"],
+          "total": 180000,
+          "estado": "entregado"
+        },
+        {
+          "fecha": "2025-01-08T14:20:00Z",
+          "productos": ["COG001"],
+          "total": 65000,
+          "estado": "en_transito"
+        }
+      ],
+      "fecha_registro": "2024-11-10T09:15:00Z",
+      "ultima_sesion": "2025-01-14T16:45:00Z",
+      "verificado": true,
+      "activo": true
+    },
+    {
+      "id": "USER002",
+      "tipo": "comprador",
+      "email": "carlos.jimenez@email.com", 
+      "password": "mipassword456",
+      "datos_personales": {
+        "nombre": "Carlos",
+        "apellidos": "Jiménez Vargas",
+        "fecha_nacimiento": "1992-07-22",
+        "telefono": "+506 7654-3210",
+        "cedula": "1-2345-6789"
+      },
+      "direccion": {
+        "provincia": "Cartago",
+        "canton": "Cartago",
+        "distrito": "Oriental",
+        "direccion_exacta": "Del Colegio San Luis, 200m este, edificio verde",
+        "codigo_postal": "30101"
+      },
+      "perfil_accesibilidad": {
+        "tiene_discapacidad": true,
+        "tipo_discapacidad": ["visual"],
+        "grado_discapacidad": "severo",
+        "es_cuidador": false,
+        "necesidades_especificas": ["lectores pantalla", "magnificadores", "software accesible"],
+        "preferencias_navegacion": {
+          "alto_contraste": true,
+          "tamaño_texto": "grande",
+          "navegacion_teclado": true,
+          "lector_pantalla": "NVDA"
+        }
+      },
+      "historial_compras": [
+        {
+          "fecha": "2024-12-20T11:15:00Z",
+          "productos": ["VIS001", "VIS002"],
+          "total": 200000,
+          "estado": "entregado"
+        }
+      ],
+      "fecha_registro": "2024-12-01T14:30:00Z",
+      "ultima_sesion": "2025-01-14T18:20:00Z",
+      "verificado": true,
+      "activo": true
+    },
+    {
+      "id": "USER003",
+      "tipo": "comprador",
+      "email": "ana.gonzalez@email.com",
+      "password": "seguro789",
+      "datos_personales": {
+        "nombre": "Ana Lucía",
+        "apellidos": "González Pérez",
+        "fecha_nacimiento": "1978-11-08",
+        "telefono": "+506 6543-2109",
+        "cedula": "1-3456-7890"
+      },
+      "direccion": {
+        "provincia": "Alajuela",
+        "canton": "Alajuela",
+        "distrito": "San José",
+        "direccion_exacta": "Condominio Los Laureles, casa 15",
+        "codigo_postal": "20101"
+      },
+      "perfil_accesibilidad": {
+        "tiene_discapacidad": true,
+        "tipo_discapacidad": ["auditiva"],
+        "grado_discapacidad": "moderado",
+        "es_cuidador": true,
+        "tipo_cuidado": "hijo con autismo",
+        "necesidades_especificas": ["amplificadores", "bucles magnéticos", "alertas visuales", "agendas visuales"],
+        "preferencias_navegacion": {
+          "alto_contraste": false,
+          "tamaño_texto": "normal",
+          "navegacion_teclado": false,
+          "alertas_visuales": true
+        }
+      },
+      "historial_compras": [
+        {
+          "fecha": "2024-12-25T16:45:00Z",
+          "productos": ["AUD002", "COG002"],
+          "total": 240000,
+          "estado": "entregado"
+        }
+      ],
+      "fecha_registro": "2024-11-28T10:20:00Z",
+      "ultima_sesion": "2025-01-13T15:30:00Z",
+      "verificado": true,
+      "activo": true
+    },
+    {
+      "id": "USER004",
+      "tipo": "comprador",
+      "email": "sofia.morales@email.com",
+      "password": "embarazo2024",
+      "datos_personales": {
+        "nombre": "Sofía",
+        "apellidos": "Morales Castro",
+        "fecha_nacimiento": "1995-04-12",
+        "telefono": "+506 5432-1098",
+        "cedula": "1-4567-8901"
+      },
+      "direccion": {
+        "provincia": "Heredia",
+        "canton": "Heredia",
+        "distrito": "Mercedes",
+        "direccion_exacta": "Residencial Villa Real, apartamento 2B",
+        "codigo_postal": "40101"
+      },
+      "perfil_accesibilidad": {
+        "tiene_discapacidad": false,
+        "es_cuidador": false,
+        "condicion_especial": "embarazo",
+        "semanas_embarazo": 28,
+        "necesidades_especificas": ["productos maternidad", "cojines lactancia", "fajas soporte"],
+        "preferencias_navegacion": {
+          "alto_contraste": false,
+          "tamaño_texto": "normal",
+          "navegacion_teclado": false
+        }
+      },
+      "historial_compras": [
+        {
+          "fecha": "2025-01-10T12:30:00Z",
+          "productos": ["EMB001", "EMB002"],
+          "total": 63000,
+          "estado": "procesando"
+        }
+      ],
+      "fecha_registro": "2025-01-05T11:15:00Z",
+      "ultima_sesion": "2025-01-14T14:10:00Z",
+      "verificado": true,
+      "activo": true
+    },
+    {
+      "id": "VEND001",
+      "tipo": "vendedor",
+      "email": "ventas@medequip.cr",
+      "password": "vendedor123",
+      "datos_personales": {
+        "nombre": "Roberto",
+        "apellidos": "Méndez Solís",
+        "fecha_nacimiento": "1980-09-18",
+        "telefono": "+506 2234-5678",
+        "cedula": "1-5678-9012"
+      },
+      "empresa": {
+        "nombre": "MedEquip Costa Rica",
+        "razon_social": "Equipos Médicos y de Rehabilitación S.A.",
+        "cedula_juridica": "3-101-234567",
+        "tipo": "empresa",
+        "categoria": "distribuidora equipos médicos",
+        "años_experiencia": 15,
+        "certificaciones": ["ISO 9001", "Registro CCSS"]
+      },
+      "direccion": {
+        "provincia": "San José",
+        "canton": "Escazú",
+        "distrito": "Escazú",
+        "direccion_exacta": "Centro Comercial Multiplaza, Oficina 201",
+        "codigo_postal": "10203"
+      },
+      "productos_vendidos": ["MOV001"],
+      "estadisticas_ventas": {
+        "total_ventas": 12,
+        "ingresos_totales": 2220000,
+        "calificacion_promedio": 4.8,
+        "productos_activos": 1
+      },
+      "fecha_registro": "2024-10-15T08:00:00Z",
+      "ultima_sesion": "2025-01-14T09:30:00Z",
+      "verificado": true,
+      "activo": true
+    },
+    {
+      "id": "VEND002",
+      "tipo": "vendedor",
+      "email": "info@movilidadplus.com",
+      "password": "movilidad456",
+      "datos_personales": {
+        "nombre": "Carmen",
+        "apellidos": "Vargas Herrera",
+        "fecha_nacimiento": "1975-12-03",
+        "telefono": "+506 2345-6789",
+        "cedula": "1-6789-0123"
+      },
+      "empresa": {
+        "nombre": "Movilidad Plus",
+        "razon_social": "Soluciones de Movilidad Plus Limitada",
+        "cedula_juridica": "3-102-345678",
+        "tipo": "empresa",
+        "categoria": "especialista movilidad",
+        "años_experiencia": 8,
+        "certificaciones": ["Distribuidor autorizado", "Servicio técnico certificado"]
+      },
+      "direccion": {
+        "provincia": "San José",
+        "canton": "Montes de Oca",
+        "distrito": "San Pedro",
+        "direccion_exacta": "De la UCR, 300m norte, edificio comercial Los Yoses",
+        "codigo_postal": "11501"
+      },
+      "productos_vendidos": ["MOV002"],
+      "estadisticas_ventas": {
+        "total_ventas": 8,
+        "ingresos_totales": 760000,
+        "calificacion_promedio": 4.9,
+        "productos_activos": 1
+      },
+      "fecha_registro": "2024-11-20T10:45:00Z",
+      "ultima_sesion": "2025-01-13T16:20:00Z",
+      "verificado": true,
+      "activo": true
+    },
+    {
+      "id": "VEND003",
+      "tipo": "vendedor",
+      "email": "contacto@visiontech.cr",
+      "password": "vision789",
+      "datos_personales": {
+        "nombre": "Luis",
+        "apellidos": "Chacón Ramírez",
+        "fecha_nacimiento": "1983-06-25",
+        "telefono": "+506 2456-7890",
+        "cedula": "1-7890-1234"
+      },
+      "empresa": {
+        "nombre": "VisionTech CR",
+        "razon_social": "Tecnologías Visuales de Costa Rica S.A.",
+        "cedula_juridica": "3-103-456789",
+        "tipo": "empresa",
+        "categoria": "tecnología asistiva visual",
+        "años_experiencia": 6,
+        "certificaciones": ["Distribuidor exclusivo", "Soporte técnico especializado"]
+      },
+      "direccion": {
+        "provincia": "San José",
+        "canton": "Curridabat",
+        "distrito": "Curridabat",
+        "direccion_exacta": "Centro Comercial Momentum, local 45",
+        "codigo_postal": "11801"
+      },
+      "productos_vendidos": ["VIS001"],
+      "estadisticas_ventas": {
+        "total_ventas": 15,
+        "ingresos_totales": 1875000,
+        "calificacion_promedio": 4.7,
+        "productos_activos": 1
+      },
+      "fecha_registro": "2024-11-15T13:30:00Z",
+      "ultima_sesion": "2025-01-14T11:15:00Z",
+      "verificado": true,
+      "activo": true
+    },
+    {
+      "id": "VEND004",
+      "tipo": "vendedor",
+      "email": "soporte@softwareaccesible.com",
+      "password": "software123",
+      "datos_personales": {
+        "nombre": "Patricia",
+        "apellidos": "Sandoval Quirós",
+        "fecha_nacimiento": "1988-01-14",
+        "telefono": "+506 2567-8901",
+        "cedula": "1-8901-2345"
+      },
+      "empresa": {
+        "nombre": "Software Accesible",
+        "razon_social": "Desarrollo de Software Accesible Limitada",
+        "cedula_juridica": "3-104-567890",
+        "tipo": "empresa",
+        "categoria": "desarrollo software",
+        "años_experiencia": 4,
+        "certificaciones": ["Microsoft Partner", "Certificación WCAG"]
+      },
+      "direccion": {
+        "provincia": "San José",
+        "canton": "Santa Ana",
+        "distrito": "Santa Ana",
+        "direccion_exacta": "Forum Business Center, Torre A, piso 8",
+        "codigo_postal": "10901"
+      },
+      "productos_vendidos": ["VIS002"],
+      "estadisticas_ventas": {
+        "total_ventas": 25,
+        "ingresos_totales": 1875000,
+        "calificacion_promedio": 4.9,
+        "productos_activos": 1
+      },
+      "fecha_registro": "2024-12-01T09:00:00Z",
+      "ultima_sesion": "2025-01-14T08:45:00Z",
+      "verificado": true,
+      "activo": true
+    },
+    {
+      "id": "VEND005",
+      "tipo": "vendedor",
+      "email": "ventas@audiocr.com",
+      "password": "audio456",
+      "datos_personales": {
+        "nombre": "Miguel",
+        "apellidos": "Rojas Fernández",
+        "fecha_nacimiento": "1979-10-30",
+        "telefono": "+506 2678-9012",
+        "cedula": "1-9012-3456"
+      },
+      "empresa": {
+        "nombre": "Audio CR",
+        "razon_social": "Soluciones Auditivas de Costa Rica S.A.",
+        "cedula_juridica": "3-105-678901",
+        "tipo": "empresa",
+        "categoria": "tecnología auditiva",
+        "años_experiencia": 12,
+        "certificaciones": ["FDA registrado", "Distribuidor oficial"]
+      },
+      "direccion": {
+        "provincia": "San José",
+        "canton": "Goicoechea",
+        "distrito": "Guadalupe",
+        "direccion_exacta": "Plaza Guadalupe, segundo piso, oficina 12",
+        "codigo_postal": "11701"
+      },
+      "productos_vendidos": ["AUD001"],
+      "estadisticas_ventas": {
+        "total_ventas": 18,
+        "ingresos_totales": 1530000,
+        "calificacion_promedio": 4.6,
+        "productos_activos": 1
+      },
+      "fecha_registro": "2024-11-25T15:20:00Z",
+      "ultima_sesion": "2025-01-13T14:30:00Z",
+      "verificado": true,
+      "activo": true
+    }
+  ],
+  "tipos_usuario": [
+    {
+      "id": "comprador",
+      "nombre": "Comprador",
+      "descripcion": "Usuario que compra productos en la plataforma",
+      "permisos": ["ver_productos", "comprar", "escribir_resenas", "contactar_vendedores"]
+    },
+    {
+      "id": "vendedor",
+      "nombre": "Vendedor",
+      "descripcion": "Usuario que vende productos en la plataforma",
+      "permisos": ["ver_productos", "crear_productos", "editar_productos", "gestionar_inventario", "ver_estadisticas"]
+    },
+    {
+      "id": "administrador",
+      "nombre": "Administrador",
+      "descripcion": "Usuario con permisos administrativos completos",
+      "permisos": ["todos_los_permisos"]
+    }
+  ],
+  "tipos_discapacidad": [
+    {
+      "id": "motora",
+      "nombre": "Motora",
+      "descripcion": "Dificultades de movilidad o movimiento"
+    },
+    {
+      "id": "visual",
+      "nombre": "Visual",
+      "descripcion": "Ceguera, baja visión o dificultades visuales"
+    },
+    {
+      "id": "auditiva",
+      "nombre": "Auditiva",
+      "descripcion": "Sordera, hipoacusia o dificultades auditivas"
+    },
+    {
+      "id": "cognitiva",
+      "nombre": "Cognitiva",
+      "descripcion": "Dificultades de procesamiento cognitivo"
+    },
+    {
+      "id": "intelectual",
+      "nombre": "Intelectual",
+      "descripcion": "Discapacidad intelectual o del desarrollo"
+    },
+    {
+      "id": "psicosocial",
+      "nombre": "Psicosocial",
+      "descripcion": "Condiciones de salud mental"
+    },
+    {
+      "id": "SELLER001",
+      "tipo": "vendedor",
+      "userType": "seller",
+      "email": "vendedor@test.com",
+      "password": "vendedor123",
+      "datos_personales": {
+        "nombre": "Carlos",
+        "apellidos": "Mendoza Vega",
+        "fecha_nacimiento": "1980-07-22",
+        "telefono": "+506 7777-8888",
+        "cedula": "2-0987-6543"
+      },
+      "direccion": {
+        "provincia": "San José",
+        "canton": "Escazú",
+        "distrito": "San Rafael",
+        "direccion_exacta": "Centro Comercial Multiplaza, Local 45",
+        "codigo_postal": "10203"
+      },
+      "empresa": {
+        "nombre": "TecnoAccesible CR",
+        "cedula_juridica": "3-101-555999",
+        "telefono_empresa": "+506 2289-7766",
+        "direccion_comercial": "Escazú, San José",
+        "tipo_productos": ["software", "hardware", "dispositivos"],
+        "años_experiencia": 8
+      },
+      "productos_vendidos": ["SW001", "MOV001"],
+      "estadisticas_ventas": {
+        "total_ventas": 156,
+        "ingresos_totales": 15600000,
+        "calificacion_promedio": 4.8,
+        "productos_activos": 12
+      },
+      "perfil_accesibilidad": {
+        "tiene_discapacidad": false,
+        "es_cuidador": false,
+        "especialidad_productos": ["tecnologia_asistiva", "software_accesible"],
+        "certificaciones": ["Accesibilidad Web WCAG 2.1", "Diseño Universal"],
+        "preferencias_navegacion": {
+          "alto_contraste": false,
+          "tamaño_texto": "normal",
+          "navegacion_teclado": true
+        }
+      },
+      "historial_ventas": [
+        {
+          "fecha": "2025-01-10T11:00:00Z",
+          "producto_id": "SW001",
+          "comprador": "USER003",
+          "cantidad": 1,
+          "precio_unitario": 0,
+          "total": 0,
+          "estado": "completada"
+        }
+      ],
+      "fecha_registro": "2023-08-15T08:00:00Z",
+      "ultima_sesion": "2025-01-14T19:30:00Z",
+      "verificado": true,
+      "activo": true
+    }
+  ],
+  "configuracion_accesibilidad": {
+    "niveles_contraste": ["normal", "alto", "muy_alto"],
+    "tamaños_texto": ["pequeño", "normal", "grande", "muy_grande"],
+    "opciones_navegacion": ["mouse", "teclado", "tactil", "voz"],
+    "lectores_pantalla_compatibles": ["NVDA", "JAWS", "VoiceOver", "TalkBack"]
+  },
+  "metadatos": {
+    "version": "1.0",
+    "fecha_actualizacion": "2025-01-14T18:30:00Z",
+    "total_usuarios": 10,
+    "usuarios_compradores": 4,
+    "usuarios_vendedores": 6,
+    "pais": "Costa Rica",
+    "descripcion": "Base de datos de usuarios para Accessibility Things - Incluye compradores, vendedores y configuraciones de accesibilidad"
+  }
+} 

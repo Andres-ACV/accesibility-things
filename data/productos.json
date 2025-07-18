@@ -1,0 +1,565 @@
+{
+  "productos": [
+    {
+      "id": "MOV001",
+      "nombre": "Silla de Ruedas Manual Estándar",
+      "categoria": "movilidad",
+      "subcategoria": "sillas_ruedas",
+      "precio": 185000,
+      "moneda": "CRC",
+      "descripcion": "Silla de ruedas manual ligera con estructura de aluminio, ideal para uso diario. Cuenta con ruedas traseras de 24 pulgadas y frenos de mano seguros.",
+      "descripcion_larga": "Esta silla de ruedas manual está diseñada para brindar comodidad y autonomía a usuarios con movilidad reducida. Fabricada con estructura de aluminio liviano pero resistente, pesa solo 16kg sin las ruedas traseras. El asiento acolchado de 18 pulgadas de ancho proporciona comodidad durante largos períodos de uso. Incluye reposapiés desmontables y reposabrazos ajustables en altura.",
+      "especificaciones": {
+        "peso": "16 kg",
+        "capacidad_maxima": "120 kg",
+        "ancho_asiento": "18 pulgadas",
+        "material_estructura": "Aluminio",
+        "tipo_ruedas": "24 pulgadas traseras, 8 pulgadas delanteras",
+        "plegable": true,
+        "garantia": "2 años"
+      },
+      "imagen_principal": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop",
+      "alt_text_principal": "Silla de ruedas manual estándar con estructura de aluminio, ruedas grandes traseras y frenos de mano",
+      "imagenes_adicionales": [
+        "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop"
+      ],
+      "disponibilidad": "disponible",
+      "stock": 5,
+      "marca": "ComfortMove",
+      "modelo": "CM-MW-001",
+      "sku": "ACCTH-MOV001",
+      "peso_producto": 16,
+      "dimensiones": {
+        "alto": "89 cm",
+        "ancho": "66 cm",
+        "profundidad": "102 cm"
+      },
+      "colores_disponibles": ["Gris", "Negro", "Azul"],
+      "accesorios_incluidos": ["Cojín del asiento", "Manual de usuario", "Herramientas de ajuste"],
+      "certificaciones": ["ISO 7176", "FDA", "CE"],
+      "envio_gratis": true,
+      "fecha_agregado": "2024-01-15",
+      "valoracion": 4.5,
+      "numero_resenas": 23,
+      "tags": ["movilidad", "silla-ruedas", "manual", "aluminio", "plegable"]
+    },
+    {
+      "id": "MOV002",
+      "nombre": "Andador con Ruedas y Asiento",
+      "categoria": "movilidad",
+      "subcategoria": "andadores",
+      "precio": 95000,
+      "moneda": "CRC",
+      "descripcion": "Andador con cuatro ruedas que incluye asiento acolchado y cesta de almacenamiento. Ideal para personas que necesitan apoyo al caminar.",
+      "descripcion_larga": "Este andador de cuatro ruedas proporciona estabilidad y comodidad para personas con dificultades de movilidad. Cuenta con un asiento acolchado que permite descansar cuando sea necesario y una cesta práctica para llevar objetos personales. Los frenos con cable permiten un control seguro de la velocidad y el bloqueo para mayor seguridad al sentarse.",
+      "especificaciones": {
+        "peso": "8 kg",
+        "capacidad_maxima": "136 kg",
+        "altura_ajustable": "81-96 cm",
+        "material_estructura": "Acero pintado",
+        "tipo_ruedas": "4 ruedas con rodamientos",
+        "plegable": true,
+        "garantia": "1 año"
+      },
+      "imagen_principal": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=300&fit=crop",
+      "alt_text_principal": "Andador con cuatro ruedas, asiento acolchado y cesta de almacenamiento, con frenos de cable",
+      "imagenes_adicionales": [
+        "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1559526324-c1f275fbfa32?w=400&h=300&fit=crop"
+      ],
+      "disponibilidad": "disponible",
+      "stock": 12,
+      "marca": "WalkSafe",
+      "modelo": "WS-RW-002",
+      "sku": "ACCTH-MOV002",
+      "peso_producto": 8,
+      "dimensiones": {
+        "alto": "81-96 cm",
+        "ancho": "64 cm",
+        "profundidad": "69 cm"
+      },
+      "colores_disponibles": ["Rojo", "Azul", "Gris"],
+      "accesorios_incluidos": ["Cesta extraíble", "Asiento acolchado", "Manual de usuario"],
+      "certificaciones": ["FDA", "CE"],
+      "envio_gratis": false,
+      "fecha_agregado": "2024-01-20",
+      "valoracion": 4.2,
+      "numero_resenas": 18,
+      "tags": ["movilidad", "andador", "ruedas", "asiento", "plegable"]
+    },
+    {
+      "id": "VIS001",
+      "nombre": "Lupa Electrónica Portátil 5X",
+      "categoria": "visual",
+      "subcategoria": "lupas",
+      "precio": 75000,
+      "moneda": "CRC",
+      "descripcion": "Lupa electrónica portátil con aumento de 5X y luz LED integrada. Perfecta para lectura de textos pequeños y trabajos de precisión.",
+      "descripcion_larga": "Esta lupa electrónica portátil combina un aumento óptico de 5X con iluminación LED brillante para proporcionar una visión clara y detallada. Su diseño ergonómico la hace cómoda de sostener durante períodos prolongados. La luz LED de alta calidad reduce la fatiga visual y permite su uso en condiciones de poca luz.",
+      "especificaciones": {
+        "aumento": "5X",
+        "diametro_lente": "75 mm",
+        "tipo_iluminacion": "12 LEDs",
+        "alimentacion": "3 baterías AAA",
+        "autonomia": "25 horas",
+        "peso": "185 g",
+        "garantia": "1 año"
+      },
+      "imagen_principal": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+      "alt_text_principal": "Lupa electrónica portátil con mango ergonómico, lente de aumento y luces LED alrededor del borde",
+      "imagenes_adicionales": [
+        "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1615206767861-b8ecd5fca1a1?w=400&h=300&fit=crop"
+      ],
+      "disponibilidad": "disponible",
+      "stock": 8,
+      "marca": "VisionAid",
+      "modelo": "VA-LED-5X",
+      "sku": "ACCTH-VIS001",
+      "peso_producto": 0.185,
+      "dimensiones": {
+        "alto": "18 cm",
+        "ancho": "9 cm",
+        "profundidad": "3 cm"
+      },
+      "colores_disponibles": ["Negro", "Blanco"],
+      "accesorios_incluidos": ["Estuche de transporte", "Paño de limpieza", "Manual de usuario"],
+      "certificaciones": ["CE", "RoHS"],
+      "envio_gratis": true,
+      "fecha_agregado": "2024-02-01",
+      "valoracion": 4.7,
+      "numero_resenas": 31,
+      "tags": ["visual", "lupa", "electronica", "led", "portatil"]
+    },
+    {
+      "id": "SW001",
+      "nombre": "Software NVDA Lector de Pantalla",
+      "categoria": "software",
+      "subcategoria": "lectores_pantalla",
+      "precio": 0,
+      "moneda": "CRC",
+      "descripcion": "Software gratuito de lector de pantalla que permite a personas ciegas y con baja visión usar computadoras. Compatible con Windows.",
+      "descripcion_larga": "NVDA (NonVisual Desktop Access) es un lector de pantalla gratuito y de código abierto para Microsoft Windows. Este software permite a personas ciegas y con discapacidad visual navegar y usar computadoras mediante síntesis de voz y braille. NVDA puede leer texto en pantalla usando voces sintéticas o mostrar la información en una pantalla braille.",
+      "especificaciones": {
+        "sistema_operativo": "Windows 7 SP1 o superior",
+        "idiomas_soporte": "Más de 80 idiomas",
+        "voces_incluidas": "eSpeak NG, Windows OneCore",
+        "soporte_braille": "Más de 80 pantallas braille",
+        "licencia": "GPL v2",
+        "tamaño_descarga": "15 MB",
+        "garantia": "Soporte comunidad"
+      },
+      "imagen_principal": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop",
+      "alt_text_principal": "Captura de pantalla del software NVDA mostrando la interfaz de configuración con opciones de voz y braille",
+      "imagenes_adicionales": [
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1587560699334-cc4ff634909a?w=400&h=300&fit=crop"
+      ],
+      "disponibilidad": "disponible",
+      "stock": 999,
+      "marca": "NV Access",
+      "modelo": "NVDA 2024.1",
+      "sku": "ACCTH-SW001",
+      "peso_producto": 0,
+      "dimensiones": {
+        "alto": "Digital",
+        "ancho": "Digital",
+        "profundidad": "Digital"
+      },
+      "colores_disponibles": ["N/A"],
+      "accesorios_incluidos": ["Manual de usuario digital", "Documentación en línea", "Soporte comunidad"],
+      "certificaciones": ["GPL v2", "Código abierto"],
+      "envio_gratis": true,
+      "fecha_agregado": "2024-02-15",
+      "valoracion": 4.9,
+      "numero_resenas": 127,
+      "tags": ["software", "lector-pantalla", "gratuito", "accesibilidad", "windows"]
+    },
+    {
+      "id": "EMB001",
+      "nombre": "Cinturón de Maternidad Soporte Lumbar",
+      "categoria": "embarazo",
+      "subcategoria": "soportes",
+      "precio": 28000,
+      "moneda": "CRC",
+      "descripcion": "Cinturón de soporte para embarazadas que alivia el dolor lumbar y pélvico. Ajustable y cómodo para uso diario.",
+      "descripcion_larga": "Este cinturón de maternidad está diseñado específicamente para brindar soporte durante el embarazo. Ayuda a aliviar el dolor de espalda baja y la presión pélvica causada por el peso adicional del bebé. Su diseño ajustable se adapta al crecimiento del vientre y puede usarse cómodamente sobre o debajo de la ropa.",
+      "especificaciones": {
+        "material": "Neopreno transpirable",
+        "tallas": "S, M, L, XL",
+        "ajustable": true,
+        "lavable": "Lavado a mano",
+        "color": "Negro con detalles rosados",
+        "peso": "150 g",
+        "garantia": "6 meses"
+      },
+      "imagen_principal": "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=400&h=300&fit=crop",
+      "alt_text_principal": "Cinturón de maternidad negro con bandas ajustables y soporte lumbar, mostrado en mujer embarazada",
+      "imagenes_adicionales": [
+        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop"
+      ],
+      "disponibilidad": "disponible",
+      "stock": 15,
+      "marca": "MaternityComfort",
+      "modelo": "MC-LS-001",
+      "sku": "ACCTH-EMB001",
+      "peso_producto": 0.15,
+      "dimensiones": {
+        "alto": "20 cm",
+        "ancho": "Ajustable 60-120 cm",
+        "profundidad": "1 cm"
+      },
+      "colores_disponibles": ["Negro/Rosa", "Negro/Azul"],
+      "accesorios_incluidos": ["Guía de uso", "Bolsa de almacenamiento"],
+      "certificaciones": ["FDA", "Textil certificado"],
+      "envio_gratis": false,
+      "fecha_agregado": "2024-03-01",
+      "valoracion": 4.3,
+      "numero_resenas": 42,
+      "tags": ["embarazo", "soporte", "lumbar", "cinturon", "maternidad"]
+    },
+    {
+      "id": "EMB002",
+      "nombre": "Almohada de Lactancia Ergonómica",
+      "categoria": "embarazo",
+      "subcategoria": "lactancia",
+      "precio": 35000,
+      "moneda": "CRC",
+      "descripcion": "Almohada ergonómica especialmente diseñada para facilitar la lactancia y brindar comodidad a madre e hijo.",
+      "descripcion_larga": "Esta almohada de lactancia está diseñada ergonómicamente para proporcionar el soporte perfecto durante la alimentación. Su forma en 'C' se adapta cómodamente alrededor del cuerpo, elevando al bebé a la altura ideal del pecho y reduciendo la tensión en brazos, cuello y espalda de la madre.",
+      "especificaciones": {
+        "material_relleno": "Fibra de poliéster hipoalergénica",
+        "material_funda": "100% algodón",
+        "lavable": "Funda lavable en máquina",
+        "dimensiones": "65 x 50 x 18 cm",
+        "peso": "800 g",
+        "hipoalergenico": true,
+        "garantia": "1 año"
+      },
+      "imagen_principal": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=300&fit=crop",
+      "alt_text_principal": "Almohada de lactancia en forma de C de color blanco con funda de algodón, mostrada con bebé",
+      "imagenes_adicionales": [
+        "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1493894473891-10fc1e5dbd22?w=400&h=300&fit=crop"
+      ],
+      "disponibilidad": "disponible",
+      "stock": 10,
+      "marca": "BabyComfort",
+      "modelo": "BC-NP-002",
+      "sku": "ACCTH-EMB002",
+      "peso_producto": 0.8,
+      "dimensiones": {
+        "alto": "18 cm",
+        "ancho": "65 cm",
+        "profundidad": "50 cm"
+      },
+      "colores_disponibles": ["Blanco", "Rosa claro", "Azul claro"],
+      "accesorios_incluidos": ["Funda adicional", "Guía de lactancia"],
+      "certificaciones": ["Textil certificado", "Hipoalergénico"],
+      "envio_gratis": true,
+      "fecha_agregado": "2024-03-10",
+      "valoracion": 4.6,
+      "numero_resenas": 38,
+      "tags": ["embarazo", "lactancia", "almohada", "ergonomica", "bebe"]
+    },
+    {
+      "id": "MOV003",
+      "nombre": "Bastón Ajustable con Luz LED",
+      "categoria": "movilidad",
+      "subcategoria": "bastones",
+      "precio": 22000,
+      "moneda": "CRC",
+      "descripcion": "Bastón ajustable en altura con luz LED integrada y empuñadura ergonómica antideslizante.",
+      "descripcion_larga": "Este bastón combina funcionalidad y seguridad con su diseño innovador. La luz LED integrada en la empuñadura proporciona iluminación adicional en condiciones de poca luz. Su altura es completamente ajustable y la empuñadura ergonómica reduce la fatiga en la mano durante uso prolongado.",
+      "especificaciones": {
+        "material": "Aluminio anodizado",
+        "altura_ajustable": "71-96 cm",
+        "peso": "480 g",
+        "capacidad_maxima": "136 kg",
+        "iluminacion": "LED de 3W",
+        "alimentacion": "2 baterías AA",
+        "autonomia": "40 horas",
+        "garantia": "2 años"
+      },
+      "imagen_principal": "https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&h=300&fit=crop",
+      "alt_text_principal": "Bastón de aluminio plateado con empuñadura ergonómica negra y luz LED encendida en la parte superior",
+      "imagenes_adicionales": [
+        "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=300&fit=crop"
+      ],
+      "disponibilidad": "disponible",
+      "stock": 18,
+      "marca": "SafeWalk",
+      "modelo": "SW-LED-003",
+      "sku": "ACCTH-MOV003",
+      "peso_producto": 0.48,
+      "dimensiones": {
+        "alto": "71-96 cm",
+        "ancho": "12 cm",
+        "profundidad": "3 cm"
+      },
+      "colores_disponibles": ["Plateado", "Negro", "Bronce"],
+      "accesorios_incluidos": ["Baterías AA", "Punta de repuesto", "Manual de usuario"],
+      "certificaciones": ["FDA", "CE"],
+      "envio_gratis": false,
+      "fecha_agregado": "2024-03-20",
+      "valoracion": 4.4,
+      "numero_resenas": 26,
+      "tags": ["movilidad", "baston", "led", "ajustable", "seguridad"]
+    },
+    {
+      "id": "VIS002",
+      "nombre": "Gafas con Aumento 2.5X",
+      "categoria": "visual",
+      "subcategoria": "gafas_aumento",
+      "precio": 18000,
+      "moneda": "CRC",
+      "descripcion": "Gafas con lentes de aumento de 2.5X ideales para lectura, manualidades y trabajos de precisión.",
+      "descripcion_larga": "Estas gafas de aumento proporcionan una magnificación clara de 2.5X, perfectas para actividades que requieren visión detallada. Los lentes están montados en una montura ligera y cómoda que puede usarse sobre gafas regulares si es necesario. Ideales para lectura de letra pequeña, costura, reparación de relojes y otras actividades de precisión.",
+      "especificaciones": {
+        "aumento": "2.5X",
+        "material_lentes": "Cristal óptico",
+        "material_montura": "Plástico ligero",
+        "peso": "65 g",
+        "ajustable": "Patillas ajustables",
+        "proteccion_uv": "Sí",
+        "garantia": "1 año"
+      },
+      "imagen_principal": "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=400&h=300&fit=crop",
+      "alt_text_principal": "Gafas de aumento con montura negra ligera y lentes transparentes de aumento, sobre fondo blanco",
+      "imagenes_adicionales": [
+        "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1503341960582-b45751874cf0?w=400&h=300&fit=crop"
+      ],
+      "disponibilidad": "disponible",
+      "stock": 22,
+      "marca": "ClearVision",
+      "modelo": "CV-MAG-2.5",
+      "sku": "ACCTH-VIS002",
+      "peso_producto": 0.065,
+      "dimensiones": {
+        "alto": "4 cm",
+        "ancho": "14 cm",
+        "profundidad": "14 cm"
+      },
+      "colores_disponibles": ["Negro", "Carey", "Transparente"],
+      "accesorios_incluidos": ["Estuche rígido", "Paño de limpieza", "Cordón para cuello"],
+      "certificaciones": ["CE", "ISO 12312"],
+      "envio_gratis": false,
+      "fecha_agregado": "2024-04-01",
+      "valoracion": 4.1,
+      "numero_resenas": 19,
+      "tags": ["visual", "gafas", "aumento", "lectura", "precision"]
+    },
+    {
+      "id": "VIS003",
+      "nombre": "Lámpara de Escritorio LED Regulable",
+      "categoria": "visual",
+      "subcategoria": "iluminacion",
+      "precio": 45000,
+      "moneda": "CRC",
+      "descripcion": "Lámpara LED de escritorio con brazo ajustable, control de intensidad y temperatura de color variable.",
+      "descripcion_larga": "Esta lámpara LED de alta calidad está diseñada para proporcionar iluminación óptima para lectura y trabajo. Cuenta con control de intensidad desde 10% hasta 100% y temperatura de color ajustable desde luz cálida (3000K) hasta luz fría (6500K). Su brazo articulado permite dirigir la luz exactamente donde se necesita.",
+      "especificaciones": {
+        "potencia": "12W LED",
+        "temperatura_color": "3000K - 6500K",
+        "intensidad_regulable": "10% - 100%",
+        "brazo_ajustable": "Doble articulación",
+        "alimentacion": "AC 100-240V",
+        "vida_util": "50,000 horas",
+        "garantia": "3 años"
+      },
+      "imagen_principal": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+      "alt_text_principal": "Lámpara de escritorio LED blanca con brazo articulado doble y base circular, iluminando un libro",
+      "imagenes_adicionales": [
+        "https://images.unsplash.com/photo-1564540574859-0dfb63293365?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop"
+      ],
+      "disponibilidad": "disponible",
+      "stock": 7,
+      "marca": "BrightWork",
+      "modelo": "BW-DESK-LED12",
+      "sku": "ACCTH-VIS003",
+      "peso_producto": 1.2,
+      "dimensiones": {
+        "alto": "60 cm máximo",
+        "ancho": "18 cm base",
+        "profundidad": "18 cm base"
+      },
+      "colores_disponibles": ["Blanco", "Negro", "Plateado"],
+      "accesorios_incluidos": ["Adaptador AC", "Manual de usuario", "Control remoto"],
+      "certificaciones": ["CE", "FCC", "Energy Star"],
+      "envio_gratis": true,
+      "fecha_agregado": "2024-04-15",
+      "valoracion": 4.8,
+      "numero_resenas": 33,
+      "tags": ["visual", "lampara", "led", "regulable", "escritorio"]
+    },
+    {
+      "id": "AUD001",
+      "nombre": "Audífonos Bluetooth con Cancelación de Ruido",
+      "categoria": "auditiva",
+      "subcategoria": "audifonos",
+      "precio": 125000,
+      "moneda": "CRC",
+      "descripcion": "Audífonos inalámbricos con tecnología de cancelación activa de ruido y controles táctiles accesibles.",
+      "descripcion_larga": "Estos audífonos premium ofrecen una experiencia auditiva excepcional con cancelación activa de ruido que reduce hasta 95% del ruido ambiental. Los controles táctiles son accesibles y pueden configurarse según las preferencias del usuario. La batería de larga duración y la conexión Bluetooth estable los hacen perfectos para uso diario.",
+      "especificaciones": {
+        "conectividad": "Bluetooth 5.0",
+        "cancelacion_ruido": "Activa hasta -35dB",
+        "autonomia": "30 horas con ANC",
+        "tiempo_carga": "2 horas",
+        "peso": "280 g",
+        "resistencia": "IPX4",
+        "garantia": "2 años"
+      },
+      "imagen_principal": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop",
+      "alt_text_principal": "Audífonos inalámbricos negros con almohadillas acolchadas y controles táctiles en el lateral derecho",
+      "imagenes_adicionales": [
+        "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop"
+      ],
+      "disponibilidad": "disponible",
+      "stock": 6,
+      "marca": "AudioAssist",
+      "modelo": "AA-ANC-BT5",
+      "sku": "ACCTH-AUD001",
+      "peso_producto": 0.28,
+      "dimensiones": {
+        "alto": "20 cm",
+        "ancho": "18 cm",
+        "profundidad": "8 cm"
+      },
+      "colores_disponibles": ["Negro", "Blanco", "Azul marino"],
+      "accesorios_incluidos": ["Estuche de transporte", "Cable USB-C", "Cable de audio 3.5mm", "Manual de usuario"],
+      "certificaciones": ["CE", "FCC", "Bluetooth SIG"],
+      "envio_gratis": true,
+      "fecha_agregado": "2024-05-01",
+      "valoracion": 4.7,
+      "numero_resenas": 41,
+      "tags": ["auditiva", "audifonos", "bluetooth", "cancelacion-ruido", "inalambricos"]
+    }
+  ],
+  "categorias": [
+    {
+      "id": "movilidad",
+      "nombre": "Movilidad",
+      "descripcion": "Productos para facilitar el desplazamiento y la movilidad",
+      "subcategorias": [
+        {
+          "id": "sillas_ruedas",
+          "nombre": "Sillas de Ruedas",
+          "descripcion": "Sillas de ruedas manuales y eléctricas"
+        },
+        {
+          "id": "andadores",
+          "nombre": "Andadores",
+          "descripcion": "Andadores con y sin ruedas"
+        },
+        {
+          "id": "bastones",
+          "nombre": "Bastones y Muletas",
+          "descripcion": "Bastones, muletas y apoyos para caminar"
+        }
+      ]
+    },
+    {
+      "id": "visual",
+      "nombre": "Visual",
+      "descripcion": "Productos para personas con discapacidad visual",
+      "subcategorias": [
+        {
+          "id": "magnificadores",
+          "nombre": "Magnificadores",
+          "descripcion": "Lupas y magnificadores electrónicos"
+        },
+        {
+          "id": "software",
+          "nombre": "Software",
+          "descripcion": "Lectores de pantalla y software especializado"
+        },
+        {
+          "id": "braille",
+          "nombre": "Braille",
+          "descripcion": "Productos relacionados con el sistema Braille"
+        }
+      ]
+    },
+    {
+      "id": "auditiva",
+      "nombre": "Auditiva", 
+      "descripcion": "Productos para personas con discapacidad auditiva",
+      "subcategorias": [
+        {
+          "id": "amplificadores",
+          "nombre": "Amplificadores",
+          "descripcion": "Amplificadores personales de sonido"
+        },
+        {
+          "id": "bucles_magneticos",
+          "nombre": "Bucles Magnéticos",
+          "descripcion": "Sistemas de bucle magnético"
+        },
+        {
+          "id": "alertas_visuales",
+          "nombre": "Alertas Visuales",
+          "descripcion": "Sistemas de alerta visual y vibratoria"
+        }
+      ]
+    },
+    {
+      "id": "cognitiva",
+      "nombre": "Cognitiva",
+      "descripcion": "Productos para personas con discapacidad cognitiva o intelectual",
+      "subcategorias": [
+        {
+          "id": "organizadores",
+          "nombre": "Organizadores",
+          "descripcion": "Organizadores de medicamentos y rutinas"
+        },
+        {
+          "id": "agendas_visuales",
+          "nombre": "Agendas Visuales",
+          "descripcion": "Sistemas de comunicación con pictogramas"
+        },
+        {
+          "id": "apps_cognitivas",
+          "nombre": "Apps Cognitivas", 
+          "descripcion": "Aplicaciones para entrenamiento cognitivo"
+        }
+      ]
+    },
+    {
+      "id": "embarazo_maternidad",
+      "nombre": "Embarazo y Maternidad",
+      "descripcion": "Productos para embarazadas y madres lactantes",
+      "subcategorias": [
+        {
+          "id": "cojines_lactancia",
+          "nombre": "Cojines de Lactancia",
+          "descripcion": "Cojines ergonómicos para lactancia"
+        },
+        {
+          "id": "fajas_soporte",
+          "nombre": "Fajas de Soporte",
+          "descripcion": "Bandas y fajas de soporte maternal"
+        },
+        {
+          "id": "accesorios_bebe",
+          "nombre": "Accesorios Bebé",
+          "descripcion": "Productos para el cuidado del bebé"
+        }
+      ]
+    }
+  ],
+  "metadatos": {
+    "version": "1.0",
+    "fecha_actualizacion": "2025-01-14T18:00:00Z",
+    "total_productos": 10,
+    "moneda_base": "CRC",
+    "pais": "Costa Rica",
+    "descripcion": "Catálogo de productos de accesibilidad para Accessibility Things - Plataforma especializada en productos para personas con discapacidad, adultos mayores y embarazadas"
+  }
+} 

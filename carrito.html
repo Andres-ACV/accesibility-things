@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - Accessibility Things</title>
+    <meta name="description" content="Revisa y gestiona los productos de tu carrito de compras antes de proceder al pago">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+    <!-- Enlaces de omisión -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    <a href="#nav-main" class="skip-link">Saltar a navegación</a>
+    <a href="#cart-items" class="skip-link">Saltar a productos del carrito</a>
+    <a href="#checkout-form" class="skip-link">Saltar al formulario de pago</a>
+    
+    <!-- Encabezado de página -->
+    <header role="banner">
+        <div class="header-container">
+            <div class="logo">
+                <h1>
+                    <a href="index.html" aria-label="Accessibility Things - Página de inicio">
+                        Accessibility Things
+                    </a>
+                </h1>
+                <p class="tagline">Productos de accesibilidad para una vida independiente</p>
+            </div>
+            
+            <!-- Controles de accesibilidad -->
+            <div class="accessibility-controls" role="region" aria-label="Controles de accesibilidad">
+                <button type="button" id="high-contrast-toggle" aria-pressed="false" class="accessibility-btn">
+                    <span class="sr-only">Activar</span>
+                    <span aria-hidden="true">🌓</span>
+                    Alto contraste
+                </button>
+                <button type="button" id="font-size-toggle" aria-pressed="false" class="accessibility-btn">
+                    <span class="sr-only">Aumentar</span>
+                    <span aria-hidden="true">🔍</span>
+                    Tamaño de texto
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navegación principal -->
+    <nav id="nav-main" role="navigation" aria-label="Navegación principal">
+        <ul role="menubar" class="nav-menu">
+            <li role="none">
+                <a href="index.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🏠</span>
+                    Inicio
+                </a>
+            </li>
+            <li role="none">
+                <a href="catalogo.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🛍️</span>
+                    Catálogo
+                </a>
+            </li>
+            <li role="none">
+                <a href="carrito.html" role="menuitem" aria-current="page" class="nav-link active">
+                    <span aria-hidden="true">🛒</span>
+                    Carrito
+                    <span id="cart-count" class="cart-badge" aria-label="productos en el carrito">0</span>
+                </a>
+            </li>
+            <li role="none">
+                <a href="perfil.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">👤</span>
+                    Mi Perfil
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Breadcrumbs -->
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+        <ol>
+            <li><a href="index.html">Inicio</a></li>
+            <li aria-current="page">Carrito de Compras</li>
+        </ol>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <main id="main-content" role="main">
+        <div class="cart-header">
+            <h2>Tu Carrito de Compras</h2>
+            <p>Revisa los productos seleccionados antes de proceder al pago.</p>
+        </div>
+        
+        <!-- Indicador de progreso del proceso -->
+        <nav class="checkout-progress" aria-label="Progreso del proceso de compra">
+            <ol class="progress-steps">
+                <li class="step active" aria-current="step">
+                    <span class="step-number">1</span>
+                    <span class="step-label">Carrito</span>
+                </li>
+                <li class="step">
+                    <span class="step-number">2</span>
+                    <span class="step-label">Información</span>
+                </li>
+                <li class="step">
+                    <span class="step-number">3</span>
+                    <span class="step-label">Pago</span>
+                </li>
+                <li class="step">
+                    <span class="step-number">4</span>
+                    <span class="step-label">Confirmación</span>
+                </li>
+            </ol>
+        </nav>
+        
+        <div class="cart-layout">
+            <!-- Productos del carrito -->
+            <section id="cart-items" class="cart-items" aria-labelledby="cart-items-title">
+                <h3 id="cart-items-title">Productos en tu Carrito</h3>
+                
+                <div id="cart-empty" class="cart-empty" style="display: none;">
+                    <p>Tu carrito está vacío.</p>
+                    <a href="catalogo.html" class="btn btn-primary">Explorar productos</a>
+                </div>
+                
+                <div id="cart-content" class="cart-content">
+                    <!-- Tabla de productos -->
+                    <table class="cart-table" role="table" aria-label="Productos en el carrito">
+                        <caption class="sr-only">
+                            Lista de productos en tu carrito con opciones para modificar cantidades
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Subtotal</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-items-body">
+                            <!-- Los productos se cargarán dinámicamente aquí -->
+                        </tbody>
+                    </table>
+                    
+                    <!-- Acciones del carrito -->
+                    <div class="cart-actions">
+                        <button type="button" class="btn btn-secondary" id="clear-cart">
+                            <span aria-hidden="true">🗑️</span>
+                            Vaciar carrito
+                        </button>
+                        <button type="button" class="btn btn-outline" id="continue-shopping">
+                            <span aria-hidden="true">🔙</span>
+                            Continuar comprando
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Resumen del pedido -->
+            <aside class="order-summary" role="complementary" aria-labelledby="summary-title">
+                <h3 id="summary-title">Resumen del Pedido</h3>
+                
+                <div class="summary-content">
+                    <table class="summary-table" role="table" aria-label="Resumen de costos">
+                        <caption class="sr-only">
+                            Desglose de costos de tu pedido
+                        </caption>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Subtotal:</th>
+                                <td id="subtotal-amount">₡0</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Envío:</th>
+                                <td id="shipping-amount">₡0</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Impuestos:</th>
+                                <td id="tax-amount">₡0</td>
+                            </tr>
+                            <tr class="total-row">
+                                <th scope="row">Total:</th>
+                                <td id="total-amount">₡0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <!-- Código de descuento -->
+                    <div class="discount-section">
+                        <h4>Código de Descuento</h4>
+                        <form class="discount-form" aria-label="Aplicar código de descuento">
+                            <div class="input-group">
+                                <label for="discount-code" class="sr-only">Código de descuento</label>
+                                <input type="text" 
+                                       id="discount-code" 
+                                       name="discount_code" 
+                                       placeholder="Ingresa tu código"
+                                       aria-describedby="discount-help">
+                                <button type="submit" class="btn btn-outline">
+                                    Aplicar
+                                </button>
+                            </div>
+                            <div id="discount-help" class="help-text">
+                                Ingresa un código de descuento válido
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Botón de checkout -->
+                    <div class="checkout-actions">
+                        <button type="button" class="btn btn-primary btn-large" id="proceed-checkout">
+                            <span aria-hidden="true">🛒</span>
+                            Proceder al pago
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+        
+        <!-- Formulario de checkout (oculto inicialmente) -->
+        <section id="checkout-form" class="checkout-form" style="display: none;" aria-labelledby="checkout-title">
+            <h3 id="checkout-title">Información de Entrega</h3>
+            
+            <form class="checkout-form-content" aria-label="Formulario de información de entrega">
+                <fieldset>
+                    <legend>Información Personal</legend>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre-completo">Nombre completo *</label>
+                            <input type="text" 
+                                   id="nombre-completo" 
+                                   name="nombre_completo" 
+                                   class="form-control"
+                                   required
+                                   aria-describedby="nombre-help nombre-error"
+                                   aria-invalid="false">
+                            <div id="nombre-help" class="help-text">
+                                Nombre como aparece en tu documento de identidad
+                            </div>
+                            <div id="nombre-error" class="error-message" role="alert" aria-live="polite"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email-checkout">Correo electrónico *</label>
+                            <input type="email" 
+                                   id="email-checkout" 
+                                   name="email" 
+                                   class="form-control"
+                                   required
+                                   aria-describedby="email-help email-error"
+                                   autocomplete="email"
+                                   aria-invalid="false">
+                            <div id="email-help" class="help-text">
+                                Para confirmar tu pedido y seguimiento
+                            </div>
+                            <div id="email-error" class="error-message" role="alert" aria-live="polite"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="telefono">Teléfono *</label>
+                            <input type="tel" 
+                                   id="telefono" 
+                                   name="telefono" 
+                                   class="form-control"
+                                   required
+                                   aria-describedby="telefono-help telefono-error"
+                                   autocomplete="tel"
+                                   aria-invalid="false">
+                            <div id="telefono-help" class="help-text">
+                                Para coordinar la entrega
+                            </div>
+                            <div id="telefono-error" class="error-message" role="alert" aria-live="polite"></div>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Dirección de Entrega</legend>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="provincia">Provincia *</label>
+                            <select id="provincia" 
+                                    name="provincia" 
+                                    class="form-control"
+                                    required
+                                    aria-describedby="provincia-help"
+                                    aria-invalid="false">
+                                <option value="">Selecciona una provincia</option>
+                                <option value="san-jose">San José</option>
+                                <option value="alajuela">Alajuela</option>
+                                <option value="cartago">Cartago</option>
+                                <option value="heredia">Heredia</option>
+                                <option value="guanacaste">Guanacaste</option>
+                                <option value="puntarenas">Puntarenas</option>
+                                <option value="limon">Limón</option>
+                            </select>
+                            <div id="provincia-help" class="help-text">
+                                Selecciona la provincia para calcular el costo de envío
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="canton">Cantón *</label>
+                            <select id="canton" 
+                                    name="canton" 
+                                    class="form-control"
+                                    required
+                                    aria-describedby="canton-help"
+                                    aria-invalid="false">
+                                <option value="">Selecciona un cantón</option>
+                                <!-- Se llenará dinámicamente -->
+                            </select>
+                            <div id="canton-help" class="help-text">
+                                Selecciona el cantón de entrega
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="direccion">Dirección exacta *</label>
+                        <textarea id="direccion" 
+                                  name="direccion" 
+                                  class="form-control"
+                                  required
+                                  rows="3"
+                                  aria-describedby="direccion-help direccion-error"
+                                  aria-invalid="false"></textarea>
+                        <div id="direccion-help" class="help-text">
+                            Incluye referencias y puntos de referencia claros
+                        </div>
+                        <div id="direccion-error" class="error-message" role="alert" aria-live="polite"></div>
+                    </div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Opciones de Entrega</legend>
+                    
+                    <div class="delivery-options">
+                        <div class="delivery-option">
+                            <input type="radio" 
+                                   id="entrega-standard" 
+                                   name="tipo_entrega" 
+                                   value="standard" 
+                                   checked
+                                   aria-describedby="entrega-standard-desc">
+                            <label for="entrega-standard">
+                                Entrega estándar (3-5 días hábiles)
+                                <span class="price">₡2,500</span>
+                            </label>
+                            <div id="entrega-standard-desc" class="help-text">
+                                Entrega regular en horario laboral
+                            </div>
+                        </div>
+                        
+                        <div class="delivery-option">
+                            <input type="radio" 
+                                   id="entrega-express" 
+                                   name="tipo_entrega" 
+                                   value="express"
+                                   aria-describedby="entrega-express-desc">
+                            <label for="entrega-express">
+                                Entrega express (1-2 días hábiles)
+                                <span class="price">₡5,000</span>
+                            </label>
+                            <div id="entrega-express-desc" class="help-text">
+                                Entrega rápida con seguimiento prioritario
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="back-to-cart">
+                        <span aria-hidden="true">⬅️</span>
+                        Volver al carrito
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <span aria-hidden="true">💳</span>
+                        Continuar al pago
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+    
+    <!-- Pie de página -->
+    <footer role="contentinfo">
+        <div class="footer-content">
+            <section class="footer-section">
+                <h4>Accessibility Things</h4>
+                <p>
+                    Comprometidos con la inclusión y la accesibilidad en Costa Rica, 
+                    cumpliendo con la Ley 7600.
+                </p>
+            </section>
+            
+            <section class="footer-section">
+                <h4>Enlaces Útiles</h4>
+                <ul>
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="perfil.html">Mi Cuenta</a></li>
+                    <li><a href="carrito.html" aria-current="page">Carrito</a></li>
+                    <li><a href="#" aria-describedby="ayuda-desc">Ayuda</a></li>
+                </ul>
+                <span id="ayuda-desc" class="sr-only">
+                    Página de ayuda y preguntas frecuentes
+                </span>
+            </section>
+            
+            <section class="footer-section">
+                <h4>Contacto</h4>
+                <address>
+                    <p>
+                        Email: <a href="mailto:info@accessibilitythings.cr">info@accessibilitythings.cr</a>
+                    </p>
+                    <p>
+                        Teléfono: <a href="tel:+50622334455">+506 2233-4455</a>
+                    </p>
+                </address>
+            </section>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Accessibility Things. Todos los derechos reservados.</p>
+            <p>
+                <a href="#">Términos de Uso</a> | 
+                <a href="#">Política de Privacidad</a> | 
+                <a href="#">Accesibilidad</a>
+            </p>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="js/data-manager.js"></script>
+    <script src="js/ui-controller.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/accessibility.js"></script>
+</body>
+</html> 

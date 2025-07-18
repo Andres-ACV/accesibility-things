@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Accessibility Things</title>
+    <meta name="description" content="Plataforma especializada en productos de accesibilidad para personas con discapacidad, adultos mayores y embarazadas en Costa Rica">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+    <!-- Enlaces de omisión -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    <a href="#nav-main" class="skip-link">Saltar a navegación</a>
+    
+    <!-- Encabezado de página -->
+    <header role="banner">
+        <div class="header-container">
+            <div class="logo">
+                <h1>
+                    <a href="index.html" aria-label="Accessibility Things - Página de inicio">
+                        Accessibility Things
+                    </a>
+                </h1>
+                <p class="tagline">Productos de accesibilidad para una vida independiente</p>
+            </div>
+            
+            <!-- Controles de accesibilidad -->
+            <div class="accessibility-controls" role="region" aria-label="Controles de accesibilidad">
+                <button type="button" id="high-contrast-toggle" aria-pressed="false" class="accessibility-btn">
+                    <span class="sr-only">Activar</span>
+                    <span aria-hidden="true">🌓</span>
+                    Alto contraste
+                </button>
+                <button type="button" id="font-size-toggle" aria-pressed="false" class="accessibility-btn">
+                    <span class="sr-only">Aumentar</span>
+                    <span aria-hidden="true">🔍</span>
+                    Tamaño de texto
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navegación principal -->
+    <nav id="nav-main" role="navigation" aria-label="Navegación principal">
+        <ul role="menubar" class="nav-menu">
+            <li role="none">
+                <a href="index.html" role="menuitem" aria-current="page" class="nav-link active">
+                    <span aria-hidden="true">🏠</span>
+                    Inicio
+                </a>
+            </li>
+            <li role="none">
+                <a href="catalogo.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🛍️</span>
+                    Catálogo
+                </a>
+            </li>
+            <li role="none">
+                <a href="carrito.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🛒</span>
+                    Carrito
+                    <span id="cart-count" class="cart-badge" aria-label="productos en el carrito">0</span>
+                </a>
+            </li>
+            <li role="none">
+                <a href="perfil.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">👤</span>
+                    Mi Perfil
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <main id="main-content" role="main">
+        <section class="hero" aria-labelledby="hero-title">
+            <h2 id="hero-title">Bienvenido a Accessibility Things</h2>
+            <p class="hero-description">
+                Encuentra productos especializados para personas con discapacidad, adultos mayores y embarazadas. 
+                Nuestra plataforma está diseñada para ser completamente accesible y fácil de usar.
+            </p>
+            <div class="hero-actions">
+                <a href="catalogo.html" class="btn btn-primary" role="button">
+                    Explorar catálogo
+                </a>
+                <a href="perfil.html" class="btn btn-secondary" role="button">
+                    Crear cuenta
+                </a>
+            </div>
+        </section>
+        
+        <section class="features" aria-labelledby="features-title">
+            <h2 id="features-title">¿Por qué elegir Accessibility Things?</h2>
+            <div class="features-grid">
+                <article class="feature-card">
+                    <h3>
+                        <span aria-hidden="true">♿</span>
+                        Accesibilidad Universal
+                    </h3>
+                    <p>
+                        Plataforma diseñada siguiendo las pautas WCAG 2.1 para garantizar acceso a todos los usuarios.
+                    </p>
+                </article>
+                
+                <article class="feature-card">
+                    <h3>
+                        <span aria-hidden="true">🎯</span>
+                        Productos Especializados
+                    </h3>
+                    <p>
+                        Catálogo curado de productos específicos para diferentes tipos de discapacidad y necesidades.
+                    </p>
+                </article>
+                
+                <article class="feature-card">
+                    <h3>
+                        <span aria-hidden="true">🛡️</span>
+                        Confianza y Seguridad
+                    </h3>
+                    <p>
+                        Vendedores verificados y sistema de reseñas para compras seguras y confiables.
+                    </p>
+                </article>
+            </div>
+        </section>
+        
+        <section class="categories" aria-labelledby="categories-title">
+            <h2 id="categories-title">Categorías Principales</h2>
+            <div class="categories-grid">
+                <a href="catalogo.html?categoria=movilidad" class="category-card" aria-describedby="movilidad-desc">
+                    <h3>
+                        <span aria-hidden="true">🦽</span>
+                        Movilidad
+                    </h3>
+                    <p id="movilidad-desc">
+                        Sillas de ruedas, bastones, andadores y más
+                    </p>
+                </a>
+                
+                <a href="catalogo.html?categoria=visual" class="category-card" aria-describedby="visual-desc">
+                    <h3>
+                        <span aria-hidden="true">👁️</span>
+                        Discapacidad Visual
+                    </h3>
+                    <p id="visual-desc">
+                        Bastones, lupas, productos táctiles
+                    </p>
+                </a>
+                
+                <a href="catalogo.html?categoria=auditiva" class="category-card" aria-describedby="auditiva-desc">
+                    <h3>
+                        <span aria-hidden="true">👂</span>
+                        Discapacidad Auditiva
+                    </h3>
+                    <p id="auditiva-desc">
+                        Audífonos, amplificadores, alertas visuales
+                    </p>
+                </a>
+                
+                <a href="catalogo.html?categoria=embarazo" class="category-card" aria-describedby="embarazo-desc">
+                    <h3>
+                        <span aria-hidden="true">🤱</span>
+                        Embarazo
+                    </h3>
+                    <p id="embarazo-desc">
+                        Productos para el embarazo y maternidad
+                    </p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Productos Destacados -->
+        <section class="featured-products" aria-labelledby="featured-title">
+            <h2 id="featured-title">Productos Destacados</h2>
+            <div id="featured-products" class="products-grid">
+                <!-- Los productos se cargan dinámicamente con JavaScript -->
+                <p>Cargando productos destacados...</p>
+            </div>
+            <div class="featured-actions">
+                <a href="catalogo.html" class="btn btn-primary">Ver todos los productos</a>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Contenido complementario -->
+    <aside role="complementary" aria-labelledby="info-title">
+        <h2 id="info-title">Información Adicional</h2>
+        <section class="info-box">
+            <h3>Atención al Cliente</h3>
+            <p>
+                ¿Necesitas ayuda? Contáctanos en 
+                <a href="mailto:ayuda@accessibilitythings.cr">ayuda@accessibilitythings.cr</a>
+            </p>
+        </section>
+        
+        <section class="info-box">
+            <h3>Envíos Gratuitos</h3>
+            <p>
+                Envíos gratuitos a toda Costa Rica en compras superiores a ₡25,000
+            </p>
+        </section>
+    </aside>
+    
+    <!-- Pie de página -->
+    <footer role="contentinfo">
+        <div class="footer-content">
+            <section class="footer-section">
+                <h4>Accessibility Things</h4>
+                <p>
+                    Comprometidos con la inclusión y la accesibilidad en Costa Rica, 
+                    cumpliendo con la Ley 7600.
+                </p>
+            </section>
+            
+            <section class="footer-section">
+                <h4>Enlaces Útiles</h4>
+                <ul>
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="perfil.html">Mi Cuenta</a></li>
+                    <li><a href="carrito.html">Carrito</a></li>
+                    <li><a href="#" aria-describedby="ayuda-desc">Ayuda</a></li>
+                </ul>
+                <span id="ayuda-desc" class="sr-only">
+                    Página de ayuda y preguntas frecuentes
+                </span>
+            </section>
+            
+            <section class="footer-section">
+                <h4>Contacto</h4>
+                <address>
+                    <p>
+                        Email: <a href="mailto:info@accessibilitythings.cr">info@accessibilitythings.cr</a>
+                    </p>
+                    <p>
+                        Teléfono: <a href="tel:+50622334455">+506 2233-4455</a>
+                    </p>
+                </address>
+            </section>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Accessibility Things. Todos los derechos reservados.</p>
+            <p>
+                <a href="#">Términos de Uso</a> | 
+                <a href="#">Política de Privacidad</a> | 
+                <a href="#">Accesibilidad</a>
+            </p>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="js/data-manager.js"></script>
+    <script src="js/ui-controller.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/accessibility.js"></script>
+</body>
+</html> 

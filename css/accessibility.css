@@ -1,0 +1,687 @@
+/* ==========================================================================
+   Accessibility Things - CSS de Accesibilidad
+   ========================================================================== */
+
+/* Variables para modo de alto contraste */
+:root {
+    /* Colores de alto contraste */
+    --hc-fondo: #000000;
+    --hc-texto: #ffffff;
+    --hc-primario: #ffff00;
+    --hc-secundario: #00ffff;
+    --hc-acento: #ff00ff;
+    --hc-error: #ff0000;
+    --hc-exito: #00ff00;
+    --hc-advertencia: #ffff00;
+    --hc-info: #00ffff;
+    --hc-borde: #ffffff;
+    --hc-fondo-alt: #333333;
+}
+
+/* Modo de alto contraste */
+.high-contrast {
+    background-color: var(--hc-fondo) !important;
+    color: var(--hc-texto) !important;
+}
+
+.high-contrast * {
+    background-color: var(--hc-fondo) !important;
+    color: var(--hc-texto) !important;
+    border-color: var(--hc-borde) !important;
+}
+
+.high-contrast h1, 
+.high-contrast h2, 
+.high-contrast h3, 
+.high-contrast h4, 
+.high-contrast h5, 
+.high-contrast h6 {
+    color: var(--hc-primario) !important;
+}
+
+.high-contrast a {
+    color: var(--hc-acento) !important;
+    text-decoration: underline !important;
+}
+
+.high-contrast a:hover {
+    color: var(--hc-secundario) !important;
+}
+
+.high-contrast .btn-primary {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+.high-contrast .btn-primary:hover {
+    background-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+.high-contrast .btn-secondary {
+    background-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+.high-contrast .btn-secondary:hover {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+.high-contrast .btn-outline {
+    background-color: var(--hc-fondo) !important;
+    color: var(--hc-texto) !important;
+    border-color: var(--hc-borde) !important;
+}
+
+.high-contrast .btn-outline:hover {
+    background-color: var(--hc-texto) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-texto) !important;
+}
+
+.high-contrast input, 
+.high-contrast select, 
+.high-contrast textarea {
+    background-color: var(--hc-fondo) !important;
+    color: var(--hc-texto) !important;
+    border-color: var(--hc-borde) !important;
+}
+
+.high-contrast input:focus, 
+.high-contrast select:focus, 
+.high-contrast textarea:focus {
+    border-color: var(--hc-primario) !important;
+    box-shadow: 0 0 0 2px var(--hc-primario) !important;
+}
+
+.high-contrast .error-message {
+    color: var(--hc-error) !important;
+}
+
+.high-contrast .help-text {
+    color: var(--hc-info) !important;
+}
+
+.high-contrast nav[role="navigation"] {
+    background-color: var(--hc-fondo-alt) !important;
+}
+
+.high-contrast .nav-link {
+    color: var(--hc-texto) !important;
+}
+
+.high-contrast .nav-link:hover {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+}
+
+.high-contrast .nav-link.active {
+    background-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+}
+
+.high-contrast .breadcrumb {
+    background-color: var(--hc-fondo-alt) !important;
+}
+
+.high-contrast .feature-card,
+.high-contrast .category-card {
+    background-color: var(--hc-fondo-alt) !important;
+    border-color: var(--hc-borde) !important;
+}
+
+.high-contrast .feature-card:hover,
+.high-contrast .category-card:hover {
+    background-color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+.high-contrast aside {
+    background-color: var(--hc-fondo-alt) !important;
+}
+
+.high-contrast th {
+    background-color: var(--hc-fondo-alt) !important;
+}
+
+.high-contrast footer {
+    background-color: var(--hc-fondo-alt) !important;
+}
+
+.high-contrast .cart-badge {
+    background-color: var(--hc-error) !important;
+    color: var(--hc-fondo) !important;
+}
+
+.high-contrast .accessibility-btn[aria-pressed="true"] {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+/* Modo de fuente grande */
+.large-font {
+    font-size: 1.25rem !important;
+}
+
+.large-font h1 { font-size: 3.125rem !important; }
+.large-font h2 { font-size: 2.5rem !important; }
+.large-font h3 { font-size: 1.875rem !important; }
+.large-font h4 { font-size: 1.5625rem !important; }
+.large-font h5 { font-size: 1.40625rem !important; }
+.large-font h6 { font-size: 1.25rem !important; }
+
+.large-font .btn {
+    font-size: 1.25rem !important;
+    padding: 0.75rem 1.5rem !important;
+}
+
+.large-font input, 
+.large-font select, 
+.large-font textarea {
+    font-size: 1.25rem !important;
+    padding: 0.75rem !important;
+}
+
+.large-font .help-text {
+    font-size: 1.125rem !important;
+}
+
+.large-font .error-message {
+    font-size: 1.125rem !important;
+}
+
+.large-font .nav-link {
+    font-size: 1.125rem !important;
+}
+
+.large-font .breadcrumb {
+    font-size: 1.125rem !important;
+}
+
+.large-font .footer-section {
+    font-size: 1.125rem !important;
+}
+
+/* Mejoras para lectores de pantalla */
+@media (prefers-reduced-motion: reduce) {
+    .high-contrast .feature-card:hover,
+    .high-contrast .category-card:hover {
+        transform: none !important;
+    }
+    
+    .feature-card:hover,
+    .category-card:hover {
+        transform: none !important;
+    }
+}
+
+/* Estilos para elementos que solo deben ser leídos por lectores de pantalla */
+.sr-only-focusable:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+}
+
+/* Mejoras para navegación por teclado */
+.keyboard-user :focus-visible {
+    outline: 3px solid var(--color-primario) !important;
+    outline-offset: 3px !important;
+}
+
+.keyboard-user.high-contrast :focus-visible {
+    outline: 3px solid var(--hc-primario) !important;
+    outline-offset: 3px !important;
+}
+
+/* Indicadores de estado para usuarios de lectores de pantalla */
+.loading-indicator::after {
+    content: "Cargando...";
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.error-indicator::after {
+    content: "Error:";
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.success-indicator::after {
+    content: "Éxito:";
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Estilos específicos para formularios accesibles */
+.form-group.has-error label {
+    color: var(--color-error);
+}
+
+.high-contrast .form-group.has-error label {
+    color: var(--hc-error) !important;
+}
+
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+    border-color: var(--color-error);
+}
+
+.high-contrast .form-group.has-error input,
+.high-contrast .form-group.has-error select,
+.high-contrast .form-group.has-error textarea {
+    border-color: var(--hc-error) !important;
+}
+
+/* Estilos para tablas accesibles */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table-responsive:focus {
+    outline: 2px solid var(--color-primario);
+    outline-offset: 2px;
+}
+
+.high-contrast .table-responsive:focus {
+    outline: 2px solid var(--hc-primario) !important;
+}
+
+/* Estilos para elementos de navegación */
+.pagination-list {
+    display: flex;
+    list-style: none;
+    gap: var(--espaciado-xs);
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.pagination-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--tamaño-tactil-min);
+    min-height: var(--tamaño-tactil-min);
+    padding: var(--espaciado-sm);
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radio-sm);
+    text-decoration: none;
+    color: var(--color-texto);
+    transition: all var(--transicion-rapida);
+}
+
+.pagination-link:hover {
+    background-color: var(--color-fondo-alt);
+    border-color: var(--color-primario);
+    color: var(--color-primario);
+}
+
+.pagination-link.active {
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    color: white;
+}
+
+.pagination-link.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-link.disabled:hover {
+    background-color: transparent;
+    border-color: #e2e8f0;
+    color: var(--color-texto);
+}
+
+.high-contrast .pagination-link {
+    background-color: var(--hc-fondo) !important;
+    border-color: var(--hc-borde) !important;
+    color: var(--hc-texto) !important;
+}
+
+.high-contrast .pagination-link:hover {
+    background-color: var(--hc-primario) !important;
+    border-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+}
+
+.high-contrast .pagination-link.active {
+    background-color: var(--hc-secundario) !important;
+    border-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+}
+
+/* Estilos para elementos de progreso */
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: var(--espaciado-lg);
+}
+
+.progress-steps .step {
+    display: flex;
+    align-items: center;
+    gap: var(--espaciado-sm);
+    color: var(--color-texto-claro);
+    font-weight: 600;
+}
+
+.progress-steps .step.active {
+    color: var(--color-primario);
+}
+
+.progress-steps .step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: var(--color-fondo-alt);
+    border: 2px solid var(--color-texto-claro);
+    font-weight: 600;
+}
+
+.progress-steps .step.active .step-number {
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    color: white;
+}
+
+.high-contrast .progress-steps .step {
+    color: var(--hc-texto) !important;
+}
+
+.high-contrast .progress-steps .step.active {
+    color: var(--hc-primario) !important;
+}
+
+.high-contrast .progress-steps .step-number {
+    background-color: var(--hc-fondo-alt) !important;
+    border-color: var(--hc-borde) !important;
+    color: var(--hc-texto) !important;
+}
+
+.high-contrast .progress-steps .step.active .step-number {
+    background-color: var(--hc-primario) !important;
+    border-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+}
+
+/* Estilos para elementos de catálogo */
+.catalog-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--espaciado-xl);
+    margin-top: var(--espaciado-lg);
+}
+
+.filters-sidebar {
+    background-color: var(--color-fondo-alt);
+    padding: var(--espaciado-lg);
+    border-radius: var(--radio-md);
+    height: fit-content;
+}
+
+.high-contrast .filters-sidebar {
+    background-color: var(--hc-fondo-alt) !important;
+    border: 1px solid var(--hc-borde) !important;
+}
+
+.filter-group {
+    margin-bottom: var(--espaciado-lg);
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaciado-sm);
+}
+
+.filter-actions {
+    display: flex;
+    gap: var(--espaciado-sm);
+    margin-top: var(--espaciado-md);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--espaciado-lg);
+}
+
+.products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--espaciado-md);
+}
+
+.products-controls {
+    display: flex;
+    gap: var(--espaciado-lg);
+    align-items: center;
+}
+
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--espaciado-sm);
+}
+
+/* Estilos específicos para carrito */
+.cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: var(--espaciado-xl);
+    margin-top: var(--espaciado-lg);
+}
+
+.cart-table {
+    background-color: white;
+    border-radius: var(--radio-md);
+    overflow: hidden;
+    box-shadow: var(--sombra-sm);
+}
+
+.high-contrast .cart-table {
+    background-color: var(--hc-fondo) !important;
+    border: 1px solid var(--hc-borde) !important;
+}
+
+.order-summary {
+    background-color: var(--color-fondo-alt);
+    padding: var(--espaciado-lg);
+    border-radius: var(--radio-md);
+    height: fit-content;
+}
+
+.high-contrast .order-summary {
+    background-color: var(--hc-fondo-alt) !important;
+    border: 1px solid var(--hc-borde) !important;
+}
+
+.summary-table .total-row {
+    font-weight: 600;
+    font-size: 1.125rem;
+    border-top: 2px solid var(--color-primario);
+}
+
+.high-contrast .summary-table .total-row {
+    border-top-color: var(--hc-primario) !important;
+}
+
+/* Estilos específicos para perfil */
+.auth-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--espaciado-2xl);
+    margin-top: var(--espaciado-lg);
+}
+
+.auth-form {
+    background-color: var(--color-fondo-alt);
+    padding: var(--espaciado-xl);
+    border-radius: var(--radio-md);
+    box-shadow: var(--sombra-sm);
+}
+
+.high-contrast .auth-form {
+    background-color: var(--hc-fondo-alt) !important;
+    border: 1px solid var(--hc-borde) !important;
+}
+
+.profile-tabs {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: var(--espaciado-lg);
+}
+
+.profile-tab {
+    padding: var(--espaciado-md) var(--espaciado-lg);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-texto-claro);
+    transition: all var(--transicion-rapida);
+    border-bottom: 2px solid transparent;
+}
+
+.profile-tab:hover {
+    color: var(--color-primario);
+}
+
+.profile-tab.active {
+    color: var(--color-primario);
+    border-bottom-color: var(--color-primario);
+}
+
+.high-contrast .profile-tab {
+    color: var(--hc-texto) !important;
+    border-bottom-color: var(--hc-borde) !important;
+}
+
+.high-contrast .profile-tab:hover {
+    color: var(--hc-primario) !important;
+}
+
+.high-contrast .profile-tab.active {
+    color: var(--hc-primario) !important;
+    border-bottom-color: var(--hc-primario) !important;
+}
+
+.profile-panel {
+    display: none;
+}
+
+.profile-panel.active {
+    display: block;
+}
+
+.seller-only {
+    display: none;
+}
+
+.user-seller .seller-only {
+    display: block;
+}
+
+/* Responsividad para accesibilidad */
+@media (max-width: 768px) {
+    .catalog-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .filters-sidebar {
+        order: 2;
+    }
+    
+    .products-section {
+        order: 1;
+    }
+    
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .auth-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-tabs {
+        flex-direction: column;
+    }
+    
+    .profile-tab {
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+        border-right: 2px solid transparent;
+    }
+    
+    .profile-tab.active {
+        border-bottom-color: #e2e8f0;
+        border-right-color: var(--color-primario);
+    }
+    
+    .high-contrast .profile-tab.active {
+        border-right-color: var(--hc-primario) !important;
+    }
+}
+
+/* Animaciones accesibles */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-in-out;
+}
+
+/* Deshabilitar animaciones si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in,
+    .slide-in {
+        animation: none;
+    }
+} 

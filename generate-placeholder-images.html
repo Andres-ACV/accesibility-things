@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Imágenes Placeholder - Accessibility Things</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .image-preview {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        .image-preview canvas {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .image-preview p {
+            margin: 5px 0;
+            font-size: 12px;
+        }
+        button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #005a82;
+        }
+        .progress {
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 3px;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            background: #007cba;
+            height: 20px;
+            border-radius: 8px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+    </style>
+</head>
+<body>
+    <h1>🖼️ Generador de Imágenes Placeholder</h1>
+    <p>Este generador crea imágenes temporales para los productos de Accessibility Things.</p>
+    
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <p id="progressText">Listo para generar imágenes</p>
+    
+    <button onclick="generateAllImages()">🚀 Generar Todas las Imágenes</button>
+    <button onclick="downloadAll()">📥 Descargar Todas</button>
+    <button onclick="clearAll()">🗑️ Limpiar</button>
+    
+    <div id="imageContainer"></div>
+
+    <script>
+        const productos = [
+            // Productos de Movilidad
+            { filename: 'silla-ruedas-manual-001.jpg', text: 'Silla de Ruedas\nManual', color: '#4A90E2', category: 'Movilidad' },
+            { filename: 'andador-ruedas-001.jpg', text: 'Andador\ncon Ruedas', color: '#E94B3C', category: 'Movilidad' },
+            
+            // Productos Visuales
+            { filename: 'lupa-electronica-001.jpg', text: 'Lupa\nElectrónica', color: '#F5A623', category: 'Visual' },
+            { filename: 'nvda-software-001.jpg', text: 'Software\nNVDA', color: '#7ED321', category: 'Visual' },
+            
+            // Productos Auditivos
+            { filename: 'amplificador-sonido-001.jpg', text: 'Amplificador\nPersonal', color: '#9013FE', category: 'Auditiva' },
+            { filename: 'bucle-magnetico-001.jpg', text: 'Bucle\nMagnético', color: '#50E3C2', category: 'Auditiva' },
+            
+            // Productos Cognitivos
+            { filename: 'organizador-medicamentos-001.jpg', text: 'Organizador\nMedicamentos', color: '#BD10E0', category: 'Cognitiva' },
+            { filename: 'agenda-visual-001.jpg', text: 'Agenda\nVisual', color: '#FF6B6B', category: 'Cognitiva' },
+            
+            // Productos Embarazo/Maternidad
+            { filename: 'cojin-lactancia-001.jpg', text: 'Cojín\nLactancia', color: '#FF9FF3', category: 'Maternidad' },
+            { filename: 'banda-maternal-001.jpg', text: 'Banda\nMaternal', color: '#54A0FF', category: 'Maternidad' }
+        ];
+
+        let generatedImages = [];
+
+        function createPlaceholderImage(text, color, category, width = 400, height = 300) {
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+
+            // Fondo
+            ctx.fillStyle = '#f8f9fa';
+            ctx.fillRect(0, 0, width, height);
+
+            // Borde de categoría
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, width, 40);
+
+            // Texto de categoría
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(category, width / 2, 25);
+
+            // Área principal del producto
+            const centerX = width / 2;
+            const centerY = height / 2 + 20;
+
+            // Rectángulo del producto
+            ctx.fillStyle = color;
+            ctx.globalAlpha = 0.2;
+            ctx.fillRect(centerX - 80, centerY - 40, 160, 80);
+            ctx.globalAlpha = 1;
+
+            // Icono del producto (círculo simple)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY - 20, 25, 0, 2 * Math.PI);
+            ctx.fillStyle = color;
+            ctx.fill();
+
+            // Texto del producto
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 18px Arial';
+            ctx.textAlign = 'center';
+            const lines = text.split('\n');
+            lines.forEach((line, index) => {
+                ctx.fillText(line, centerX, centerY + 30 + (index * 22));
+            });
+
+            // Marca de agua
+            ctx.fillStyle = '#ddd';
+            ctx.font = '12px Arial';
+            ctx.fillText('Accessibility Things - Placeholder', centerX, height - 15);
+
+            return canvas;
+        }
+
+        function generateAllImages() {
+            const container = document.getElementById('imageContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            container.innerHTML = '';
+            generatedImages = [];
+            
+            let completed = 0;
+            const total = productos.length;
+
+            productos.forEach((producto, index) => {
+                setTimeout(() => {
+                    const canvas = createPlaceholderImage(producto.text, producto.color, producto.category);
+                    
+                    // Crear elemento de vista previa
+                    const preview = document.createElement('div');
+                    preview.className = 'image-preview';
+                    
+                    const canvasClone = canvas.cloneNode(true);
+                    canvasClone.style.width = '200px';
+                    canvasClone.style.height = '150px';
+                    
+                    const filename = document.createElement('p');
+                    filename.textContent = producto.filename;
+                    filename.style.fontWeight = 'bold';
+                    
+                    const downloadBtn = document.createElement('button');
+                    downloadBtn.textContent = '📥 Descargar';
+                    downloadBtn.style.fontSize = '12px';
+                    downloadBtn.style.padding = '5px 10px';
+                    downloadBtn.onclick = () => downloadImage(canvas, producto.filename);
+                    
+                    preview.appendChild(canvasClone);
+                    preview.appendChild(filename);
+                    preview.appendChild(downloadBtn);
+                    container.appendChild(preview);
+                    
+                    // Guardar para descarga masiva
+                    generatedImages.push({ canvas, filename: producto.filename });
+                    
+                    // Actualizar progreso
+                    completed++;
+                    const progress = (completed / total) * 100;
+                    progressBar.style.width = progress + '%';
+                    progressText.textContent = `Generando imágenes... ${completed}/${total} (${Math.round(progress)}%)`;
+                    
+                    if (completed === total) {
+                        progressText.textContent = `✅ Completado: ${total} imágenes generadas`;
+                    }
+                }, index * 200); // Delay escalonado para efecto visual
+            });
+        }
+
+        function downloadImage(canvas, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }
+
+        function downloadAll() {
+            if (generatedImages.length === 0) {
+                alert('Primero genera las imágenes haciendo clic en "Generar Todas las Imágenes"');
+                return;
+            }
+            
+            generatedImages.forEach((img, index) => {
+                setTimeout(() => {
+                    downloadImage(img.canvas, img.filename);
+                }, index * 300); // Delay para evitar problemas del navegador
+            });
+        }
+
+        function clearAll() {
+            document.getElementById('imageContainer').innerHTML = '';
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('progressText').textContent = 'Listo para generar imágenes';
+            generatedImages = [];
+        }
+
+        // Información adicional
+        document.addEventListener('DOMContentLoaded', function() {
+            const info = document.createElement('div');
+            info.style.background = '#e7f3ff';
+            info.style.padding = '15px';
+            info.style.borderRadius = '5px';
+            info.style.marginTop = '20px';
+            info.innerHTML = `
+                <h3>📋 Instrucciones:</h3>
+                <ol>
+                    <li>Haz clic en "🚀 Generar Todas las Imágenes" para crear las imágenes placeholder</li>
+                    <li>Usa "📥 Descargar Todas" para descargar todas las imágenes de una vez</li>
+                    <li>Coloca las imágenes descargadas en la carpeta <code>assets/images/</code></li>
+                    <li>¡Ya tienes imágenes temporales para todos los productos!</li>
+                </ol>
+                <p><strong>Nota:</strong> Estas son imágenes placeholder temporales. Para producción, reemplázalas con fotos reales de los productos.</p>
+            `;
+            document.body.appendChild(info);
+        });
+    </script>
+</body>
+</html> 

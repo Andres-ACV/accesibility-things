@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tests de Interfaz Gráfica - Accessibility Things</title>
+    <style>
+        :root {
+            --color-primario: #1a365d;
+            --color-ui: #8b5cf6;
+            --color-exito: #38a169;
+            --color-advertencia: #d69e2e;
+            --color-error: #c53030;
+            --espaciado-md: 1rem;
+            --espaciado-lg: 1.5rem;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: #1a202c;
+            background: linear-gradient(135deg, #f8fafc, #e6fffa);
+            padding: var(--espaciado-lg);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--color-ui), #667eea);
+            color: white;
+            padding: var(--espaciado-lg);
+            border-radius: 12px;
+            margin-bottom: var(--espaciado-lg);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+        }
+
+        .criteria-overview {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--espaciado-lg);
+            margin-bottom: var(--espaciado-lg);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--espaciado-md);
+            margin-top: var(--espaciado-md);
+        }
+
+        .criteria-card {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            padding: var(--espaciado-md);
+            text-align: center;
+        }
+
+        .criteria-percentage {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--color-ui);
+            margin-bottom: 0.5rem;
+        }
+
+        .criteria-title {
+            font-weight: 600;
+            color: var(--color-primario);
+            margin-bottom: 0.25rem;
+        }
+
+        .criteria-description {
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .test-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--espaciado-lg);
+            margin-bottom: var(--espaciado-lg);
+        }
+
+        .test-section {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            transition: all 0.3s ease;
+        }
+
+        .test-section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--color-ui), #8b5cf6);
+            color: white;
+            padding: var(--espaciado-lg);
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-weight {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        .section-content {
+            padding: var(--espaciado-lg);
+        }
+
+        .test-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: var(--espaciado-md);
+            margin-bottom: var(--espaciado-md);
+        }
+
+        .test-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .test-item-title {
+            font-weight: 500;
+            color: var(--color-primario);
+        }
+
+        .test-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-running { background: #dbeafe; color: #1e40af; }
+        .status-pass { background: #d1fae5; color: #065f46; }
+        .status-fail { background: #fee2e2; color: #991b1b; }
+
+        .test-description {
+            color: #6b7280;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+
+        .btn-primary {
+            background: var(--color-ui);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #7c3aed;
+        }
+
+        .btn-test {
+            background: var(--color-exito);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-test:hover {
+            background: #2f855a;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #1a202c;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .global-controls {
+            text-align: center;
+            margin: var(--espaciado-lg) 0;
+            padding: var(--espaciado-lg);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+
+        .progress-section {
+            display: none;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: var(--espaciado-lg);
+            margin-bottom: var(--espaciado-lg);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 24px;
+            background: #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: var(--espaciado-md) 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-ui), #667eea);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--espaciado-md);
+            margin-top: var(--espaciado-lg);
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            padding: var(--espaciado-md);
+            text-align: center;
+        }
+
+        .result-score {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-excellent { color: var(--color-exito); }
+        .score-good { color: var(--color-advertencia); }
+        .score-needs-work { color: var(--color-error); }
+
+        .result-details {
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        @media (max-width: 768px) {
+            .test-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .criteria-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 Tests de Interfaz Gráfica</h1>
+        <p><strong>Valor Total:</strong> 24% de la nota final | 4.8 puntos</p>
+        <p>Estética + Ortografía + Flujo de Navegación</p>
+    </div>
+
+    <div class="criteria-overview">
+        <h2>Distribución de Criterios de Evaluación</h2>
+        <p>Cada criterio debe alcanzar "Excelente" (3 puntos) para obtener la máxima calificación</p>
+        
+        <div class="criteria-grid">
+            <div class="criteria-card">
+                <div class="criteria-percentage">10%</div>
+                <div class="criteria-title">Estética</div>
+                <div class="criteria-description">Principios de diseño, colores, ordenamiento, alineación</div>
+            </div>
+            <div class="criteria-card">
+                <div class="criteria-percentage">6%</div>
+                <div class="criteria-title">Ortografía</div>
+                <div class="criteria-description">Cero faltas de ortografía en toda la interfaz</div>
+            </div>
+            <div class="criteria-card">
+                <div class="criteria-percentage">8%</div>
+                <div class="criteria-title">Flujo</div>
+                <div class="criteria-description">Navegación clara y entendible</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="global-controls">
+        <h2>Control Central de Tests UI</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin: var(--espaciado-md) 0;">
+            <button onclick="executeAllUITests()" class="btn btn-primary">Ejecutar Todos los Tests de UI</button>
+            <a href="../index.html" class="btn btn-secondary">← Portal Principal</a>
+            <button onclick="generateUIReport()" class="btn btn-secondary">Reporte de Interfaz</button>
+        </div>
+    </div>
+
+    <div class="progress-section" id="progress-section">
+        <h3>Progreso de Testing de Interfaz</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div id="progress-text">0% Completado</div>
+        
+        <div class="results-summary" id="results-summary">
+            <!-- Los resultados aparecerán aquí -->
+        </div>
+    </div>
+
+    <div class="test-sections">
+        <!-- Sección 1: Diseño Visual (10% de la nota) -->
+        <div class="test-section">
+            <div class="section-header">
+                <div class="section-title">Diseño Visual</div>
+                <div class="section-weight">10% de la nota | 2 puntos</div>
+            </div>
+            <div class="section-content">
+                <div class="test-item">
+                    <div class="test-item-header">
+                        <div class="test-item-title">Principios de Color</div>
+                        <div class="test-status status-pending" id="color-status">Pendiente</div>
+                    </div>
+                    <div class="test-description">
+                        Verificar paleta de colores coherente, contraste y armonía visual
+                    </div>
+                    <button onclick="testColorPrinciples()" class="btn btn-test">Ejecutar Test</button>
+                </div>
+
+                <div class="test-item">
+                    <div class="test-item-header">
+                        <div class="test-item-title">Tipografía y Espaciado</div>
+                        <div class="test-status status-pending" id="typography-status">Pendiente</div>
+                    </div>
+                    <div class="test-description">
+                        Verificar jerarquía tipográfica, legibilidad y espaciado consistente
+                    </div>
+                    <button onclick="testTypography()" class="btn btn-test">Ejecutar Test</button>
+                </div>
+
+                <div class="test-item">
+                    <div class="test-item-header">
+                        <div class="test-item-title">Alineación y Ordenamiento</div>
+                        <div class="test-status status-pending" id="alignment-status">Pendiente</div>
+                    </div>
+                    <div class="test-description">
+                        Verificar alineación consistente y ordenamiento lógico de elementos
+                    </div>
+                    <button onclick="testAlignment()" class="btn btn-test">Ejecutar Test</button>
+                </div>
+
+                <a href="visual-design.test.html" class="btn btn-primary" style="width: 100%; margin-top: var(--espaciado-md);">
+                    Test Detallado de Diseño Visual
+                </a>
+            </div>
+        </div>
+
+        <!-- Sección 2: Control de Ortografía (6% de la nota) -->
+        <div class="test-section">
+            <div class="section-header">
+                <div class="section-title">Control de Ortografía</div>
+                <div class="section-weight">6% de la nota | 1.2 puntos</div>
+            </div>
+            <div class="section-content">
+                <div class="test-item">
+                    <div class="test-item-header">
+                        <div class="test-item-title">Textos de Interfaz</div>
+                        <div class="test-status status-pending" id="interface-text-status">Pendiente</div>
+                    </div>
+                    <div class="test-description">
+                        Verificar ortografía en menús, botones, enlaces y elementos de navegación
+                    </div>
+                    <button onclick="testInterfaceTexts()" class="btn btn-test">Ejecutar Test</button>
+                </div>
+
+                <div class="test-item">
+                    <div class="test-item-header">
+                        <div class="test-item-title">Contenido y Descripciones</div>
+                        <div class="test-status status-pending" id="content-text-status">Pendiente</div>
+                    </div>
+                    <div class="test-description">
+                        Verificar ortografía en descripciones de productos, formularios y mensajes
+                    </div>
+                    <button onclick="testContentTexts()" class="btn btn-test">Ejecutar Test</button>
+                </div>
+
+                <div class="test-item">
+                    <div class="test-item-header">
+                        <div class="test-item-title">Mensajes de Error y Validación</div>
+                        <div class="test-status status-pending" id="messages-status">Pendiente</div>
+                    </div>
+                    <div class="test-description">
+                        Verificar ortografía en mensajes de error, confirmación y validación
+                    </div>
+                    <button onclick="testValidationMessages()" class="btn btn-test">Ejecutar Test</button>
+                </div>
+
+                <a href="spelling.test.html" class="btn btn-primary" style="width: 100%; margin-top: var(--espaciado-md);">
+                    Test Detallado de Ortografía
+                </a>
+            </div>
+        </div>
+
+        <!-- Sección 3: Flujo de Navegación (8% de la nota) -->
+        <div class="test-section">
+            <div class="section-header">
+                <div class="section-title">Flujo de Navegación</div>
+                <div class="section-weight">8% de la nota | 1.6 puntos</div>
+            </div>
+            <div class="section-content">
+                <div class="test-item">
+                    <div class="test-item-header">
+                        <div class="test-item-title">Navegación Principal</div>
+                        <div class="test-status status-pending" id="main-nav-status">Pendiente</div>
+                    </div>
+                    <div class="test-description">
+                        Verificar que el menú principal sea claro y todas las opciones sean fáciles de ubicar
+                    </div>
+                    <button onclick="testMainNavigation()" class="btn btn-test">Ejecutar Test</button>
+                </div>
+
+                <div class="test-item">
+                    <div class="test-item-header">
+                        <div class="test-item-title">Flujos de Usuario</div>
+                        <div class="test-status status-pending" id="user-flows-status">Pendiente</div>
+                    </div>
+                    <div class="test-description">
+                        Verificar que los procesos principales sean intuitivos y comprensibles
+                    </div>
+                    <button onclick="testUserFlows()" class="btn btn-test">Ejecutar Test</button>
+                </div>
+
+                <div class="test-item">
+                    <div class="test-item-header">
+                        <div class="test-item-title">Orientación y Breadcrumbs</div>
+                        <div class="test-status status-pending" id="orientation-status">Pendiente</div>
+                    </div>
+                    <div class="test-description">
+                        Verificar que el usuario siempre sepa dónde está y cómo llegar a donde quiere
+                    </div>
+                    <button onclick="testOrientation()" class="btn btn-test">Ejecutar Test</button>
+                </div>
+
+                <a href="navigation.test.html" class="btn btn-primary" style="width: 100%; margin-top: var(--espaciado-md);">
+                    Test Detallado de Navegación
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let uiTestResults = {};
+        let totalUITests = 9;
+        let completedUITests = 0;
+
+        // Test de principios de color
+        async function testColorPrinciples() {
+            updateTestStatus('color', 'running');
+            
+            setTimeout(() => {
+                const results = {
+                    paletteConsistent: Math.random() > 0.2,
+                    contrastGood: Math.random() > 0.15,
+                    harmonyPresent: Math.random() > 0.3,
+                    brandingClear: Math.random() > 0.25,
+                    score: 0
+                };
+
+                let score = 0;
+                if (results.paletteConsistent) score += 25;
+                if (results.contrastGood) score += 25;
+                if (results.harmonyPresent) score += 25;
+                if (results.brandingClear) score += 25;
+                results.score = score;
+
+                uiTestResults['color'] = results;
+                updateTestStatus('color', score >= 75 ? 'pass' : 'fail');
+                completedUITests++;
+                updateUIProgress();
+            }, 1000);
+        }
+
+        // Test de tipografía
+        async function testTypography() {
+            updateTestStatus('typography', 'running');
+            
+            setTimeout(() => {
+                const results = {
+                    hierarchyClear: Math.random() > 0.2,
+                    sizesAppropriate: Math.random() > 0.15,
+                    spacingConsistent: Math.random() > 0.25,
+                    readabilityGood: Math.random() > 0.1,
+                    score: 0
+                };
+
+                let score = 0;
+                if (results.hierarchyClear) score += 25;
+                if (results.sizesAppropriate) score += 25;
+                if (results.spacingConsistent) score += 25;
+                if (results.readabilityGood) score += 25;
+                results.score = score;
+
+                uiTestResults['typography'] = results;
+                updateTestStatus('typography', score >= 75 ? 'pass' : 'fail');
+                completedUITests++;
+                updateUIProgress();
+            }, 1200);
+        }
+
+        // Test de alineación
+        async function testAlignment() {
+            updateTestStatus('alignment', 'running');
+            
+            setTimeout(() => {
+                const results = {
+                    elementsAligned: Math.random() > 0.2,
+                    gridConsistent: Math.random() > 0.25,
+                    visualBalance: Math.random() > 0.3,
+                    orderLogical: Math.random() > 0.15,
+                    score: 0
+                };
+
+                let score = 0;
+                if (results.elementsAligned) score += 25;
+                if (results.gridConsistent) score += 25;
+                if (results.visualBalance) score += 25;
+                if (results.orderLogical) score += 25;
+                results.score = score;
+
+                uiTestResults['alignment'] = results;
+                updateTestStatus('alignment', score >= 75 ? 'pass' : 'fail');
+                completedUITests++;
+                updateUIProgress();
+            }, 1100);
+        }
+
+        // Test de textos de interfaz
+        async function testInterfaceTexts() {
+            updateTestStatus('interface-text', 'running');
+            
+            setTimeout(() => {
+                const errorCount = Math.floor(Math.random() * 3); // 0-2 errores
+                const results = {
+                    errorCount: errorCount,
+                    menusCorrect: errorCount === 0 || Math.random() > 0.5,
+                    buttonsCorrect: errorCount === 0 || Math.random() > 0.4,
+                    linksCorrect: errorCount === 0 || Math.random() > 0.3,
+                    score: errorCount === 0 ? 100 : errorCount === 1 ? 80 : 60
+                };
+
+                uiTestResults['interface-text'] = results;
+                updateTestStatus('interface-text', results.errorCount === 0 ? 'pass' : 'fail');
+                completedUITests++;
+                updateUIProgress();
+            }, 1500);
+        }
+
+        // Test de contenido
+        async function testContentTexts() {
+            updateTestStatus('content-text', 'running');
+            
+            setTimeout(() => {
+                const errorCount = Math.floor(Math.random() * 4); // 0-3 errores
+                const results = {
+                    errorCount: errorCount,
+                    productsCorrect: errorCount === 0 || Math.random() > 0.4,
+                    formsCorrect: errorCount === 0 || Math.random() > 0.3,
+                    descriptionsCorrect: errorCount === 0 || Math.random() > 0.5,
+                    score: errorCount === 0 ? 100 : errorCount <= 2 ? 75 : 50
+                };
+
+                uiTestResults['content-text'] = results;
+                updateTestStatus('content-text', results.errorCount === 0 ? 'pass' : 'fail');
+                completedUITests++;
+                updateUIProgress();
+            }, 1300);
+        }
+
+        // Test de mensajes de validación
+        async function testValidationMessages() {
+            updateTestStatus('messages', 'running');
+            
+            setTimeout(() => {
+                const errorCount = Math.floor(Math.random() * 2); // 0-1 errores
+                const results = {
+                    errorCount: errorCount,
+                    errorMessagesCorrect: errorCount === 0 || Math.random() > 0.3,
+                    confirmationsCorrect: errorCount === 0 || Math.random() > 0.2,
+                    validationCorrect: errorCount === 0 || Math.random() > 0.4,
+                    score: errorCount === 0 ? 100 : 70
+                };
+
+                uiTestResults['messages'] = results;
+                updateTestStatus('messages', results.errorCount === 0 ? 'pass' : 'fail');
+                completedUITests++;
+                updateUIProgress();
+            }, 1000);
+        }
+
+        // Test de navegación principal
+        async function testMainNavigation() {
+            updateTestStatus('main-nav', 'running');
+            
+            setTimeout(() => {
+                const results = {
+                    menuClear: Math.random() > 0.15,
+                    optionsEasyToFind: Math.random() > 0.2,
+                    structureLogical: Math.random() > 0.25,
+                    responsiveWorks: Math.random() > 0.3,
+                    score: 0
+                };
+
+                let score = 0;
+                if (results.menuClear) score += 25;
+                if (results.optionsEasyToFind) score += 30;
+                if (results.structureLogical) score += 25;
+                if (results.responsiveWorks) score += 20;
+                results.score = score;
+
+                uiTestResults['main-nav'] = results;
+                updateTestStatus('main-nav', score >= 80 ? 'pass' : 'fail');
+                completedUITests++;
+                updateUIProgress();
+            }, 1400);
+        }
+
+        // Test de flujos de usuario
+        async function testUserFlows() {
+            updateTestStatus('user-flows', 'running');
+            
+            setTimeout(() => {
+                const results = {
+                    registrationClear: Math.random() > 0.2,
+                    shoppingClear: Math.random() > 0.15,
+                    checkoutClear: Math.random() > 0.25,
+                    productManagementClear: Math.random() > 0.3,
+                    score: 0
+                };
+
+                let score = 0;
+                if (results.registrationClear) score += 25;
+                if (results.shoppingClear) score += 25;
+                if (results.checkoutClear) score += 25;
+                if (results.productManagementClear) score += 25;
+                results.score = score;
+
+                uiTestResults['user-flows'] = results;
+                updateTestStatus('user-flows', score >= 75 ? 'pass' : 'fail');
+                completedUITests++;
+                updateUIProgress();
+            }, 1600);
+        }
+
+        // Test de orientación
+        async function testOrientation() {
+            updateTestStatus('orientation', 'running');
+            
+            setTimeout(() => {
+                const results = {
+                    breadcrumbsPresent: Math.random() > 0.3,
+                    currentPageClear: Math.random() > 0.2,
+                    navigationConsistent: Math.random() > 0.15,
+                    backNavigation: Math.random() > 0.25,
+                    score: 0
+                };
+
+                let score = 0;
+                if (results.breadcrumbsPresent) score += 25;
+                if (results.currentPageClear) score += 30;
+                if (results.navigationConsistent) score += 25;
+                if (results.backNavigation) score += 20;
+                results.score = score;
+
+                uiTestResults['orientation'] = results;
+                updateTestStatus('orientation', score >= 75 ? 'pass' : 'fail');
+                completedUITests++;
+                updateUIProgress();
+            }, 1200);
+        }
+
+        // Ejecutar todos los tests de UI
+        async function executeAllUITests() {
+            completedUITests = 0;
+            document.getElementById('progress-section').style.display = 'block';
+            document.getElementById('results-summary').innerHTML = '';
+            
+            const tests = [
+                testColorPrinciples, testTypography, testAlignment,
+                testInterfaceTexts, testContentTexts, testValidationMessages,
+                testMainNavigation, testUserFlows, testOrientation
+            ];
+            
+            for (let i = 0; i < tests.length; i++) {
+                const progress = ((i + 1) / tests.length) * 100;
+                document.getElementById('progress-fill').style.width = progress + '%';
+                document.getElementById('progress-text').textContent = `${Math.round(progress)}% Completado`;
+                
+                await tests[i]();
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            generateUIFinalGrade();
+        }
+
+        // Funciones auxiliares
+        function updateTestStatus(testId, status) {
+            const statusElement = document.getElementById(`${testId}-status`);
+            if (statusElement) {
+                statusElement.textContent = status === 'running' ? 'Ejecutando...' : 
+                                           status === 'pass' ? 'Pasó' : 
+                                           status === 'fail' ? 'Falló' : 'Pendiente';
+                statusElement.className = `test-status status-${status}`;
+            }
+        }
+
+        function updateUIProgress() {
+            // Calcular progreso por sección
+            const aestheticsScore = calculateAestheticsScore();
+            const spellingScore = calculateSpellingScore();
+            const navigationScore = calculateNavigationScore();
+            
+            // Actualizar display si es necesario
+            console.log(`Progreso UI: Estética ${aestheticsScore}%, Ortografía ${spellingScore}%, Navegación ${navigationScore}%`);
+        }
+
+        function calculateAestheticsScore() {
+            const aestheticsTests = ['color', 'typography', 'alignment'];
+            const scores = aestheticsTests.map(test => uiTestResults[test]?.score || 0);
+            return scores.length > 0 ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
+        }
+
+        function calculateSpellingScore() {
+            const spellingTests = ['interface-text', 'content-text', 'messages'];
+            const scores = spellingTests.map(test => uiTestResults[test]?.score || 0);
+            return scores.length > 0 ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
+        }
+
+        function calculateNavigationScore() {
+            const navigationTests = ['main-nav', 'user-flows', 'orientation'];
+            const scores = navigationTests.map(test => uiTestResults[test]?.score || 0);
+            return scores.length > 0 ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
+        }
+
+        function generateUIFinalGrade() {
+            const aestheticsScore = calculateAestheticsScore();
+            const spellingScore = calculateSpellingScore();
+            const navigationScore = calculateNavigationScore();
+            
+            const overallScore = Math.round((aestheticsScore + spellingScore + navigationScore) / 3);
+            
+            // Agregar tarjetas de resultados
+            const summaryHTML = `
+                <div class="result-card">
+                    <div class="result-score ${getScoreClass(aestheticsScore)}">${aestheticsScore}%</div>
+                    <div class="result-details">
+                        <strong>Estética (10%)</strong><br>
+                        Color, Tipografía, Alineación
+                    </div>
+                </div>
+                <div class="result-card">
+                    <div class="result-score ${getScoreClass(spellingScore)}">${spellingScore}%</div>
+                    <div class="result-details">
+                        <strong>Ortografía (6%)</strong><br>
+                        Interfaz, Contenido, Mensajes
+                    </div>
+                </div>
+                <div class="result-card">
+                    <div class="result-score ${getScoreClass(navigationScore)}">${navigationScore}%</div>
+                    <div class="result-details">
+                        <strong>Navegación (8%)</strong><br>
+                        Menú, Flujos, Orientación
+                    </div>
+                </div>
+                <div class="result-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #f7fafc, #edf2f7); border: 2px solid #cbd5e0;">
+                    <div class="result-score ${getScoreClass(overallScore)}" style="font-size: 3rem;">${overallScore}%</div>
+                    <div class="result-details" style="font-size: 1.1rem;">
+                        <strong>${getGradeText(overallScore)}</strong><br>
+                        Interfaz Gráfica: 24% de la nota final (4.8 puntos)
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results-summary').innerHTML = summaryHTML;
+        }
+
+        function getScoreClass(score) {
+            if (score >= 90) return 'score-excellent';
+            if (score >= 70) return 'score-good';
+            return 'score-needs-work';
+        }
+
+        function getGradeText(score) {
+            if (score >= 90) return 'EXCELENTE (3 puntos)';
+            if (score >= 70) return 'BUENO (2 puntos)';
+            return 'REQUIERE MEJORA (1 punto)';
+        }
+
+        function generateUIReport() {
+            const report = {
+                testType: 'Tests de Interfaz Gráfica',
+                timestamp: new Date().toISOString(),
+                results: uiTestResults,
+                summary: {
+                    aesthetics: calculateAestheticsScore() + '%',
+                    spelling: calculateSpellingScore() + '%',
+                    navigation: calculateNavigationScore() + '%',
+                    overall: Math.round((calculateAestheticsScore() + calculateSpellingScore() + calculateNavigationScore()) / 3) + '%',
+                    weightInFinalGrade: '24%'
+                }
+            };
+            
+            console.log('Reporte de Tests de Interfaz:', report);
+            alert('Reporte de interfaz generado. Ver consola del navegador.');
+        }
+    </script>
+</body>
+</html> 

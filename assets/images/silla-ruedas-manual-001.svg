@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f8f9fa"/>
+  <rect width="400" height="40" fill="#4A90E2"/>
+  <text x="200" y="25" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">Movilidad</text>
+  <circle cx="200" cy="170" r="25" fill="#4A90E2"/>
+  <text x="200" y="220" text-anchor="middle" fill="#333" font-family="Arial" font-size="18" font-weight="bold">Silla de Ruedas</text>
+  <text x="200" y="240" text-anchor="middle" fill="#333" font-family="Arial" font-size="18" font-weight="bold">Manual</text>
+  <text x="200" y="285" text-anchor="middle" fill="#ddd" font-family="Arial" font-size="12">Accessibility Things - Placeholder</text>
+</svg> 

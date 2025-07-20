@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Backend Connection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .loading { background-color: #fff3cd; border-color: #ffeaa7; }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test de Conexión con Backend</h1>
+    
+    <div class="test-section">
+        <h2>1. Health Check</h2>
+        <button onclick="testHealth()">Probar Health Check</button>
+        <div id="health-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Categorías</h2>
+        <button onclick="testCategories()">Probar Categorías</button>
+        <div id="categories-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Productos Más Vendidos</h2>
+        <button onclick="testTopSelling()">Probar Productos Más Vendidos</button>
+        <div id="top-selling-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Todos los Tests</h2>
+        <button onclick="runAllTests()">Ejecutar Todos los Tests</button>
+        <div id="all-tests-result"></div>
+    </div>
+
+    <script>
+        const baseURL = 'http://localhost:8000';
+        
+        async function testHealth() {
+            const resultDiv = document.getElementById('health-result');
+            resultDiv.innerHTML = '<div class="loading">Probando...</div>';
+            
+            try {
+                const response = await fetch(`${baseURL}/health`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h3>✅ Health Check Exitoso</h3>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${data.detail || 'Error desconocido'}`);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Error en Health Check</h3>
+                        <p>${error.message}</p>
+                        <p>Asegúrate de que el backend esté ejecutándose en ${baseURL}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function testCategories() {
+            const resultDiv = document.getElementById('categories-result');
+            resultDiv.innerHTML = '<div class="loading">Probando...</div>';
+            
+            try {
+                const response = await fetch(`${baseURL}/categories`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h3>✅ Categorías Obtenidas</h3>
+                            <p>Se encontraron ${data.length} categorías:</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${data.detail || 'Error desconocido'}`);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Error obteniendo categorías</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function testTopSelling() {
+            const resultDiv = document.getElementById('top-selling-result');
+            resultDiv.innerHTML = '<div class="loading">Probando...</div>';
+            
+            try {
+                const response = await fetch(`${baseURL}/products/top_selling?limit=4`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h3>✅ Productos Más Vendidos Obtenidos</h3>
+                            <p>Se encontraron ${data.length} productos:</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${data.detail || 'Error desconocido'}`);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Error obteniendo productos más vendidos</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function runAllTests() {
+            const resultDiv = document.getElementById('all-tests-result');
+            resultDiv.innerHTML = '<div class="loading">Ejecutando todos los tests...</div>';
+            
+            const results = [];
+            
+            // Test 1: Health Check
+            try {
+                const healthResponse = await fetch(`${baseURL}/health`);
+                if (healthResponse.ok) {
+                    results.push('✅ Health Check: OK');
+                } else {
+                    results.push('❌ Health Check: FAILED');
+                }
+            } catch (error) {
+                results.push(`❌ Health Check: ERROR - ${error.message}`);
+            }
+            
+            // Test 2: Categories
+            try {
+                const categoriesResponse = await fetch(`${baseURL}/categories`);
+                if (categoriesResponse.ok) {
+                    const categories = await categoriesResponse.json();
+                    results.push(`✅ Categorías: OK (${categories.length} encontradas)`);
+                } else {
+                    results.push('❌ Categorías: FAILED');
+                }
+            } catch (error) {
+                results.push(`❌ Categorías: ERROR - ${error.message}`);
+            }
+            
+            // Test 3: Top Selling Products
+            try {
+                const topSellingResponse = await fetch(`${baseURL}/products/top_selling?limit=4`);
+                if (topSellingResponse.ok) {
+                    const products = await topSellingResponse.json();
+                    results.push(`✅ Productos Más Vendidos: OK (${products.length} encontrados)`);
+                } else {
+                    results.push('❌ Productos Más Vendidos: FAILED');
+                }
+            } catch (error) {
+                results.push(`❌ Productos Más Vendidos: ERROR - ${error.message}`);
+            }
+            
+            // Mostrar resultados
+            const allPassed = results.every(r => r.startsWith('✅'));
+            resultDiv.innerHTML = `
+                <div class="${allPassed ? 'success' : 'error'}">
+                    <h3>${allPassed ? '✅ Todos los Tests Pasaron' : '❌ Algunos Tests Fallaron'}</h3>
+                    <ul>
+                        ${results.map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html> 

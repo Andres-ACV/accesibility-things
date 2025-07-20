@@ -1906,7 +1906,7 @@ class UIController {
         console.log('📦 Mostrando historial de pedidos...');
         
         // Verificar que hay usuario logueado
-        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        const currentUser = this.dataManager.getCurrentUser();
         if (!currentUser) {
             this.showNotification('Debes iniciar sesión para ver tus pedidos', 'error');
             return;
@@ -1926,7 +1926,7 @@ class UIController {
         console.log('📦 Cargando historial de pedidos en tab...');
         
         // Verificar que hay usuario logueado
-        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        const currentUser = this.dataManager.getCurrentUser();
         if (!currentUser) {
             const ordersContainer = document.getElementById('orders-list');
             if (ordersContainer) {

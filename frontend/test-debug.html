@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Debug - Products</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .log { margin: 5px 0; padding: 5px; border-left: 3px solid #ccc; }
+        .success { border-left-color: #4CAF50; background-color: #f1f8e9; }
+        .error { border-left-color: #f44336; background-color: #ffebee; }
+        .info { border-left-color: #2196F3; background-color: #e3f2fd; }
+        button { margin: 10px 5px; padding: 10px 15px; }
+    </style>
+</head>
+<body>
+    <h1>Test Debug - Products</h1>
+    
+    <div id="logs"></div>
+    
+    <button onclick="testApiService()">Test API Service</button>
+    <button onclick="testTopSelling()">Test Top Selling Products</button>
+    <button onclick="testDirectFetch()">Test Direct Fetch</button>
+    
+    <!-- Scripts -->
+    <script src="js/api-service.js"></script>
+    
+    <script>
+        function addLog(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const logDiv = document.createElement('div');
+            logDiv.className = `log ${type}`;
+            logDiv.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logsDiv.appendChild(logDiv);
+            console.log(`[${new Date().toLocaleTimeString()}] ${message}`);
+        }
+        
+        async function testApiService() {
+            addLog('🧪 Iniciando test de API Service...', 'info');
+            
+            if (typeof apiService === 'undefined') {
+                addLog('❌ apiService no está definido', 'error');
+                return;
+            }
+            
+            addLog('✅ apiService está definido', 'success');
+            addLog(`📡 Base URL: ${apiService.baseURL}`, 'info');
+            
+            if (typeof apiService.getTopSellingProducts === 'function') {
+                addLog('✅ getTopSellingProducts es una función', 'success');
+            } else {
+                addLog('❌ getTopSellingProducts no es una función', 'error');
+            }
+        }
+        
+        async function testTopSelling() {
+            addLog('🧪 Iniciando test de Top Selling Products...', 'info');
+            
+            try {
+                addLog('📞 Llamando a apiService.getTopSellingProducts(4)...', 'info');
+                const products = await apiService.getTopSellingProducts(4);
+                addLog(`✅ Productos recibidos: ${products.length}`, 'success');
+                addLog(`📦 Datos: ${JSON.stringify(products, null, 2)}`, 'info');
+            } catch (error) {
+                addLog(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testDirectFetch() {
+            addLog('🧪 Iniciando test de fetch directo...', 'info');
+            
+            try {
+                addLog('📞 Llamando a fetch http://localhost:8000/products/top_selling?limit=4...', 'info');
+                const response = await fetch('http://localhost:8000/products/top_selling?limit=4');
+                addLog(`📡 Status: ${response.status}`, 'info');
+                
+                if (response.ok) {
+                    const products = await response.json();
+                    addLog(`✅ Productos recibidos: ${products.length}`, 'success');
+                    addLog(`📦 Datos: ${JSON.stringify(products, null, 2)}`, 'info');
+                } else {
+                    addLog(`❌ Error HTTP: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                addLog(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-test al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('🚀 Página cargada', 'info');
+            addLog(`🔍 apiService disponible: ${typeof apiService}`, 'info');
+            
+            if (typeof apiService !== 'undefined') {
+                addLog('✅ apiService cargado correctamente', 'success');
+            } else {
+                addLog('❌ apiService NO está disponible', 'error');
+            }
+        });
+    </script>
+</body>
+</html> 

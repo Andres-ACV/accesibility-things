@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from ..config.database import get_db
 from ..services.product_service import ProductService
-from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse
+from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse, TopSellingProductResponse
 
 router = APIRouter(prefix="/products", tags=["products"])
 
@@ -29,6 +29,19 @@ def get_products(
     """Obtener lista de productos"""
     service = ProductService(db)
     return service.get_products(skip=skip, limit=limit, category_id=category_id)
+
+@router.get("/top_selling", response_model=List[TopSellingProductResponse])
+def get_top_selling_products(
+    limit: int = Query(4, ge=1, le=10),
+    db: Session = Depends(get_db)
+):
+    """Obtener los productos más vendidos"""
+    try:
+        service = ProductService(db)
+        products = service.get_top_selling_products(limit=limit)
+        return products
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error obteniendo productos más vendidos")
 
 @router.get("/search", response_model=List[ProductResponse])
 def search_products(

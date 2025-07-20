@@ -31,6 +31,15 @@ class ProductResponse(ProductBase):
     class Config:
         from_attributes = True
 
+class TopSellingProductResponse(BaseModel):
+    name: str
+    average_rating: Decimal
+    price: Decimal
+    image_url: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
 class ProductWithColors(ProductResponse):
     available_colors: List[ColorResponse] = []
 

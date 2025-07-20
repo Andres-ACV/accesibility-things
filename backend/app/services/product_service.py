@@ -1,7 +1,10 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
+from sqlalchemy import func, desc
 from ..models.product import Product
-from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse
+from ..models.order_item import OrderItem
+from ..models.product_image import ProductImage
+from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse, TopSellingProductResponse
 from ..repositories.category_repository import CategoryRepository
 
 class ProductService:
@@ -40,6 +43,57 @@ class ProductService:
         
         products = query.offset(skip).limit(limit).all()
         return [ProductResponse.from_orm(product) for product in products]
+    
+    def get_top_selling_products(self, limit: int = 4) -> List[TopSellingProductResponse]:
+        """Obtener los productos más vendidos basado en la cantidad total vendida"""
+        try:
+            # Subconsulta para obtener la cantidad total vendida por producto
+            subquery = self.db.query(
+                OrderItem.product_id,
+                func.sum(OrderItem.quantity).label('total_sold')
+            ).group_by(OrderItem.product_id).subquery()
+            
+            # Consulta principal que une productos con sus ventas totales
+            top_products = self.db.query(
+                Product,
+                subquery.c.total_sold
+            ).join(
+                subquery, Product.id == subquery.c.product_id
+            ).order_by(
+                desc(subquery.c.total_sold)
+            ).limit(limit).all()
+            
+            result = []
+            for product, total_sold in top_products:
+                # Obtener la primera imagen del producto (o la imagen principal si existe)
+                image = self.db.query(ProductImage).filter(
+                    ProductImage.product_id == product.id
+                ).filter(
+                    ProductImage.is_primary == True
+                ).first()
+                
+                # Si no hay imagen principal, obtener la primera imagen
+                if not image:
+                    image = self.db.query(ProductImage).filter(
+                        ProductImage.product_id == product.id
+                    ).first()
+                
+                # Crear el objeto de respuesta
+                product_data = {
+                    "name": product.name,
+                    "average_rating": product.average_rating,
+                    "price": product.price,
+                    "image_url": image.image_url if image else None
+                }
+                
+                result.append(TopSellingProductResponse(**product_data))
+            
+            return result
+            
+        except Exception as e:
+            # En caso de error, retornar lista vacía
+            print(f"Error obteniendo productos más vendidos: {e}")
+            return []
     
     def update_product(self, product_id: int, product_data: ProductUpdate) -> Optional[ProductResponse]:
         """Actualizar un producto"""

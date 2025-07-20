@@ -14,10 +14,15 @@ class AccessRepository:
     def get_user_by_id(self, user_id: int) -> Optional[User]:
         return self.db.query(User).filter(User.id == user_id).first()
     
+    def get_user_with_role(self, user_id: int) -> Optional[User]:
+        """Get user with role information loaded"""
+        return self.db.query(User).filter(User.id == user_id).first()
+    
     def create_user(self, user_data: UserCreate, hashed_password: str) -> User:
         db_user = User(
             email=user_data.email,
             full_name=user_data.full_name,
+            phone=user_data.phone,
             address=user_data.address,
             city=user_data.city,
             hashed_password=hashed_password,

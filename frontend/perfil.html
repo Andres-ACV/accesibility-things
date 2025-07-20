@@ -662,9 +662,15 @@
     </footer>
     
     <!-- Scripts -->
-    <script src="js/data-manager.js"></script>
-    <script src="js/ui-controller.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/api-service.js"></script>
+    <script src="js/data-manager-optimized.js"></script>
     <script src="js/accessibility.js"></script>
+    <script>
+        // Redirigir a las nuevas páginas
+        document.addEventListener('DOMContentLoaded', function() {
+            // Redirigir a login.html
+            window.location.href = 'login.html';
+        });
+    </script>
 </body>
 </html> 

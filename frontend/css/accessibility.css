@@ -18,200 +18,214 @@
     --hc-fondo-alt: #333333;
 }
 
-/* Modo de alto contraste */
-.high-contrast {
+/* Modo de alto contraste - Aplicar al body y todos los elementos */
+body.high-contrast {
     background-color: var(--hc-fondo) !important;
     color: var(--hc-texto) !important;
 }
 
-.high-contrast * {
+body.high-contrast * {
     background-color: var(--hc-fondo) !important;
     color: var(--hc-texto) !important;
     border-color: var(--hc-borde) !important;
 }
 
-.high-contrast h1, 
-.high-contrast h2, 
-.high-contrast h3, 
-.high-contrast h4, 
-.high-contrast h5, 
-.high-contrast h6 {
+/* Excepciones para elementos específicos en alto contraste */
+body.high-contrast h1, 
+body.high-contrast h2, 
+body.high-contrast h3, 
+body.high-contrast h4, 
+body.high-contrast h5, 
+body.high-contrast h6 {
     color: var(--hc-primario) !important;
 }
 
-.high-contrast a {
+body.high-contrast a {
     color: var(--hc-acento) !important;
     text-decoration: underline !important;
 }
 
-.high-contrast a:hover {
+body.high-contrast a:hover {
     color: var(--hc-secundario) !important;
 }
 
-.high-contrast .btn-primary {
+body.high-contrast .btn-primary {
     background-color: var(--hc-primario) !important;
     color: var(--hc-fondo) !important;
     border-color: var(--hc-primario) !important;
 }
 
-.high-contrast .btn-primary:hover {
+body.high-contrast .btn-primary:hover {
     background-color: var(--hc-secundario) !important;
     color: var(--hc-fondo) !important;
     border-color: var(--hc-secundario) !important;
 }
 
-.high-contrast .btn-secondary {
+body.high-contrast .btn-secondary {
     background-color: var(--hc-secundario) !important;
     color: var(--hc-fondo) !important;
     border-color: var(--hc-secundario) !important;
 }
 
-.high-contrast .btn-secondary:hover {
+body.high-contrast .btn-secondary:hover {
     background-color: var(--hc-primario) !important;
     color: var(--hc-fondo) !important;
     border-color: var(--hc-primario) !important;
 }
 
-.high-contrast .btn-outline {
+body.high-contrast .btn-outline {
     background-color: var(--hc-fondo) !important;
     color: var(--hc-texto) !important;
     border-color: var(--hc-borde) !important;
 }
 
-.high-contrast .btn-outline:hover {
+body.high-contrast .btn-outline:hover {
     background-color: var(--hc-texto) !important;
     color: var(--hc-fondo) !important;
     border-color: var(--hc-texto) !important;
 }
 
-.high-contrast input, 
-.high-contrast select, 
-.high-contrast textarea {
+body.high-contrast input, 
+body.high-contrast select, 
+body.high-contrast textarea {
     background-color: var(--hc-fondo) !important;
     color: var(--hc-texto) !important;
     border-color: var(--hc-borde) !important;
 }
 
-.high-contrast input:focus, 
-.high-contrast select:focus, 
-.high-contrast textarea:focus {
+body.high-contrast input:focus, 
+body.high-contrast select:focus, 
+body.high-contrast textarea:focus {
     border-color: var(--hc-primario) !important;
     box-shadow: 0 0 0 2px var(--hc-primario) !important;
 }
 
-.high-contrast .error-message {
+body.high-contrast .error-message {
     color: var(--hc-error) !important;
 }
 
-.high-contrast .help-text {
+body.high-contrast .help-text {
     color: var(--hc-info) !important;
 }
 
-.high-contrast nav[role="navigation"] {
+body.high-contrast nav[role="navigation"] {
     background-color: var(--hc-fondo-alt) !important;
 }
 
-.high-contrast .nav-link {
+body.high-contrast .nav-link {
     color: var(--hc-texto) !important;
 }
 
-.high-contrast .nav-link:hover {
+body.high-contrast .nav-link:hover {
     background-color: var(--hc-primario) !important;
     color: var(--hc-fondo) !important;
 }
 
-.high-contrast .nav-link.active {
+body.high-contrast .nav-link.active {
     background-color: var(--hc-secundario) !important;
     color: var(--hc-fondo) !important;
 }
 
-.high-contrast .breadcrumb {
+body.high-contrast .breadcrumb {
     background-color: var(--hc-fondo-alt) !important;
 }
 
-.high-contrast .feature-card,
-.high-contrast .category-card {
+body.high-contrast .feature-card,
+body.high-contrast .category-card {
     background-color: var(--hc-fondo-alt) !important;
     border-color: var(--hc-borde) !important;
 }
 
-.high-contrast .feature-card:hover,
-.high-contrast .category-card:hover {
+body.high-contrast .feature-card:hover,
+body.high-contrast .category-card:hover {
     background-color: var(--hc-fondo) !important;
     border-color: var(--hc-primario) !important;
 }
 
-.high-contrast aside {
+body.high-contrast aside {
     background-color: var(--hc-fondo-alt) !important;
 }
 
-.high-contrast th {
+body.high-contrast th {
     background-color: var(--hc-fondo-alt) !important;
 }
 
-.high-contrast footer {
+body.high-contrast footer {
     background-color: var(--hc-fondo-alt) !important;
 }
 
-.high-contrast .cart-badge {
+body.high-contrast .cart-badge {
     background-color: var(--hc-error) !important;
     color: var(--hc-fondo) !important;
 }
 
-.high-contrast .accessibility-btn[aria-pressed="true"] {
+body.high-contrast .accessibility-btn[aria-pressed="true"] {
     background-color: var(--hc-primario) !important;
     color: var(--hc-fondo) !important;
     border-color: var(--hc-primario) !important;
 }
 
-/* Modo de fuente grande */
-.large-font {
+/* Modo de fuente grande - Aplicar al body */
+body.large-font {
     font-size: 1.25rem !important;
 }
 
-.large-font h1 { font-size: 3.125rem !important; }
-.large-font h2 { font-size: 2.5rem !important; }
-.large-font h3 { font-size: 1.875rem !important; }
-.large-font h4 { font-size: 1.5625rem !important; }
-.large-font h5 { font-size: 1.40625rem !important; }
-.large-font h6 { font-size: 1.25rem !important; }
+body.large-font h1 { font-size: 3.125rem !important; }
+body.large-font h2 { font-size: 2.5rem !important; }
+body.large-font h3 { font-size: 1.875rem !important; }
+body.large-font h4 { font-size: 1.5625rem !important; }
+body.large-font h5 { font-size: 1.40625rem !important; }
+body.large-font h6 { font-size: 1.25rem !important; }
 
-.large-font .btn {
+body.large-font .btn {
     font-size: 1.25rem !important;
     padding: 0.75rem 1.5rem !important;
 }
 
-.large-font input, 
-.large-font select, 
-.large-font textarea {
+body.large-font input, 
+body.large-font select, 
+body.large-font textarea {
     font-size: 1.25rem !important;
     padding: 0.75rem !important;
 }
 
-.large-font .help-text {
+body.large-font .help-text {
     font-size: 1.125rem !important;
 }
 
-.large-font .error-message {
+body.large-font .error-message {
     font-size: 1.125rem !important;
 }
 
-.large-font .nav-link {
+body.large-font .nav-link {
     font-size: 1.125rem !important;
 }
 
-.large-font .breadcrumb {
+body.large-font .breadcrumb {
     font-size: 1.125rem !important;
 }
 
-.large-font .footer-section {
+body.large-font .footer-section {
     font-size: 1.125rem !important;
+}
+
+/* Combinación de alto contraste y fuente grande */
+body.high-contrast.large-font {
+    background-color: var(--hc-fondo) !important;
+    color: var(--hc-texto) !important;
+    font-size: 1.25rem !important;
+}
+
+body.high-contrast.large-font * {
+    background-color: var(--hc-fondo) !important;
+    color: var(--hc-texto) !important;
+    border-color: var(--hc-borde) !important;
 }
 
 /* Mejoras para lectores de pantalla */
 @media (prefers-reduced-motion: reduce) {
-    .high-contrast .feature-card:hover,
-    .high-contrast .category-card:hover {
+    body.high-contrast .feature-card:hover,
+    body.high-contrast .category-card:hover {
         transform: none !important;
     }
     
@@ -248,7 +262,6 @@
     content: "Cargando...";
     position: absolute;
     left: -10000px;
-    top: auto;
     width: 1px;
     height: 1px;
     overflow: hidden;

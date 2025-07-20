@@ -6,7 +6,7 @@ from ..repositories.access_repository import AccessRepository
 from ..services.access_service import AccessService
 from ..schemas.user import (
     UserCreate, UserUpdate, UserLogin, UserForgotPassword, 
-    UserResetPassword, UserResponse, Token
+    UserResetPassword, UserResponse, Token, RegisterResponse
 )
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
@@ -16,12 +16,12 @@ def get_access_service(db: Session = Depends(get_db)) -> AccessService:
     repository = AccessRepository(db)
     return AccessService(repository)
 
-@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/register", response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)
 def register(user_data: UserCreate, service: AccessService = Depends(get_access_service)):
-    """Create a new user account"""
+    """Create a new user account and return user data with access token"""
     try:
-        user = service.register_user(user_data)
-        return user
+        result = service.register_user_with_token(user_data)
+        return result
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
@@ -80,8 +80,8 @@ def get_profile(
 ):
     """Get current user profile"""
     try:
-        current_user = service.get_current_user(credentials.credentials)
-        return current_user
+        user_profile = service.get_user_profile_with_role(credentials.credentials)
+        return user_profile
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, 

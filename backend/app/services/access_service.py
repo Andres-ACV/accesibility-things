@@ -57,6 +57,23 @@ class AccessService:
         user = self.repository.create_user(user_data, hashed_password)
         return user
     
+    def register_user_with_token(self, user_data: UserCreate):
+        """Register user and return user data with access token"""
+        # Register the user first
+        user = self.register_user(user_data)
+        
+        # Create access token for the newly registered user
+        access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
+        access_token = self.create_access_token(
+            data={"sub": user.email}, expires_delta=access_token_expires
+        )
+        
+        return {
+            "user": user,
+            "access_token": access_token,
+            "token_type": "bearer"
+        }
+    
     def login_user(self, user_data: UserLogin):
         user = self.authenticate_user(user_data.email, user_data.password)
         if not user:
@@ -112,4 +129,32 @@ class AccessService:
         user = self.repository.get_user_by_email(email)
         if user is None:
             raise ValueError("User not found")
-        return user 
+        
+        # Ensure role information is loaded
+        if user.role_id and not user.role:
+            # Refresh the user to load the role relationship
+            self.repository.db.refresh(user)
+        
+        return user
+    
+    def get_user_profile_with_role(self, token: str):
+        """Get current user profile with role name included"""
+        user = self.get_current_user(token)
+        
+        # Create a dictionary with user data including role name
+        user_data = {
+            "id": user.id,
+            "email": user.email,
+            "full_name": user.full_name,
+            "phone": user.phone,
+            "address": user.address,
+            "city": user.city,
+            "role_id": user.role_id,
+            "role_name": user.role.name if user.role else None,
+            "is_active": user.is_active,
+            "is_verified": user.is_verified,
+            "created_at": user.created_at,
+            "updated_at": user.updated_at
+        }
+        
+        return user_data 

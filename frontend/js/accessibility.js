@@ -2,19 +2,32 @@
    Accessibility Things - JavaScript de Accesibilidad
    ========================================================================== */
 
+// Variable para evitar inicialización múltiple
+let accessibilityInitialized = false;
+
 // Esperar a que el DOM esté cargado
 document.addEventListener('DOMContentLoaded', function() {
-    initializeAccessibilityControls();
+    if (!accessibilityInitialized) {
+        initializeAccessibilityControls();
+    }
 });
 
 // Inicializar controles de accesibilidad
 function initializeAccessibilityControls() {
+    if (accessibilityInitialized) {
+        console.log('Accessibility Things: Controles ya inicializados, saltando...');
+        return;
+    }
+    
+    console.log('Accessibility Things: Inicializando controles de accesibilidad...');
+    
     initializeHighContrast();
     initializeFontSize();
     initializeKeyboardShortcuts();
     loadAccessibilityPreferences();
     
-    console.log('Accessibility Things: Controles de accesibilidad inicializados');
+    accessibilityInitialized = true;
+    console.log('Accessibility Things: Controles de accesibilidad inicializados correctamente');
 }
 
 // Control de alto contraste
@@ -22,17 +35,31 @@ function initializeHighContrast() {
     const highContrastToggle = document.getElementById('high-contrast-toggle');
     
     if (highContrastToggle) {
-        highContrastToggle.addEventListener('click', function() {
+        console.log('Accessibility Things: Inicializando control de alto contraste');
+        
+        // Remover listeners existentes para evitar duplicados
+        highContrastToggle.removeEventListener('click', toggleHighContrast);
+        highContrastToggle.removeEventListener('keydown', handleHighContrastKeydown);
+        
+        highContrastToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Accessibility Things: Botón de alto contraste clickeado');
             toggleHighContrast();
         });
         
         // Manejar tecla Enter para accesibilidad
-        highContrastToggle.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleHighContrast();
-            }
-        });
+        highContrastToggle.addEventListener('keydown', handleHighContrastKeydown);
+    } else {
+        console.warn('Accessibility Things: Botón de alto contraste no encontrado');
+    }
+}
+
+// Manejador de teclas para alto contraste
+function handleHighContrastKeydown(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        console.log('Accessibility Things: Tecla presionada para alto contraste');
+        toggleHighContrast();
     }
 }
 
@@ -41,29 +68,42 @@ function toggleHighContrast() {
     const body = document.body;
     const toggle = document.getElementById('high-contrast-toggle');
     
+    console.log('Accessibility Things: Alternando alto contraste');
+    console.log('Accessibility Things: Estado actual - high-contrast:', body.classList.contains('high-contrast'));
+    
     if (body.classList.contains('high-contrast')) {
         // Desactivar alto contraste
         body.classList.remove('high-contrast');
-        toggle.setAttribute('aria-pressed', 'false');
-        toggle.querySelector('.sr-only').textContent = 'Activar';
+        if (toggle) {
+            toggle.setAttribute('aria-pressed', 'false');
+            const srText = toggle.querySelector('.sr-only');
+            if (srText) srText.textContent = 'Activar';
+        }
         
         // Guardar preferencia
         localStorage.setItem('high-contrast', 'false');
         
         // Anunciar cambio
         announceToScreenReader('Modo de alto contraste desactivado');
+        console.log('Accessibility Things: Alto contraste desactivado');
     } else {
         // Activar alto contraste
         body.classList.add('high-contrast');
-        toggle.setAttribute('aria-pressed', 'true');
-        toggle.querySelector('.sr-only').textContent = 'Desactivar';
+        if (toggle) {
+            toggle.setAttribute('aria-pressed', 'true');
+            const srText = toggle.querySelector('.sr-only');
+            if (srText) srText.textContent = 'Desactivar';
+        }
         
         // Guardar preferencia
         localStorage.setItem('high-contrast', 'true');
         
         // Anunciar cambio
         announceToScreenReader('Modo de alto contraste activado');
+        console.log('Accessibility Things: Alto contraste activado');
     }
+    
+    console.log('Accessibility Things: Estado final - high-contrast:', body.classList.contains('high-contrast'));
 }
 
 // Control de tamaño de fuente
@@ -71,17 +111,31 @@ function initializeFontSize() {
     const fontSizeToggle = document.getElementById('font-size-toggle');
     
     if (fontSizeToggle) {
-        fontSizeToggle.addEventListener('click', function() {
+        console.log('Accessibility Things: Inicializando control de tamaño de fuente');
+        
+        // Remover listeners existentes para evitar duplicados
+        fontSizeToggle.removeEventListener('click', toggleFontSize);
+        fontSizeToggle.removeEventListener('keydown', handleFontSizeKeydown);
+        
+        fontSizeToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Accessibility Things: Botón de tamaño de fuente clickeado');
             toggleFontSize();
         });
         
         // Manejar tecla Enter para accesibilidad
-        fontSizeToggle.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleFontSize();
-            }
-        });
+        fontSizeToggle.addEventListener('keydown', handleFontSizeKeydown);
+    } else {
+        console.warn('Accessibility Things: Botón de tamaño de fuente no encontrado');
+    }
+}
+
+// Manejador de teclas para tamaño de fuente
+function handleFontSizeKeydown(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        console.log('Accessibility Things: Tecla presionada para tamaño de fuente');
+        toggleFontSize();
     }
 }
 
@@ -90,29 +144,42 @@ function toggleFontSize() {
     const body = document.body;
     const toggle = document.getElementById('font-size-toggle');
     
+    console.log('Accessibility Things: Alternando tamaño de fuente');
+    console.log('Accessibility Things: Estado actual - large-font:', body.classList.contains('large-font'));
+    
     if (body.classList.contains('large-font')) {
         // Desactivar fuente grande
         body.classList.remove('large-font');
-        toggle.setAttribute('aria-pressed', 'false');
-        toggle.querySelector('.sr-only').textContent = 'Aumentar';
+        if (toggle) {
+            toggle.setAttribute('aria-pressed', 'false');
+            const srText = toggle.querySelector('.sr-only');
+            if (srText) srText.textContent = 'Aumentar';
+        }
         
         // Guardar preferencia
         localStorage.setItem('large-font', 'false');
         
         // Anunciar cambio
         announceToScreenReader('Tamaño de fuente normal');
+        console.log('Accessibility Things: Tamaño de fuente normal');
     } else {
         // Activar fuente grande
         body.classList.add('large-font');
-        toggle.setAttribute('aria-pressed', 'true');
-        toggle.querySelector('.sr-only').textContent = 'Reducir';
+        if (toggle) {
+            toggle.setAttribute('aria-pressed', 'true');
+            const srText = toggle.querySelector('.sr-only');
+            if (srText) srText.textContent = 'Reducir';
+        }
         
         // Guardar preferencia
         localStorage.setItem('large-font', 'true');
         
         // Anunciar cambio
         announceToScreenReader('Tamaño de fuente aumentado');
+        console.log('Accessibility Things: Tamaño de fuente aumentado');
     }
+    
+    console.log('Accessibility Things: Estado final - large-font:', body.classList.contains('large-font'));
 }
 
 // Atajos de teclado para accesibilidad
@@ -731,4 +798,5 @@ window.addEventListener('load', function() {
 
 // =====================================================
 // FIN DE EFECTOS VISUALES Y ANIMACIONES MODERNAS
+// ===================================================== 
 // ===================================================== 

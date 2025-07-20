@@ -5,6 +5,7 @@ from datetime import datetime
 class UserBase(BaseModel):
     email: EmailStr
     full_name: Optional[str] = None
+    phone: Optional[str] = None
     address: Optional[str] = None
     city: Optional[str] = None
 
@@ -15,6 +16,7 @@ class UserCreate(UserBase):
 class UserUpdate(BaseModel):
     email: Optional[EmailStr] = None
     full_name: Optional[str] = None
+    phone: Optional[str] = None
     address: Optional[str] = None
     city: Optional[str] = None
 
@@ -32,6 +34,7 @@ class UserResetPassword(BaseModel):
 class UserResponse(UserBase):
     id: int
     role_id: Optional[int] = None
+    role_name: Optional[str] = None
     is_active: bool
     is_verified: bool
     created_at: datetime
@@ -45,4 +48,9 @@ class Token(BaseModel):
     token_type: str
 
 class TokenData(BaseModel):
-    email: Optional[str] = None 
+    email: Optional[str] = None
+
+class RegisterResponse(BaseModel):
+    user: UserResponse
+    access_token: str
+    token_type: str 

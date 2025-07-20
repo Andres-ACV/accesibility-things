@@ -306,6 +306,10 @@
     </footer>
     
     <!-- Scripts -->
+    <script>
+        // Configuración de URL del backend (ajusta aquí si es necesario)
+        // window.BACKEND_URL = 'http://localhost:8000'; // Por defecto, descomenta y ajusta si usas otro puerto o dominio
+    </script>
     <script src="js/api-service.js"></script>
     <script src="js/data-manager-optimized.js"></script>
     <script src="js/accessibility.js"></script>
@@ -358,35 +362,189 @@
             if (!filterOptions) return;
 
             // Mantener la opción "Todas las categorías"
-            const todasCategorias = filterOptions.querySelector('#todas-categorias');
-            if (todasCategorias) {
-                filterOptions.innerHTML = '';
-                filterOptions.appendChild(todasCategorias.parentElement);
+            const todasCategoriasInput = filterOptions.querySelector('#todas-categorias');
+            const todasCategoriasLabel = filterOptions.querySelector('label[for="todas-categorias"]');
+            filterOptions.innerHTML = '';
+            if (todasCategoriasInput && todasCategoriasLabel) {
+                filterOptions.appendChild(todasCategoriasInput);
+                filterOptions.appendChild(todasCategoriasLabel);
             }
 
             // Agregar categorías del backend
             categories.forEach(category => {
-                const div = document.createElement('div');
-                div.innerHTML = `
-                    <input type="radio" id="cat-${category.id}" name="categoria" value="${category.id}">
-                    <label for="cat-${category.id}">${category.name}</label>
-                `;
-                filterOptions.appendChild(div);
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.id = `cat-${category.id}`;
+                input.name = 'categoria';
+                input.value = category.id;
+
+                const label = document.createElement('label');
+                label.setAttribute('for', `cat-${category.id}`);
+                label.textContent = category.name;
+
+                filterOptions.appendChild(input);
+                filterOptions.appendChild(label);
             });
         }
 
-        // Función para cargar productos desde el backend
+        // =================== ESTADO GLOBAL DE CATÁLOGO ===================
+        let currentPage = 1;
+        let currentSortBy = 'id';
+        let currentSortOrder = 'asc';
+        let totalProducts = 0;
+        const limit = 4;
+        let lastProducts = [];
+
+        // =================== CARGA Y RENDERIZADO DE PRODUCTOS ===================
         async function loadProductsFromBackend() {
+            setLoadingState(true);
             try {
-                const products = await dataManagerOptimized.getProductos();
-                console.log('📦 Productos cargados:', products);
-                
-                // Renderizar productos
-                renderProducts(products);
-                
+                const response = await dataManagerOptimized.getProductosPaginado({
+                    page: currentPage,
+                    limit,
+                    sort_by: currentSortBy,
+                    sort_order: currentSortOrder
+                });
+                lastProducts = response.products;
+                totalProducts = response.total_products;
+                renderProducts(response.products);
+                updateResultsCount(response.products.length, response.total_products);
+                renderPagination(response.page, response.limit, response.total_products);
+                setLoadingState(false);
             } catch (error) {
-                console.error('❌ Error cargando productos:', error);
-                throw new Error('No se pudieron cargar los productos');
+                setLoadingState(false);
+                showErrorMessage('No se pudieron cargar los productos: ' + error.message);
+            }
+        }
+
+        // =================== CONTADOR DE PRODUCTOS ===================
+        function updateResultsCount(shown, total) {
+            const resultsCount = document.getElementById('results-count');
+            if (resultsCount) {
+                resultsCount.textContent = `Mostrando ${shown} de ${total} productos`;
+            }
+        }
+
+        // =================== PAGINACIÓN ACCESIBLE ===================
+        function renderPagination(page, limit, total) {
+            const paginationNav = document.querySelector('.pagination');
+            const paginationList = paginationNav ? paginationNav.querySelector('.pagination-list') : null;
+            if (!paginationList) return;
+
+            // Calcular total de páginas
+            const totalPages = Math.ceil(total / limit);
+            paginationList.innerHTML = '';
+
+            // Botón anterior
+            const prevLi = document.createElement('li');
+            const prevBtn = document.createElement('a');
+            prevBtn.href = '#';
+            prevBtn.className = 'pagination-link';
+            prevBtn.setAttribute('aria-label', 'Página anterior');
+            prevBtn.innerHTML = '<span aria-hidden="true">‹</span>';
+            if (page === 1) {
+                prevBtn.classList.add('disabled');
+                prevBtn.setAttribute('aria-disabled', 'true');
+                prevBtn.tabIndex = -1;
+            } else {
+                prevBtn.addEventListener('click', e => {
+                    e.preventDefault();
+                    currentPage--;
+                    loadProductsFromBackend();
+                });
+            }
+            prevLi.appendChild(prevBtn);
+            paginationList.appendChild(prevLi);
+
+            // Números de página (máximo 5 visibles, centrado en la actual)
+            let start = Math.max(1, page - 2);
+            let end = Math.min(totalPages, page + 2);
+            if (page <= 3) end = Math.min(5, totalPages);
+            if (page >= totalPages - 2) start = Math.max(1, totalPages - 4);
+            for (let i = start; i <= end; i++) {
+                const li = document.createElement('li');
+                const btn = document.createElement('a');
+                btn.href = '#';
+                btn.className = 'pagination-link';
+                btn.textContent = i;
+                btn.setAttribute('aria-label', `Página ${i}`);
+                if (i === page) {
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-current', 'page');
+                    btn.tabIndex = 0;
+                } else {
+                    btn.addEventListener('click', e => {
+                        e.preventDefault();
+                        currentPage = i;
+                        loadProductsFromBackend();
+                    });
+                }
+                li.appendChild(btn);
+                paginationList.appendChild(li);
+            }
+
+            // Botón siguiente
+            const nextLi = document.createElement('li');
+            const nextBtn = document.createElement('a');
+            nextBtn.href = '#';
+            nextBtn.className = 'pagination-link';
+            nextBtn.setAttribute('aria-label', 'Página siguiente');
+            nextBtn.innerHTML = '<span aria-hidden="true">›</span>';
+            if (page === totalPages || totalPages === 0) {
+                nextBtn.classList.add('disabled');
+                nextBtn.setAttribute('aria-disabled', 'true');
+                nextBtn.tabIndex = -1;
+            } else {
+                nextBtn.addEventListener('click', e => {
+                    e.preventDefault();
+                    currentPage++;
+                    loadProductsFromBackend();
+                });
+            }
+            nextLi.appendChild(nextBtn);
+            paginationList.appendChild(nextLi);
+        }
+
+        // =================== ORDENAMIENTO ACCESIBLE ===================
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function () {
+                const value = sortSelect.value;
+                // Mapear opciones del select a sort_by y sort_order
+                switch (value) {
+                    case 'precio-asc':
+                        currentSortBy = 'price';
+                        currentSortOrder = 'asc';
+                        break;
+                    case 'precio-desc':
+                        currentSortBy = 'price';
+                        currentSortOrder = 'desc';
+                        break;
+                    case 'nombre':
+                        currentSortBy = 'name';
+                        currentSortOrder = 'asc';
+                        break;
+                    case 'fecha':
+                        currentSortBy = 'created_at';
+                        currentSortOrder = 'desc';
+                        break;
+                    case 'relevancia':
+                    default:
+                        currentSortBy = 'id';
+                        currentSortOrder = 'asc';
+                        break;
+                }
+                currentPage = 1;
+                loadProductsFromBackend();
+            });
+        }
+
+        // =================== ESTADO DE CARGA Y ERRORES ACCESIBLES ===================
+        function setLoadingState(isLoading) {
+            const productsGrid = document.getElementById('products-grid');
+            if (!productsGrid) return;
+            if (isLoading) {
+                productsGrid.innerHTML = '<div class="loading-message" aria-live="polite" role="status">Cargando productos...</div>';
             }
         }
 
@@ -395,39 +553,58 @@
             const productsGrid = document.getElementById('products-grid');
             if (!productsGrid) return;
 
-            if (products.length === 0) {
+            if (!products || products.length === 0) {
                 productsGrid.innerHTML = '<p class="empty-state">No hay productos disponibles.</p>';
                 return;
             }
 
+            // Helper para mostrar nombre legible de categoría
+            function getCategoryDisplayName(category) {
+                const categoryNames = {
+                    'movilidad': 'Movilidad',
+                    'visual': 'Discapacidad Visual',
+                    'auditiva': 'Discapacidad Auditiva',
+                    'cognitiva': 'Discapacidad Cognitiva',
+                    'embarazo': 'Embarazo y Maternidad',
+                    'software': 'Software',
+                };
+                return categoryNames[category] || category;
+            }
+
             const productsHtml = products.map(product => `
-                <article class="product-card" role="article" aria-labelledby="product-${product.id}">
+                <div class="product-card featured-product" data-categoria="${escapeHtml(product.category_id)}" role="article" aria-labelledby="product-${escapeHtml(product.id)}">
                     <div class="product-image">
-                        <img src="${product.image_url || 'images/placeholder-generic.svg'}" 
-                             alt="Imagen de ${product.name}" 
+                        <img src="${escapeHtml(product.image_url) || 'images/placeholder-generic.svg'}"
+                             alt="${escapeHtml(product.description) || 'Imagen de producto'}"
                              loading="lazy"
                              onerror="this.src='images/placeholder-generic.svg'">
                     </div>
-                    
                     <div class="product-info">
-                        <h3 id="product-${product.id}" class="product-name">
+                        <h3 id="product-${escapeHtml(product.id)}" class="product-name">
                             ${escapeHtml(product.name)}
                         </h3>
-                        
+                        <span class="product-category">${escapeHtml(product.category_id)}<!-- Aquí puedes mapear a nombre de categoría si lo deseas --></span>
                         <div class="product-price">
                             <span class="current-price">${formatPrice(product.price)}</span>
                         </div>
-                        
-                        <div class="product-rating" aria-label="Calificación: ${product.average_rating} de 5 estrellas">
+                        <div class="product-rating" aria-label="Calificación: ${Number(product.average_rating) || 0} de 5 estrellas">
                             <div class="stars" aria-hidden="true">
-                                ${generateStarRating(product.average_rating)}
+                                ${generateStarRating(Number(product.average_rating) || 0)}
                             </div>
-                            <span class="rating-text">(${product.average_rating})</span>
+                            <span class="rating-text">(${
+                                typeof product.average_rating === 'number' && !isNaN(product.average_rating)
+                                    ? product.average_rating.toFixed(1)
+                                    : Number(product.average_rating) && !isNaN(Number(product.average_rating))
+                                        ? Number(product.average_rating).toFixed(1)
+                                        : '0.0'
+                            })</span>
                         </div>
+                        <button type="button" class="btn btn-primary" aria-label="Agregar ${escapeHtml(product.name)} al carrito" onclick="alert('Funcionalidad de carrito próximamente')">
+                            Agregar al carrito
+                        </button>
                     </div>
-                </article>
+                </div>
             `).join('');
-
             productsGrid.innerHTML = productsHtml;
         }
 

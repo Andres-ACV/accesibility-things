@@ -14,6 +14,9 @@ class CategoryRepository:
     def get_by_id(self, category_id: int) -> Optional[Category]:
         return self.db.query(Category).filter(Category.id == category_id).first()
     
+    def get_by_name(self, name: str) -> Optional[Category]:
+        return self.db.query(Category).filter(Category.name == name).first()
+    
     def create(self, category_data: CategoryCreate) -> Category:
         db_category = Category(**category_data.dict())
         try:

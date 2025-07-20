@@ -4,7 +4,7 @@
  */
 class ApiService {
     constructor() {
-        this.baseURL = 'http://localhost:8000';
+        this.baseURL = (typeof window !== 'undefined' && window.BACKEND_URL) ? window.BACKEND_URL : 'http://localhost:8000';
         this.tokenKey = 'accessibility_things_token';
         this.userKey = 'accessibility_things_user';
     }
@@ -146,11 +146,11 @@ class ApiService {
     // Métodos de productos
     async getProducts(params = {}) {
         const queryParams = new URLSearchParams();
-        
-        if (params.skip) queryParams.append('skip', params.skip);
+        if (params.page) queryParams.append('page', params.page);
         if (params.limit) queryParams.append('limit', params.limit);
         if (params.category_id) queryParams.append('category_id', params.category_id);
-        
+        if (params.sort_by) queryParams.append('sort_by', params.sort_by);
+        if (params.sort_order) queryParams.append('sort_order', params.sort_order);
         const url = `${this.baseURL}/products?${queryParams.toString()}`;
         return this.get(url);
     }

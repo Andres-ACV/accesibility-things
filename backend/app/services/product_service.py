@@ -6,6 +6,7 @@ from ..models.order_item import OrderItem
 from ..models.product_image import ProductImage
 from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse, TopSellingProductResponse
 from ..repositories.category_repository import CategoryRepository
+from ..repositories.color_repository import ColorRepository
 
 class ProductService:
     def __init__(self, db: Session):
@@ -34,15 +35,102 @@ class ProductService:
             return ProductResponse.from_orm(product)
         return None
     
-    def get_products(self, skip: int = 0, limit: int = 100, category_id: Optional[int] = None) -> List[ProductResponse]:
-        """Obtener lista de productos con filtros opcionales"""
+    def get_products(
+        self,
+        page: int = 1,
+        limit: int = 4,
+        category_id: Optional[int] = None,
+        sort_by: str = "id",
+        sort_order: str = "asc",
+        category_name: Optional[str] = None,
+        min_price: Optional[float] = None,
+        max_price: Optional[float] = None,
+        min_avg_rating: Optional[float] = None,
+        color_id: Optional[int] = None,
+        color_name: Optional[str] = None,
+        search: Optional[str] = None
+    ) -> dict:
+        """Obtener lista de productos paginada y ordenada, con total de productos y filtros avanzados"""
         query = self.db.query(Product)
-        
+
+        # --- Filtro por búsqueda de nombre (aproximación, insensible a mayúsculas/minúsculas) ---
+        if search:
+            search_term = search.strip()
+            if search_term:
+                query = query.filter(Product.name.ilike(f"%{search_term}%"))
+
+        # --- Filtro por categoría (id o nombre) ---
         if category_id:
             query = query.filter(Product.category_id == category_id)
-        
-        products = query.offset(skip).limit(limit).all()
-        return [ProductResponse.from_orm(product) for product in products]
+        elif category_name:
+            category = self.category_repo.get_by_name(category_name)
+            if not category:
+                return {"total_products": 0, "page": page, "limit": limit, "products": []}
+            query = query.filter(Product.category_id == category.id)
+
+        # --- Filtro por rango de precio ---
+        if min_price is not None:
+            query = query.filter(Product.price >= min_price)
+        if max_price is not None:
+            query = query.filter(Product.price <= max_price)
+
+        # --- Filtro por calificación promedio ---
+        if min_avg_rating is not None:
+            query = query.filter(Product.average_rating >= min_avg_rating)
+
+        # --- Filtro por color (id o nombre) ---
+        if color_id or color_name:
+            color_repo = ColorRepository(self.db)
+            if color_id:
+                color = color_repo.get_by_id(color_id)
+            else:
+                color = color_repo.get_by_name(color_name)
+            if not color:
+                return {"total_products": 0, "page": page, "limit": limit, "products": []}
+            # Join con ProductColor para filtrar productos disponibles en ese color
+            from ..models.product_color import ProductColor
+            query = query.join(ProductColor, Product.id == ProductColor.product_id)
+            query = query.filter(ProductColor.color_id == color.id, ProductColor.is_available == True)
+
+        # Total antes de paginar
+        total_products = query.distinct().count()
+
+        # Ordenamiento seguro
+        allowed_sort_fields = {"id", "name", "price", "average_rating", "created_at", "updated_at"}
+        if sort_by not in allowed_sort_fields:
+            sort_by = "id"
+        sort_column = getattr(Product, sort_by)
+        if sort_order == "desc":
+            sort_column = sort_column.desc()
+        else:
+            sort_column = sort_column.asc()
+        query = query.order_by(sort_column)
+
+        # Paginación
+        offset = (page - 1) * limit
+        products = query.offset(offset).limit(limit).all()
+        result = []
+        for product in products:
+            # Obtener la imagen principal (is_primary=True) o la primera imagen
+            image = self.db.query(ProductImage).filter(
+                ProductImage.product_id == product.id,
+                ProductImage.is_primary == True
+            ).first()
+            if not image:
+                image = self.db.query(ProductImage).filter(
+                    ProductImage.product_id == product.id
+                ).first()
+            image_url = image.image_url if image else None
+            # Construir la respuesta incluyendo image_url
+            product_data = ProductResponse.from_orm(product).dict()
+            product_data["image_url"] = image_url
+            result.append(ProductResponse(**product_data))
+        return {
+            "total_products": total_products,
+            "page": page,
+            "limit": limit,
+            "products": result
+        }
     
     def get_top_selling_products(self, limit: int = 4) -> List[TopSellingProductResponse]:
         """Obtener los productos más vendidos basado en la cantidad total vendida"""

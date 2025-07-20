@@ -14,6 +14,9 @@ class ColorRepository:
     def get_by_id(self, color_id: int) -> Optional[Color]:
         return self.db.query(Color).filter(Color.id == color_id).first()
     
+    def get_by_name(self, name: str) -> Optional[Color]:
+        return self.db.query(Color).filter(Color.name == name).first()
+    
     def create(self, color_data: ColorCreate) -> Color:
         db_color = Color(**color_data.dict())
         try:

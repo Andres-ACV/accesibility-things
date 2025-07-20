@@ -268,6 +268,21 @@ class DataManagerOptimized {
         }
     }
 
+    /**
+     * Obtener productos paginados y ordenados desde el backend
+     */
+    async getProductosPaginado({ page = 1, limit = 4, sort_by = 'id', sort_order = 'asc', category_id = null } = {}) {
+        try {
+            const params = { page, limit, sort_by, sort_order };
+            if (category_id) params.category_id = category_id;
+            const response = await this.apiService.getProducts(params);
+            return response;
+        } catch (error) {
+            console.error('Error obteniendo productos paginados:', error);
+            throw new Error('No se pudieron cargar los productos');
+        }
+    }
+
     // ===== GESTIÓN DE CARRITO =====
 
     /**
@@ -461,7 +476,7 @@ class DataManagerOptimized {
 
 // Crear instancia global
 const dataManagerOptimized = new DataManagerOptimized();
-
+window.dataManagerOptimized = dataManagerOptimized; // <-- Asegura acceso global
 // Exportar para uso en otros módulos
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = DataManagerOptimized;

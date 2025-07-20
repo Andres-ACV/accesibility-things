@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from ..config.database import get_db
 from ..services.product_service import ProductService
-from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse, TopSellingProductResponse
+from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse, TopSellingProductResponse, ProductListPaginatedResponse
 
 router = APIRouter(prefix="/products", tags=["products"])
 
@@ -19,16 +19,38 @@ def create_product(
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/", response_model=List[ProductResponse])
+@router.get("/", response_model=ProductListPaginatedResponse)
 def get_products(
-    skip: int = Query(0, ge=0),
-    limit: int = Query(100, ge=1, le=100),
-    category_id: Optional[int] = Query(None),
+    page: int = Query(1, ge=1, description="Número de página actual"),
+    limit: int = Query(4, ge=1, le=100, description="Cantidad de productos por página"),
+    category_id: Optional[int] = Query(None, description="Filtrar por categoría (ID)"),
+    category: Optional[str] = Query(None, description="Filtrar por categoría (nombre)"),
+    min_price: Optional[float] = Query(None, description="Precio mínimo"),
+    max_price: Optional[float] = Query(None, description="Precio máximo"),
+    min_avg_rating: Optional[float] = Query(None, description="Calificación promedio mínima"),
+    color_id: Optional[int] = Query(None, description="Filtrar por color (ID)"),
+    color: Optional[str] = Query(None, description="Filtrar por color (nombre)"),
+    search: Optional[str] = Query(None, description="Buscar por nombre de producto (aproximado, insensible a mayúsculas/minúsculas)"),
+    sort_by: str = Query("id", description="Campo por el cual ordenar (id, name, price, average_rating, created_at, updated_at)"),
+    sort_order: str = Query("asc", description="asc o desc"),
     db: Session = Depends(get_db)
 ):
-    """Obtener lista de productos"""
+    """Obtener lista de productos paginada, ordenada y filtrada"""
     service = ProductService(db)
-    return service.get_products(skip=skip, limit=limit, category_id=category_id)
+    return service.get_products(
+        page=page,
+        limit=limit,
+        category_id=category_id,
+        category_name=category,
+        min_price=min_price,
+        max_price=max_price,
+        min_avg_rating=min_avg_rating,
+        color_id=color_id,
+        color_name=color,
+        search=search,
+        sort_by=sort_by,
+        sort_order=sort_order
+    )
 
 @router.get("/top_selling", response_model=List[TopSellingProductResponse])
 def get_top_selling_products(

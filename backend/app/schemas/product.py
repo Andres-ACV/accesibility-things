@@ -25,6 +25,7 @@ class ProductResponse(ProductBase):
     id: int
     average_rating: Decimal
     is_active: bool
+    image_url: Optional[str] = None  # Nuevo campo para la URL de la imagen principal
     created_at: datetime
     updated_at: Optional[datetime] = None
 
@@ -44,4 +45,10 @@ class ProductWithColors(ProductResponse):
     available_colors: List[ColorResponse] = []
 
 # Resolver referencias circulares
-ProductWithColors.model_rebuild() 
+ProductWithColors.model_rebuild()
+
+class ProductListPaginatedResponse(BaseModel):
+    total_products: int
+    page: int
+    limit: int
+    products: List[ProductResponse] 

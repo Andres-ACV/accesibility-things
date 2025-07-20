@@ -130,10 +130,6 @@
             <div id="categories-grid" class="categories-grid">
                 <p id="categories-loading">Cargando categorías...</p>
             </div>
-            <div class="backend-info" style="margin-top: 1rem; padding: 1rem; background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; font-size: 0.9rem; color: #0369a1;">
-                <p><strong>💡 Nota:</strong> Si las categorías no cargan, asegúrate de que el backend esté ejecutándose. 
-                Puedes usar <a href="test-backend-connection.html" style="color: #0369a1; text-decoration: underline;">esta herramienta de prueba</a> para verificar la conexión.</p>
-            </div>
         </section>
         
         <!-- Productos Destacados -->
@@ -229,42 +225,27 @@
             try {
                 // Verificar que apiService esté disponible (instancia global del archivo api-service.js)
                 if (typeof apiService === 'undefined') {
-                    console.error('❌ apiService no está disponible. Verificando si el backend está funcionando...');
-                    
-                    // Intentar verificar la salud del backend
-                    try {
-                        const response = await fetch('http://localhost:8000/health');
-                        if (!response.ok) {
-                            throw new Error(`Backend no responde: ${response.status}`);
-                        }
-                        console.log('✅ Backend está funcionando');
-                    } catch (error) {
-                        console.error('❌ Backend no está disponible:', error.message);
-                        // Mostrar mensaje de error en la página
-                        const categoriesGrid = document.getElementById('categories-grid');
-                        const featuredProducts = document.getElementById('featured-products');
-                        
-                        if (categoriesGrid) {
-                            categoriesGrid.innerHTML = `
-                                <div class="error-state">
-                                    <p>⚠️ El servidor backend no está disponible</p>
-                                    <p>Asegúrate de que el backend esté ejecutándose en http://localhost:8000</p>
-                                    <button onclick="location.reload()" class="btn btn-secondary">Reintentar</button>
-                                </div>
-                            `;
-                        }
-                        
-                        if (featuredProducts) {
-                            featuredProducts.innerHTML = `
-                                <div class="error-state">
-                                    <p>⚠️ El servidor backend no está disponible</p>
-                                    <p>Asegúrate de que el backend esté ejecutándose en http://localhost:8000</p>
-                                    <button onclick="location.reload()" class="btn btn-secondary">Reintentar</button>
-                                </div>
-                            `;
-                        }
-                        return;
+                    console.error('❌ apiService no está disponible.');
+                    // Mostrar mensaje de error en la página
+                    const categoriesGrid = document.getElementById('categories-grid');
+                    const featuredProducts = document.getElementById('featured-products');
+                    if (categoriesGrid) {
+                        categoriesGrid.innerHTML = `
+                            <div class="error-state">
+                                <p>⚠️ El servidor backend no está disponible</p>
+                                <button onclick="location.reload()" class="btn btn-secondary">Reintentar</button>
+                            </div>
+                        `;
                     }
+                    if (featuredProducts) {
+                        featuredProducts.innerHTML = `
+                            <div class="error-state">
+                                <p>⚠️ El servidor backend no está disponible</p>
+                                <button onclick="location.reload()" class="btn btn-secondary">Reintentar</button>
+                            </div>
+                        `;
+                    }
+                    return;
                 }
                 
                 console.log('✅ API Service disponible:', apiService);

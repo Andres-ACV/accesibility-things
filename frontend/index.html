@@ -84,7 +84,7 @@
                 <a href="catalogo.html" class="btn btn-primary" role="button">
                     Explorar catálogo
                 </a>
-                <a href="register.html" class="btn btn-secondary" role="button">
+                <a href="register.html" class="btn btn-secondary" role="button" id="register-profile-btn">
                     Crear cuenta
                 </a>
             </div>
@@ -283,6 +283,7 @@
                 
                 // Actualizar header con información del usuario
                 updateHeaderUserInfo();
+                updateRegisterProfileBtn();
 
                 // Cargar categorías dinámicamente
                 console.log('🔄 Iniciando carga de categorías...');
@@ -366,6 +367,39 @@
                 // Usuario no está logueado
                 profileText.textContent = 'Mi Perfil';
                 profileLink.href = 'login.html';
+            }
+        }
+
+        /**
+         * Actualizar botón de registro/perfil en el hero
+         */
+        function updateRegisterProfileBtn() {
+            const btn = document.getElementById('register-profile-btn');
+            if (!btn) return;
+            let currentUser = null;
+            // Intentar obtener usuario del dataManagerOptimized si está disponible
+            if (typeof dataManagerOptimized !== 'undefined') {
+                currentUser = dataManagerOptimized.getCurrentUser();
+            }
+            // Si no está disponible, intentar obtener del apiService
+            if (!currentUser && typeof apiService !== 'undefined') {
+                currentUser = apiService.getCurrentUser();
+            }
+            // Si no está disponible, intentar obtener del localStorage directamente
+            if (!currentUser) {
+                try {
+                    const userStr = localStorage.getItem('accessibility_things_user');
+                    currentUser = userStr ? JSON.parse(userStr) : null;
+                } catch (error) {
+                    // Ignorar error
+                }
+            }
+            if (currentUser) {
+                btn.textContent = 'Mi Perfil';
+                btn.setAttribute('href', 'profile.html');
+            } else {
+                btn.textContent = 'Registrarse';
+                btn.setAttribute('href', 'register.html');
             }
         }
 

@@ -4,7 +4,13 @@ from sqlalchemy import func, desc
 from ..models.product import Product
 from ..models.order_item import OrderItem
 from ..models.product_image import ProductImage
-from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse, TopSellingProductResponse
+from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse, TopSellingProductResponse, ProductDetailResponse
+from ..schemas.category import CategoryResponse
+from ..schemas.product_color import ProductColorResponse
+from ..schemas.product_image import ProductImageResponse
+from ..models.product_color import ProductColor
+from ..models.color import Color
+from ..models.product_image import ProductImage
 from ..repositories.category_repository import CategoryRepository
 from ..repositories.color_repository import ColorRepository
 
@@ -222,3 +228,58 @@ class ProductService:
         ).offset(skip).limit(limit).all()
         
         return [ProductResponse.from_orm(product) for product in products] 
+
+    def get_product_detail(self, product_id: int) -> Optional[dict]:
+        """Obtener todos los detalles de un producto, incluyendo categoría, colores e imágenes"""
+        product = self.db.query(Product).filter(Product.id == product_id).first()
+        if not product:
+            return None
+        # Obtener categoría
+        category = product.category
+        category_data = CategoryResponse.from_orm(category)
+        # Obtener colores disponibles (join ProductColor + Color)
+        product_colors = (
+            self.db.query(ProductColor)
+            .filter(ProductColor.product_id == product_id)
+            .all()
+        )
+        colors = []
+        for pc in product_colors:
+            color = self.db.query(Color).filter(Color.id == pc.color_id).first()
+            color_data = {
+                "id": pc.id,
+                "product_id": pc.product_id,
+                "color_id": pc.color_id,
+                "is_available": pc.is_available,
+                "stock_quantity": pc.stock_quantity,
+                "created_at": pc.created_at,
+                "updated_at": pc.updated_at,
+                # Detalles del color:
+                "name": color.name if color else None,
+                "hex_code": color.hex_code if color else None,
+                "description": color.description if color else None,
+            }
+            # Usar ProductColorResponse, pero extender con detalles de color
+            colors.append(color_data)
+        # Obtener imágenes
+        images = (
+            self.db.query(ProductImage)
+            .filter(ProductImage.product_id == product_id)
+            .all()
+        )
+        images_data = [ProductImageResponse.from_orm(img) for img in images]
+        # Construir respuesta
+        detail = {
+            "id": product.id,
+            "name": product.name,
+            "description": product.description,
+            "price": product.price,
+            "average_rating": product.average_rating,
+            "is_active": product.is_active,
+            "created_at": product.created_at,
+            "updated_at": product.updated_at,
+            "category": category_data,
+            "colors": colors,
+            "images": images_data
+        }
+        return detail 

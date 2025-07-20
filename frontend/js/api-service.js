@@ -149,6 +149,13 @@ class ApiService {
         if (params.page) queryParams.append('page', params.page);
         if (params.limit) queryParams.append('limit', params.limit);
         if (params.category_id) queryParams.append('category_id', params.category_id);
+        if (params.category_name || params.category) queryParams.append('category', params.category_name || params.category);
+        if (params.min_price) queryParams.append('min_price', params.min_price);
+        if (params.max_price) queryParams.append('max_price', params.max_price);
+        if (params.min_avg_rating) queryParams.append('min_avg_rating', params.min_avg_rating);
+        if (params.color_id) queryParams.append('color_id', params.color_id);
+        if (params.color_name || params.color) queryParams.append('color', params.color_name || params.color);
+        if (params.search) queryParams.append('search', params.search);
         if (params.sort_by) queryParams.append('sort_by', params.sort_by);
         if (params.sort_order) queryParams.append('sort_order', params.sort_order);
         const url = `${this.baseURL}/products?${queryParams.toString()}`;
@@ -218,6 +225,10 @@ class ApiService {
 
     validatePassword(password) {
         return password.length >= 6;
+    }
+
+    async getColors() {
+        return this.get(`${this.baseURL}/colors`);
     }
 }
 

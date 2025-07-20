@@ -271,10 +271,15 @@ class DataManagerOptimized {
     /**
      * Obtener productos paginados y ordenados desde el backend
      */
-    async getProductosPaginado({ page = 1, limit = 4, sort_by = 'id', sort_order = 'asc', category_id = null } = {}) {
+    async getProductosPaginado({ page = 1, limit = 4, sort_by = 'id', sort_order = 'asc', category_id = null, min_price = null, max_price = null, min_avg_rating = null, color_id = null, search = '' } = {}) {
         try {
             const params = { page, limit, sort_by, sort_order };
             if (category_id) params.category_id = category_id;
+            if (min_price) params.min_price = min_price;
+            if (max_price) params.max_price = max_price;
+            if (min_avg_rating) params.min_avg_rating = min_avg_rating;
+            if (color_id) params.color_id = color_id;
+            if (search && search.trim() !== '') params.search = search.trim();
             const response = await this.apiService.getProducts(params);
             return response;
         } catch (error) {

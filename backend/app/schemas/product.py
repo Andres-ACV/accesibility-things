@@ -3,6 +3,9 @@ from typing import Optional, List
 from datetime import datetime
 from decimal import Decimal
 from .color import ColorResponse
+from .category import CategoryResponse
+from .product_color import ProductColorResponse
+from .product_image import ProductImageResponse
 
 class ProductBase(BaseModel):
     name: str
@@ -52,3 +55,19 @@ class ProductListPaginatedResponse(BaseModel):
     page: int
     limit: int
     products: List[ProductResponse] 
+
+class ProductDetailResponse(BaseModel):
+    id: int
+    name: str
+    description: Optional[str] = None
+    price: Decimal
+    average_rating: Decimal
+    is_active: bool
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+    category: CategoryResponse
+    colors: List[ProductColorResponse]
+    images: List[ProductImageResponse]
+
+    class Config:
+        from_attributes = True 

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from ..config.database import get_db
 from ..services.product_service import ProductService
-from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse, TopSellingProductResponse, ProductListPaginatedResponse
+from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse, TopSellingProductResponse, ProductListPaginatedResponse, ProductDetailResponse
 
 router = APIRouter(prefix="/products", tags=["products"])
 
@@ -114,4 +114,16 @@ def delete_product(
     success = service.delete_product(product_id)
     if not success:
         raise HTTPException(status_code=404, detail="Producto no encontrado")
-    return {"message": "Producto eliminado exitosamente"} 
+    return {"message": "Producto eliminado exitosamente"}
+
+@router.get("/detail/{product_id}", response_model=ProductDetailResponse)
+def get_product_detail(
+    product_id: int,
+    db: Session = Depends(get_db)
+):
+    """Obtener todos los detalles de un producto, incluyendo colores e imágenes"""
+    service = ProductService(db)
+    detail = service.get_product_detail(product_id)
+    if not detail:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+    return detail 

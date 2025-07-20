@@ -125,22 +125,22 @@
                     <fieldset class="filter-group">
                         <legend>Categoría</legend>
                         <div class="filter-options">
-                            <input type="radio" id="todas-categorias" name="categoria" value="todas" checked>
+                            <input type="radio" id="todas-categorias" name="categoria" value="" checked>
                             <label for="todas-categorias">Todas las categorías</label>
                             
-                            <input type="radio" id="movilidad" name="categoria" value="movilidad">
+                            <input type="radio" id="movilidad" name="categoria" value="1">
                             <label for="movilidad">Movilidad</label>
                             
-                            <input type="radio" id="visual" name="categoria" value="visual">
+                            <input type="radio" id="visual" name="categoria" value="2">
                             <label for="visual">Discapacidad Visual</label>
                             
-                            <input type="radio" id="auditiva" name="categoria" value="auditiva">
+                            <input type="radio" id="auditiva" name="categoria" value="3">
                             <label for="auditiva">Discapacidad Auditiva</label>
                             
-                            <input type="radio" id="cognitiva" name="categoria" value="cognitiva">
+                            <input type="radio" id="cognitiva" name="categoria" value="4">
                             <label for="cognitiva">Discapacidad Cognitiva</label>
                             
-                            <input type="radio" id="embarazo" name="categoria" value="embarazo">
+                            <input type="radio" id="embarazo" name="categoria" value="5">
                             <label for="embarazo">Embarazo y Maternidad</label>
                         </div>
                     </fieldset>
@@ -155,7 +155,7 @@
                                        id="precio-min" 
                                        name="precio_min" 
                                        min="0" 
-                                       step="1000"
+                                       step="1"
                                        placeholder="0"
                                        aria-describedby="precio-help">
                             </div>
@@ -165,25 +165,13 @@
                                        id="precio-max" 
                                        name="precio_max" 
                                        min="0" 
-                                       step="1000"
+                                       step="1"
                                        placeholder="1000000"
                                        aria-describedby="precio-help">
                             </div>
                             <div id="precio-help" class="help-text">
                                 Precios en colones costarricenses
                             </div>
-                        </div>
-                    </fieldset>
-                    
-                    <!-- Filtro por disponibilidad -->
-                    <fieldset class="filter-group">
-                        <legend>Disponibilidad</legend>
-                        <div class="filter-options">
-                            <input type="checkbox" id="disponible" name="disponibilidad[]" value="disponible" checked>
-                            <label for="disponible">Solo productos disponibles</label>
-                            
-                            <input type="checkbox" id="envio-gratis" name="disponibilidad[]" value="envio-gratis">
-                            <label for="envio-gratis">Envío gratuito</label>
                         </div>
                     </fieldset>
                     
@@ -314,97 +302,43 @@
     <script src="js/data-manager-optimized.js"></script>
     <script src="js/accessibility.js"></script>
     <script>
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 Inicializando catálogo...');
-            
-            try {
-                // Inicializar data manager
-                await dataManagerOptimized.init();
-                console.log('✅ DataManager inicializado');
-                
-                // Cargar categorías dinámicamente
-                await loadCategoriesFromBackend();
-                
-                // Cargar productos
-                await loadProductsFromBackend();
-                
-                // Actualizar header con información del usuario
-                updateHeaderUserInfo();
-                
-                // Los controles de accesibilidad se inicializan automáticamente desde accessibility.js
-                console.log('✅ Catálogo inicializado correctamente');
-                
-            } catch (error) {
-                console.error('❌ Error inicializando catálogo:', error);
-                showErrorMessage('Error al cargar el catálogo: ' + error.message);
-            }
-        });
-
-        // Función para cargar categorías desde el backend
-        async function loadCategoriesFromBackend() {
-            try {
-                const categories = await dataManagerOptimized.getCategorias();
-                console.log('📦 Categorías cargadas:', categories);
-                
-                // Actualizar filtros de categoría
-                updateCategoryFilters(categories);
-                
-            } catch (error) {
-                console.error('❌ Error cargando categorías:', error);
-                throw new Error('No se pudieron cargar las categorías');
-            }
-        }
-
-        // Función para actualizar filtros de categoría
-        function updateCategoryFilters(categories) {
-            const filterOptions = document.querySelector('.filter-options');
-            if (!filterOptions) return;
-
-            // Mantener la opción "Todas las categorías"
-            const todasCategoriasInput = filterOptions.querySelector('#todas-categorias');
-            const todasCategoriasLabel = filterOptions.querySelector('label[for="todas-categorias"]');
-            filterOptions.innerHTML = '';
-            if (todasCategoriasInput && todasCategoriasLabel) {
-                filterOptions.appendChild(todasCategoriasInput);
-                filterOptions.appendChild(todasCategoriasLabel);
-            }
-
-            // Agregar categorías del backend
-            categories.forEach(category => {
-                const input = document.createElement('input');
-                input.type = 'radio';
-                input.id = `cat-${category.id}`;
-                input.name = 'categoria';
-                input.value = category.id;
-
-                const label = document.createElement('label');
-                label.setAttribute('for', `cat-${category.id}`);
-                label.textContent = category.name;
-
-                filterOptions.appendChild(input);
-                filterOptions.appendChild(label);
-            });
-        }
-
         // =================== ESTADO GLOBAL DE CATÁLOGO ===================
-        let currentPage = 1;
-        let currentSortBy = 'id';
-        let currentSortOrder = 'asc';
+        const catalogState = {
+            page: 1,
+            limit: 4,
+            sort_by: 'id',
+            sort_order: 'asc',
+            category_id: null,
+            min_price: null,
+            max_price: null,
+            min_avg_rating: null,
+            color_id: null,
+            search: '',
+        };
         let totalProducts = 0;
-        const limit = 4;
         let lastProducts = [];
+        let categoriesCache = [];
+        let colorsCache = [];
 
         // =================== CARGA Y RENDERIZADO DE PRODUCTOS ===================
-        async function loadProductsFromBackend() {
+        async function loadProducts() {
             setLoadingState(true);
             try {
-                const response = await dataManagerOptimized.getProductosPaginado({
-                    page: currentPage,
-                    limit,
-                    sort_by: currentSortBy,
-                    sort_order: currentSortOrder
-                });
+                // Construir parámetros para backend
+                const params = {};
+                if (catalogState.page) params.page = catalogState.page;
+                if (catalogState.limit) params.limit = catalogState.limit;
+                if (catalogState.sort_by) params.sort_by = catalogState.sort_by;
+                if (catalogState.sort_order) params.sort_order = catalogState.sort_order;
+                if (catalogState.category_id) params.category_id = catalogState.category_id;
+                if (catalogState.min_price) params.min_price = catalogState.min_price;
+                if (catalogState.max_price) params.max_price = catalogState.max_price;
+                if (catalogState.min_avg_rating) params.min_avg_rating = catalogState.min_avg_rating;
+                if (catalogState.color_id) params.color_id = catalogState.color_id;
+                if (catalogState.search && catalogState.search.trim() !== '') params.search = catalogState.search.trim();
+
+                // CORRECCIÓN: Usar el método proxy correcto
+                const response = await dataManagerOptimized.getProductosPaginado(params);
                 lastProducts = response.products;
                 totalProducts = response.total_products;
                 renderProducts(response.products);
@@ -417,127 +351,213 @@
             }
         }
 
-        // =================== CONTADOR DE PRODUCTOS ===================
-        function updateResultsCount(shown, total) {
-            const resultsCount = document.getElementById('results-count');
-            if (resultsCount) {
-                resultsCount.textContent = `Mostrando ${shown} de ${total} productos`;
+        // =================== FILTROS DINÁMICOS ===================
+        async function loadCategoriesAndColors() {
+            // Cargar categorías
+            try {
+                categoriesCache = await dataManagerOptimized.getCategorias();
+                updateCategoryFilters(categoriesCache);
+            } catch (e) {
+                showErrorMessage('No se pudieron cargar las categorías');
+            }
+            // Cargar colores
+            try {
+                colorsCache = await dataManagerOptimized.api.getColors ? await dataManagerOptimized.api.getColors() : [];
+                updateColorFilters(colorsCache);
+            } catch (e) {
+                // Si no hay endpoint, ignora
             }
         }
 
-        // =================== PAGINACIÓN ACCESIBLE ===================
-        function renderPagination(page, limit, total) {
-            const paginationNav = document.querySelector('.pagination');
-            const paginationList = paginationNav ? paginationNav.querySelector('.pagination-list') : null;
-            if (!paginationList) return;
-
-            // Calcular total de páginas
-            const totalPages = Math.ceil(total / limit);
-            paginationList.innerHTML = '';
-
-            // Botón anterior
-            const prevLi = document.createElement('li');
-            const prevBtn = document.createElement('a');
-            prevBtn.href = '#';
-            prevBtn.className = 'pagination-link';
-            prevBtn.setAttribute('aria-label', 'Página anterior');
-            prevBtn.innerHTML = '<span aria-hidden="true">‹</span>';
-            if (page === 1) {
-                prevBtn.classList.add('disabled');
-                prevBtn.setAttribute('aria-disabled', 'true');
-                prevBtn.tabIndex = -1;
-            } else {
-                prevBtn.addEventListener('click', e => {
-                    e.preventDefault();
-                    currentPage--;
-                    loadProductsFromBackend();
-                });
-            }
-            prevLi.appendChild(prevBtn);
-            paginationList.appendChild(prevLi);
-
-            // Números de página (máximo 5 visibles, centrado en la actual)
-            let start = Math.max(1, page - 2);
-            let end = Math.min(totalPages, page + 2);
-            if (page <= 3) end = Math.min(5, totalPages);
-            if (page >= totalPages - 2) start = Math.max(1, totalPages - 4);
-            for (let i = start; i <= end; i++) {
-                const li = document.createElement('li');
-                const btn = document.createElement('a');
-                btn.href = '#';
-                btn.className = 'pagination-link';
-                btn.textContent = i;
-                btn.setAttribute('aria-label', `Página ${i}`);
-                if (i === page) {
-                    btn.classList.add('active');
-                    btn.setAttribute('aria-current', 'page');
-                    btn.tabIndex = 0;
-                } else {
-                    btn.addEventListener('click', e => {
-                        e.preventDefault();
-                        currentPage = i;
-                        loadProductsFromBackend();
-                    });
-                }
-                li.appendChild(btn);
-                paginationList.appendChild(li);
-            }
-
-            // Botón siguiente
-            const nextLi = document.createElement('li');
-            const nextBtn = document.createElement('a');
-            nextBtn.href = '#';
-            nextBtn.className = 'pagination-link';
-            nextBtn.setAttribute('aria-label', 'Página siguiente');
-            nextBtn.innerHTML = '<span aria-hidden="true">›</span>';
-            if (page === totalPages || totalPages === 0) {
-                nextBtn.classList.add('disabled');
-                nextBtn.setAttribute('aria-disabled', 'true');
-                nextBtn.tabIndex = -1;
-            } else {
-                nextBtn.addEventListener('click', e => {
-                    e.preventDefault();
-                    currentPage++;
-                    loadProductsFromBackend();
-                });
-            }
-            nextLi.appendChild(nextBtn);
-            paginationList.appendChild(nextLi);
+        function updateCategoryFilters(categories) {
+            const filterOptions = document.querySelector('.filter-options');
+            if (!filterOptions) return;
+            filterOptions.innerHTML = '';
+            // Opción "Todas"
+            const todasInput = document.createElement('input');
+            todasInput.type = 'radio';
+            todasInput.id = 'todas-categorias';
+            todasInput.name = 'categoria';
+            todasInput.value = '';
+            todasInput.checked = true;
+            const todasLabel = document.createElement('label');
+            todasLabel.setAttribute('for', 'todas-categorias');
+            todasLabel.textContent = 'Todas las categorías';
+            filterOptions.appendChild(todasInput);
+            filterOptions.appendChild(todasLabel);
+            // Dinámicas
+            categories.forEach(category => {
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.id = `cat-${category.id}`;
+                input.name = 'categoria';
+                input.value = category.id;
+                const label = document.createElement('label');
+                label.setAttribute('for', `cat-${category.id}`);
+                label.textContent = category.name;
+                filterOptions.appendChild(input);
+                filterOptions.appendChild(label);
+            });
         }
 
-        // =================== ORDENAMIENTO ACCESIBLE ===================
-        const sortSelect = document.getElementById('sort-select');
-        if (sortSelect) {
+        function updateColorFilters(colors) {
+            let colorSelect = document.getElementById('color-select');
+            if (!colorSelect) {
+                // Crear el select si no existe
+                const fieldset = document.createElement('fieldset');
+                fieldset.className = 'filter-group';
+                const legend = document.createElement('legend');
+                legend.textContent = 'Color';
+                fieldset.appendChild(legend);
+                colorSelect = document.createElement('select');
+                colorSelect.id = 'color-select';
+                colorSelect.name = 'color_id';
+                const optionAll = document.createElement('option');
+                optionAll.value = '';
+                optionAll.textContent = 'Todos los colores';
+                colorSelect.appendChild(optionAll);
+                fieldset.appendChild(colorSelect);
+                // Insertar antes de los botones de filtros
+                const filtersForm = document.querySelector('.filters-form');
+                const filterActions = filtersForm.querySelector('.filter-actions');
+                filtersForm.insertBefore(fieldset, filterActions);
+            } else {
+                colorSelect.innerHTML = '';
+                const optionAll = document.createElement('option');
+                optionAll.value = '';
+                optionAll.textContent = 'Todos los colores';
+                colorSelect.appendChild(optionAll);
+            }
+            colors.forEach(color => {
+                const option = document.createElement('option');
+                option.value = color.id;
+                option.textContent = color.name;
+                colorSelect.appendChild(option);
+            });
+        }
+
+        // =================== FILTROS Y BÚSQUEDA ===================
+        document.addEventListener('DOMContentLoaded', async function() {
+            await dataManagerOptimized.init();
+            await loadCategoriesAndColors();
+            updateHeaderUserInfo();
+            setupFilterEvents();
+            setupSearchEvent();
+            setupSortEvent();
+            loadProducts();
+        });
+
+        function setupFilterEvents() {
+            const filtersForm = document.querySelector('.filters-form');
+            if (!filtersForm) return;
+            // Aplicar filtros
+            filtersForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Leer categoría
+                const catInput = filtersForm.querySelector('input[name="categoria"]:checked');
+                catalogState.category_id = catInput && catInput.value ? Number(catInput.value) : null;
+                // Precio
+                const minInput = filtersForm.querySelector('input[name="precio_min"]');
+                const maxInput = filtersForm.querySelector('input[name="precio_max"]');
+                catalogState.min_price = minInput && minInput.value ? Number(minInput.value) : null;
+                catalogState.max_price = maxInput && maxInput.value ? Number(maxInput.value) : null;
+                // Calificación
+                const ratingSelect = filtersForm.querySelector('#rating-select');
+                catalogState.min_avg_rating = ratingSelect && ratingSelect.value ? Number(ratingSelect.value) : null;
+                // Color
+                const colorSelect = filtersForm.querySelector('#color-select');
+                catalogState.color_id = colorSelect && colorSelect.value ? Number(colorSelect.value) : null;
+                // Reiniciar página
+                catalogState.page = 1;
+                loadProducts();
+            });
+            // Limpiar filtros
+            filtersForm.addEventListener('reset', function(e) {
+                setTimeout(() => {
+                    catalogState.category_id = null;
+                    catalogState.min_price = null;
+                    catalogState.max_price = null;
+                    catalogState.min_avg_rating = null;
+                    catalogState.color_id = null;
+                    catalogState.page = 1;
+                    loadProducts();
+                }, 0);
+            });
+        }
+
+        function setupSearchEvent() {
+            const searchForm = document.getElementById('search-form');
+            if (!searchForm) return;
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const searchInput = searchForm.querySelector('#search-input');
+                catalogState.search = searchInput && searchInput.value ? searchInput.value : '';
+                catalogState.page = 1;
+                loadProducts();
+            });
+        }
+
+        function setupSortEvent() {
+            const sortSelect = document.getElementById('sort-select');
+            if (!sortSelect) return;
             sortSelect.addEventListener('change', function () {
                 const value = sortSelect.value;
-                // Mapear opciones del select a sort_by y sort_order
                 switch (value) {
                     case 'precio-asc':
-                        currentSortBy = 'price';
-                        currentSortOrder = 'asc';
+                        catalogState.sort_by = 'price';
+                        catalogState.sort_order = 'asc';
                         break;
                     case 'precio-desc':
-                        currentSortBy = 'price';
-                        currentSortOrder = 'desc';
+                        catalogState.sort_by = 'price';
+                        catalogState.sort_order = 'desc';
                         break;
                     case 'nombre':
-                        currentSortBy = 'name';
-                        currentSortOrder = 'asc';
+                        catalogState.sort_by = 'name';
+                        catalogState.sort_order = 'asc';
                         break;
                     case 'fecha':
-                        currentSortBy = 'created_at';
-                        currentSortOrder = 'desc';
+                        catalogState.sort_by = 'created_at';
+                        catalogState.sort_order = 'desc';
                         break;
                     case 'relevancia':
                     default:
-                        currentSortBy = 'id';
-                        currentSortOrder = 'asc';
+                        catalogState.sort_by = 'id';
+                        catalogState.sort_order = 'asc';
                         break;
                 }
-                currentPage = 1;
-                loadProductsFromBackend();
+                loadProducts();
             });
         }
+
+        // =================== CALIFICACIÓN (RATING) SELECT DINÁMICO ===================
+        (function addRatingSelect() {
+            const filtersForm = document.querySelector('.filters-form');
+            if (!filtersForm) return;
+            let ratingFieldset = document.createElement('fieldset');
+            ratingFieldset.className = 'filter-group';
+            let legend = document.createElement('legend');
+            legend.textContent = 'Calificación mínima';
+            ratingFieldset.appendChild(legend);
+            let select = document.createElement('select');
+            select.id = 'rating-select';
+            select.name = 'min_avg_rating';
+            [
+                { value: '', label: 'Todas las calificaciones' },
+                { value: '4', label: '4 estrellas o más' },
+                { value: '3', label: '3 estrellas o más' },
+                { value: '2', label: '2 estrellas o más' },
+                { value: '1', label: '1 estrella o más' },
+            ].forEach(opt => {
+                let option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.label;
+                select.appendChild(option);
+            });
+            ratingFieldset.appendChild(select);
+            // Insertar antes de los botones de filtros
+            const filterActions = filtersForm.querySelector('.filter-actions');
+            filtersForm.insertBefore(ratingFieldset, filterActions);
+        })();
 
         // =================== ESTADO DE CARGA Y ERRORES ACCESIBLES ===================
         function setLoadingState(isLoading) {
@@ -561,11 +581,11 @@
             // Helper para mostrar nombre legible de categoría
             function getCategoryDisplayName(category) {
                 const categoryNames = {
-                    'movilidad': 'Movilidad',
-                    'visual': 'Discapacidad Visual',
-                    'auditiva': 'Discapacidad Auditiva',
-                    'cognitiva': 'Discapacidad Cognitiva',
-                    'embarazo': 'Embarazo y Maternidad',
+                    '1': 'Movilidad',
+                    '2': 'Discapacidad Visual',
+                    '3': 'Discapacidad Auditiva',
+                    '4': 'Discapacidad Cognitiva',
+                    '5': 'Embarazo y Maternidad',
                     'software': 'Software',
                 };
                 return categoryNames[category] || category;
@@ -608,77 +628,155 @@
             productsGrid.innerHTML = productsHtml;
         }
 
-        // Funciones auxiliares
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function formatPrice(price) {
-            return new Intl.NumberFormat('es-CR', {
-                style: 'currency',
-                currency: 'CRC'
-            }).format(price);
-        }
-
-        function generateStarRating(rating) {
-            const fullStars = Math.floor(rating);
-            const hasHalfStar = rating % 1 >= 0.5;
-            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-            
-            let stars = '';
-            
-            for (let i = 0; i < fullStars; i++) {
-                stars += '<span class="star star-filled" aria-hidden="true">★</span>';
+        function updateResultsCount(shown, total) {
+            const resultsCount = document.getElementById('results-count');
+            if (resultsCount) {
+                resultsCount.textContent = `Mostrando ${shown} de ${total} productos`;
             }
-            
-            if (hasHalfStar) {
-                stars += '<span class="star star-half" aria-hidden="true">☆</span>';
-            }
-            
-            for (let i = 0; i < emptyStars; i++) {
-                stars += '<span class="star star-empty" aria-hidden="true">☆</span>';
-            }
-            
-            return stars;
         }
 
-        function showErrorMessage(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification notification-error';
-            notification.innerHTML = `
-                <strong>Error</strong>
-                <p>${message}</p>
-            `;
-            
-            document.body.insertBefore(notification, document.body.firstChild);
-            
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 10000);
-        }
+        function renderPagination(page, limit, total) {
+            const paginationNav = document.querySelector('.pagination');
+            const paginationList = paginationNav ? paginationNav.querySelector('.pagination-list') : null;
+            if (!paginationList) return;
 
-        /**
-         * Actualizar información del usuario en el header
-         */
-        function updateHeaderUserInfo() {
-            const currentUser = dataManagerOptimized.getCurrentUser();
-            const profileLink = document.getElementById('profile-link');
-            const profileText = document.getElementById('profile-text');
-            
-            if (currentUser) {
-                // Usuario está logueado
-                profileText.textContent = `Mi Perfil | ${currentUser.email}`;
-                profileLink.href = 'profile.html';
+            // Calcular total de páginas
+            const totalPages = Math.ceil(total / limit);
+            paginationList.innerHTML = '';
+
+            // Botón anterior
+            const prevLi = document.createElement('li');
+            const prevBtn = document.createElement('a');
+            prevBtn.href = '#';
+            prevBtn.className = 'pagination-link';
+            prevBtn.setAttribute('aria-label', 'Página anterior');
+            prevBtn.innerHTML = '<span aria-hidden="true">‹</span>';
+            if (page === 1) {
+                prevBtn.classList.add('disabled');
+                prevBtn.setAttribute('aria-disabled', 'true');
+                prevBtn.tabIndex = -1;
             } else {
-                // Usuario no está logueado
-                profileText.textContent = 'Mi Perfil';
-                profileLink.href = 'login.html';
+                prevBtn.addEventListener('click', e => {
+                    e.preventDefault();
+                    catalogState.page--;
+                    loadProducts();
+                });
             }
+            prevLi.appendChild(prevBtn);
+            paginationList.appendChild(prevLi);
+
+            // Números de página (máximo 5 visibles, centrado en la actual)
+            let start = Math.max(1, page - 2);
+            let end = Math.min(totalPages, page + 2);
+            if (page <= 3) end = Math.min(5, totalPages);
+            if (page >= totalPages - 2) start = Math.max(1, totalPages - 4);
+            for (let i = start; i <= end; i++) {
+                const li = document.createElement('li');
+                const btn = document.createElement('a');
+                btn.href = '#';
+                btn.className = 'pagination-link';
+                btn.textContent = i;
+                btn.setAttribute('aria-label', `Página ${i}`);
+                if (i === page) {
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-current', 'page');
+                    btn.tabIndex = 0;
+                } else {
+                    btn.addEventListener('click', e => {
+                        e.preventDefault();
+                        catalogState.page = i;
+                        loadProducts();
+                    });
+                }
+                li.appendChild(btn);
+                paginationList.appendChild(li);
+            }
+
+            // Botón siguiente
+            const nextLi = document.createElement('li');
+            const nextBtn = document.createElement('a');
+            nextBtn.href = '#';
+            nextBtn.className = 'pagination-link';
+            nextBtn.setAttribute('aria-label', 'Página siguiente');
+            nextBtn.innerHTML = '<span aria-hidden="true">›</span>';
+            if (page === totalPages || totalPages === 0) {
+                nextBtn.classList.add('disabled');
+                nextBtn.setAttribute('aria-disabled', 'true');
+                nextBtn.tabIndex = -1;
+            } else {
+                nextBtn.addEventListener('click', e => {
+                    e.preventDefault();
+                    catalogState.page++;
+                    loadProducts();
+                });
+            }
+            nextLi.appendChild(nextBtn);
+            paginationList.appendChild(nextLi);
         }
-    </script>
-</body>
-</html> 
+
+            // Funciones auxiliares
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function formatPrice(price) {
+                return new Intl.NumberFormat('es-CR', {
+                    style: 'currency',
+                    currency: 'CRC'
+                }).format(price);
+            }
+
+            function generateStarRating(rating) {
+                const fullStars = Math.floor(rating);
+                const hasHalfStar = rating % 1 >= 0.5;
+                const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                let stars = '';
+                for (let i = 0; i < fullStars; i++) {
+                    stars += '<span class="star star-filled" aria-hidden="true">★</span>';
+                }
+                if (hasHalfStar) {
+                    stars += '<span class="star star-half" aria-hidden="true">☆</span>';
+                }
+                for (let i = 0; i < emptyStars; i++) {
+                    stars += '<span class="star star-empty" aria-hidden="true">☆</span>';
+                }
+                return stars;
+            }
+
+            function showErrorMessage(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification notification-error';
+                notification.innerHTML = `
+                    <strong>Error</strong>
+                    <p>${message}</p>
+                `;
+                document.body.insertBefore(notification, document.body.firstChild);
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 10000);
+            }
+
+            /**
+             * Actualizar información del usuario en el header
+             */
+            function updateHeaderUserInfo() {
+                const currentUser = dataManagerOptimized.getCurrentUser();
+                const profileLink = document.getElementById('profile-link');
+                const profileText = document.getElementById('profile-text');
+                if (currentUser) {
+                    // Usuario está logueado
+                    profileText.textContent = `Mi Perfil | ${currentUser.email}`;
+                    profileLink.href = 'profile.html';
+                } else {
+                    // Usuario no está logueado
+                    profileText.textContent = 'Mi Perfil';
+                    profileLink.href = 'login.html';
+                }
+            }
+        </script>
+    </body>
+</html>

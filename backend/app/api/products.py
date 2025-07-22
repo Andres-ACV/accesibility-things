@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Body
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from ..config.database import get_db
@@ -115,6 +115,19 @@ def delete_product(
     if not success:
         raise HTTPException(status_code=404, detail="Producto no encontrado")
     return {"message": "Producto eliminado exitosamente"}
+
+@router.post("/{product_id}/rate", response_model=ProductResponse)
+def rate_product(
+    product_id: int,
+    rating: float = Body(..., embed=True, ge=0, le=5, description="Valoración entre 0 y 5"),
+    db: Session = Depends(get_db)
+):
+    """Valorar un producto. Actualiza average_rating y rating_count."""
+    service = ProductService(db)
+    product = service.rate_product(product_id, rating)
+    if not product:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+    return product
 
 @router.get("/detail/{product_id}", response_model=ProductDetailResponse)
 def get_product_detail(

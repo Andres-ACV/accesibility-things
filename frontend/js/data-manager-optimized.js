@@ -288,6 +288,10 @@ class DataManagerOptimized {
         }
     }
 
+    async getProductoDetalle(id) {
+        return this.apiService.getProductDetail(id);
+    }
+
     // ===== GESTIÓN DE CARRITO =====
 
     /**

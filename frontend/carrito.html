@@ -86,7 +86,7 @@
     <main id="main-content" role="main">
         <div class="cart-header">
             <h2>Tu Carrito de Compras</h2>
-            <p>Revisa los productos seleccionados antes de proceder al pago.</p>
+            <p>Revisa los productos seleccionados antes de proceder con el envío</p>
         </div>
         
         <!-- Indicador de progreso del proceso -->
@@ -98,14 +98,10 @@
                 </li>
                 <li class="step">
                     <span class="step-number">2</span>
-                    <span class="step-label">Información</span>
+                    <span class="step-label">Información de Envío</span>
                 </li>
                 <li class="step">
                     <span class="step-number">3</span>
-                    <span class="step-label">Pago</span>
-                </li>
-                <li class="step">
-                    <span class="step-number">4</span>
                     <span class="step-label">Confirmación</span>
                 </li>
             </ol>
@@ -184,32 +180,11 @@
                         </tbody>
                     </table>
                     
-                    <!-- Código de descuento -->
-                    <div class="discount-section">
-                        <h4>Código de Descuento</h4>
-                        <form class="discount-form" aria-label="Aplicar código de descuento">
-                            <div class="input-group">
-                                <label for="discount-code" class="sr-only">Código de descuento</label>
-                                <input type="text" 
-                                       id="discount-code" 
-                                       name="discount_code" 
-                                       placeholder="Ingresa tu código"
-                                       aria-describedby="discount-help">
-                                <button type="submit" class="btn btn-outline">
-                                    Aplicar
-                                </button>
-                            </div>
-                            <div id="discount-help" class="help-text">
-                                Ingresa un código de descuento válido
-                            </div>
-                        </form>
-                    </div>
-                    
                     <!-- Botón de checkout -->
                     <div class="checkout-actions">
                         <button type="button" class="btn btn-primary btn-large" id="proceed-checkout">
                             <span aria-hidden="true">🛒</span>
-                            Proceder al pago
+                            Proceder al comprar
                         </button>
                     </div>
                 </div>
@@ -438,34 +413,245 @@
     <script src="js/data-manager-optimized.js"></script>
     <script src="js/accessibility.js"></script>
     <script>
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Inicializar data manager
-            await dataManagerOptimized.init();
-            
-            // Actualizar header con información del usuario
-            updateHeaderUserInfo();
-            
-            // Los controles de accesibilidad se inicializan automáticamente desde accessibility.js
-            console.log('Carrito: DOM inicializado, controles de accesibilidad deberían estar activos');
-        });
+        // =================== UTILIDADES ===================
+        function formatPrice(price) {
+            return new Intl.NumberFormat('es-CR', {
+                style: 'currency',
+                currency: 'CRC',
+                minimumFractionDigits: 0
+            }).format(price);
+        }
+
+        // =================== CARRITO DINÁMICO ===================
+        const CART_KEY = 'shoppingCart';
 
         /**
-         * Actualizar información del usuario en el header
+         * Obtiene el carrito desde localStorage
          */
+        function getCart() {
+            try {
+                return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        /**
+         * Guarda el carrito en localStorage
+         */
+        function saveCart(cart) {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        }
+
+        /**
+         * Renderiza la tabla de ítems del carrito
+         */
+        function renderCartItems() {
+            const cart = getCart();
+            const tbody = document.getElementById('cart-items-body');
+            const cartEmpty = document.getElementById('cart-empty');
+            const cartContent = document.getElementById('cart-content');
+            tbody.innerHTML = '';
+
+            if (!cart.length) {
+                cartEmpty.style.display = '';
+                cartContent.style.display = 'none';
+                updateOrderSummary();
+                updateCartCounter();
+                return;
+            } else {
+                cartEmpty.style.display = 'none';
+                cartContent.style.display = '';
+            }
+
+            cart.forEach((item, idx) => {
+                const tr = document.createElement('tr');
+                // Producto
+                const tdProduct = document.createElement('td');
+                tdProduct.textContent = item.productName || 'Producto';
+                tdProduct.setAttribute('data-label', 'Producto');
+                // Color
+                if (item.colorName) {
+                    tdProduct.innerHTML += `<br><span class="product-color" aria-label="Color: ${item.colorName}">Color: ${item.colorName}</span>`;
+                }
+                // Precio
+                const tdPrice = document.createElement('td');
+                tdPrice.textContent = formatPrice(item.productPrice);
+                tdPrice.setAttribute('data-label', 'Precio');
+                // Cantidad
+                const tdQty = document.createElement('td');
+                const qtyInput = document.createElement('input');
+                qtyInput.type = 'number';
+                qtyInput.min = '0';
+                qtyInput.value = item.quantity;
+                qtyInput.className = 'quantity-input';
+                qtyInput.setAttribute('aria-label', `Cantidad de ${item.productName}`);
+                qtyInput.setAttribute('data-idx', idx);
+                tdQty.appendChild(qtyInput);
+                tdQty.setAttribute('data-label', 'Cantidad');
+                // Subtotal
+                const tdSubtotal = document.createElement('td');
+                tdSubtotal.textContent = formatPrice(item.productPrice * item.quantity);
+                tdSubtotal.className = 'item-subtotal';
+                tdSubtotal.setAttribute('data-label', 'Subtotal');
+                // Acciones
+                const tdActions = document.createElement('td');
+                const btnDelete = document.createElement('button');
+                btnDelete.type = 'button';
+                btnDelete.className = 'remove-item-btn btn btn-danger';
+                btnDelete.innerHTML = '<span aria-hidden="true">🗑️</span> <span class="sr-only">Eliminar</span>';
+                btnDelete.setAttribute('aria-label', `Eliminar ${item.productName}`);
+                btnDelete.addEventListener('click', function() {
+                    removeCartItem(idx);
+                });
+                tdActions.appendChild(btnDelete);
+                tdActions.setAttribute('data-label', 'Acciones');
+                // Agregar celdas
+                tr.appendChild(tdProduct);
+                tr.appendChild(tdPrice);
+                tr.appendChild(tdQty);
+                tr.appendChild(tdSubtotal);
+                tr.appendChild(tdActions);
+                tbody.appendChild(tr);
+            });
+            updateOrderSummary();
+            updateCartCounter();
+        }
+
+        /**
+         * Elimina un ítem del carrito por índice
+         */
+        function removeCartItem(idx) {
+            let cart = getCart();
+            cart.splice(idx, 1);
+            saveCart(cart);
+            renderCartItems();
+        }
+
+        /**
+         * Vacía el carrito completamente
+         */
+        function clearCart() {
+            if (!confirm('¿Estás seguro de que deseas vaciar el carrito?')) return;
+            saveCart([]);
+            renderCartItems();
+        }
+
+        /**
+         * Actualiza cantidades y subtotales del carrito
+         */
+        function updateCartFromInputs() {
+            let cart = getCart();
+            const tbody = document.getElementById('cart-items-body');
+            const rows = tbody.querySelectorAll('tr');
+            let changed = false;
+            rows.forEach((tr, idx) => {
+                const qtyInput = tr.querySelector('input[type="number"]');
+                if (!qtyInput) return;
+                let newQty = parseInt(qtyInput.value, 10);
+                if (isNaN(newQty) || newQty < 0) newQty = 0;
+                if (newQty === 0) {
+                    cart[idx]._toRemove = true;
+                    changed = true;
+                } else if (cart[idx].quantity !== newQty) {
+                    cart[idx].quantity = newQty;
+                    changed = true;
+                }
+            });
+            // Eliminar los que tienen _toRemove
+            cart = cart.filter(item => !item._toRemove);
+            saveCart(cart);
+            renderCartItems();
+        }
+
+        /**
+         * Actualiza el resumen del pedido
+         */
+        function updateOrderSummary() {
+            const cart = getCart();
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.productPrice * item.quantity;
+            });
+            // Envío: ₡2,500 si hay productos, 0 si no
+            let shipping = cart.length ? 2500 : 0;
+            // Impuestos: 13% del subtotal
+            let tax = Math.round(subtotal * 0.13);
+            let total = subtotal + shipping + tax;
+            document.getElementById('subtotal-amount').textContent = formatPrice(subtotal);
+            document.getElementById('shipping-amount').textContent = formatPrice(shipping);
+            document.getElementById('tax-amount').textContent = formatPrice(tax);
+            document.getElementById('total-amount').textContent = formatPrice(total);
+        }
+
+        // =================== EVENTOS ===================
+        document.addEventListener('DOMContentLoaded', async function() {
+            await dataManagerOptimized.init();
+            updateHeaderUserInfo();
+            renderCartItems();
+            // Accesibilidad: focus en el contenido principal
+            document.getElementById('main-content').setAttribute('tabindex', '-1');
+            // Botón Vaciar Carrito
+            document.getElementById('clear-cart').addEventListener('click', clearCart);
+            // Botón Continuar comprando
+            document.getElementById('continue-shopping').addEventListener('click', function() {
+                window.location.href = 'catalogo.html';
+            });
+            // Botón Proceder al comprar -> checkout.html
+            document.getElementById('proceed-checkout').addEventListener('click', function() {
+                // Verificar si el usuario está autenticado
+                const currentUser = dataManagerOptimized.getCurrentUser();
+                if (!currentUser || !dataManagerOptimized.isAuthenticated()) {
+                    // Si no está autenticado, redirigir al login
+                    window.location.href = 'login.html';
+                    return;
+                }
+                // Si está autenticado, proceder al checkout
+                window.location.href = 'checkout.html';
+            });
+            // Actualizar subtotales en tiempo real al cambiar cantidad
+            document.getElementById('cart-items-body').addEventListener('input', function(e) {
+                if (e.target && e.target.type === 'number') {
+                    // Solo actualizar el subtotal de la fila
+                    const tr = e.target.closest('tr');
+                    const idx = parseInt(e.target.getAttribute('data-idx'), 10);
+                    let cart = getCart();
+                    let newQty = parseInt(e.target.value, 10);
+                    if (isNaN(newQty) || newQty < 0) newQty = 0;
+                    if (cart[idx]) {
+                        cart[idx].quantity = newQty;
+                        saveCart(cart);
+                        // Actualizar solo el subtotal de la fila
+                        const tdSubtotal = tr.querySelector('.item-subtotal');
+                        tdSubtotal.textContent = formatPrice(cart[idx].productPrice * newQty);
+                        updateOrderSummary();
+                        updateCartCounter();
+                    }
+                }
+            });
+        });
+
+        // =================== HEADER ===================
         function updateHeaderUserInfo() {
             const currentUser = dataManagerOptimized.getCurrentUser();
             const profileLink = document.getElementById('profile-link');
             const profileText = document.getElementById('profile-text');
-            
             if (currentUser) {
-                // Usuario está logueado
                 profileText.textContent = `Mi Perfil | ${currentUser.email}`;
                 profileLink.href = 'profile.html';
             } else {
-                // Usuario no está logueado
                 profileText.textContent = 'Mi Perfil';
                 profileLink.href = 'login.html';
+            }
+        }
+
+        // =================== CONTADOR HEADER ===================
+        function updateCartCounter() {
+            let cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+            const cartCountElem = document.getElementById('cart-count');
+            if (cartCountElem) {
+                cartCountElem.textContent = totalItems;
             }
         }
     </script>

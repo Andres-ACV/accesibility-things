@@ -177,6 +177,11 @@ class ApiService {
         return this.get(`${this.baseURL}/products/${id}`);
     }
 
+    async getProductDetail(productId) {
+        const url = `${this.baseURL}/products/detail/${productId}`;
+        return this.get(url);
+    }
+
     async getTopSellingProducts(limit = 4) {
         const queryParams = new URLSearchParams();
         if (limit) queryParams.append('limit', limit);

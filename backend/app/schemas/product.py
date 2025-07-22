@@ -4,7 +4,7 @@ from datetime import datetime
 from decimal import Decimal
 from .color import ColorResponse
 from .category import CategoryResponse
-from .product_color import ProductColorResponse
+from .product_color import ProductColorResponse, ProductColorWithNameResponse
 from .product_image import ProductImageResponse
 
 class ProductBase(BaseModel):
@@ -27,6 +27,7 @@ class ProductUpdate(BaseModel):
 class ProductResponse(ProductBase):
     id: int
     average_rating: Decimal
+    rating_count: int
     is_active: bool
     image_url: Optional[str] = None  # Nuevo campo para la URL de la imagen principal
     created_at: datetime
@@ -36,8 +37,10 @@ class ProductResponse(ProductBase):
         from_attributes = True
 
 class TopSellingProductResponse(BaseModel):
+    id: int  # Nuevo campo para el id del producto
     name: str
     average_rating: Decimal
+    rating_count: int
     price: Decimal
     image_url: Optional[str] = None
 
@@ -62,11 +65,12 @@ class ProductDetailResponse(BaseModel):
     description: Optional[str] = None
     price: Decimal
     average_rating: Decimal
+    rating_count: int
     is_active: bool
     created_at: datetime
     updated_at: Optional[datetime] = None
     category: CategoryResponse
-    colors: List[ProductColorResponse]
+    colors: List[ProductColorWithNameResponse]
     images: List[ProductImageResponse]
 
     class Config:

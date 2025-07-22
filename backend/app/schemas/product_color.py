@@ -22,3 +22,7 @@ class ProductColorResponse(ProductColorBase):
 
     class Config:
         from_attributes = True 
+
+class ProductColorWithNameResponse(ProductColorResponse):
+    name: Optional[str] = None
+    hex_code: Optional[str] = None 

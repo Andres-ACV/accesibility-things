@@ -672,5 +672,23 @@
             window.location.href = 'login.html';
         });
     </script>
+    <!-- ================= CARRITO EN LOCALSTORAGE =================== -->
+    function updateCartCounter() {
+        const CART_KEY = 'shoppingCart';
+        let cart = [];
+        try {
+            cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+        } catch (e) {
+            cart = [];
+        }
+        const totalItems = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+        const cartCountElem = document.getElementById('cart-count');
+        if (cartCountElem) {
+            cartCountElem.textContent = totalItems;
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartCounter();
+    });
 </body>
 </html> 

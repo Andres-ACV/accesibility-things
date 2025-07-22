@@ -11,6 +11,7 @@ class Product(Base):
     description = Column(String, nullable=True)
     price = Column(Numeric(10, 2), nullable=False)
     average_rating = Column(Numeric(3, 2), default=0.0)
+    rating_count = Column(Integer, nullable=False, default=0)
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
     seller_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     is_active = Column(Boolean, default=True)

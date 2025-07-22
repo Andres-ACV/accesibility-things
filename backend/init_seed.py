@@ -116,9 +116,9 @@ SEED_PRODUCTS = [
         "is_active": True,
         "colors": ["Negra", "Roja", "Verde"],
         "images": [
-            {"image_url": "/images/Silla_negra.jpg", "is_primary": True},
-            {"image_url": "/images/Silla_roja.jpg", "is_primary": False},
-            {"image_url": "/images/Silla_verde.jpg", "is_primary": False},
+            {"image_url": "images/Silla_negra.jpg", "is_primary": True},
+            {"image_url": "images/Silla_roja.jpg", "is_primary": False},
+            {"image_url": "images/Silla_verde.jpg", "is_primary": False},
         ]
     },
     {
@@ -131,9 +131,9 @@ SEED_PRODUCTS = [
         "is_active": True,
         "colors": ["Negra", "Verde"],
         "images": [
-            {"image_url": "/images/baston_negro.webp", "is_primary": True},
-            {"image_url": "/images/baston_negro2.webp", "is_primary": False},
-            {"image_url": "/images/baston_verde.webp", "is_primary": False},
+            {"image_url": "images/baston_negro.webp", "is_primary": True},
+            {"image_url": "images/baston_negro2.webp", "is_primary": False},
+            {"image_url": "images/baston_verde.webp", "is_primary": False},
         ]
     },
     {
@@ -146,8 +146,8 @@ SEED_PRODUCTS = [
         "is_active": True,
         "colors": ["Azul", "Café"],
         "images": [
-            {"image_url": "/images/auditiva_azul.jpg", "is_primary": True},
-            {"image_url": "/images/auditiva_cafe.jpg", "is_primary": False},
+            {"image_url": "images/auditiva_azul.jpg", "is_primary": True},
+            {"image_url": "images/auditiva_cafe.jpg", "is_primary": False},
         ]
     },
     {
@@ -160,8 +160,8 @@ SEED_PRODUCTS = [
         "is_active": True,
         "colors": ["Gris"],
         "images": [
-            {"image_url": "/images/agrarradera_gris.jpg", "is_primary": True},
-            {"image_url": "/images/agrarradera_gris2.jpg", "is_primary": False},
+            {"image_url": "images/agrarradera_gris.jpg", "is_primary": True},
+            {"image_url": "images/agrarradera_gris2.jpg", "is_primary": False},
         ]
     },
 ]
@@ -227,6 +227,13 @@ def seed_products_and_relations(db):
             print(f"ℹ️  Producto '{prod['name']}' ya existe con diferente ID. Saltando...")
             continue
         
+        # Definir rating_count y average_rating según el producto
+        if prod["id"] == 1:
+            rating_count = 1
+            average_rating = 4.0
+        else:
+            rating_count = 0
+            average_rating = 0.0
         # Crear producto con el ID especificado
         product = Product(
             id=prod["id"],
@@ -235,7 +242,8 @@ def seed_products_and_relations(db):
             price=prod["price"],
             category_id=category.id,
             seller_id=2,  # Juan Pepe (ID: 2) es el vendedor
-            average_rating=prod["average_rating"],
+            average_rating=average_rating,
+            rating_count=rating_count,
             is_active=prod["is_active"]
         )
         db.add(product)

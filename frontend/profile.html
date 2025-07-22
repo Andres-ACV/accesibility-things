@@ -7,6 +7,61 @@
     <meta name="description" content="Gestiona tu cuenta, perfil y productos. Registra o inicia sesión para acceder a todas las funcionalidades">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/accessibility.css">
+    <style>
+    /* Tarjetas de órdenes en Mis Pedidos */
+    .order-card {
+        background: #fff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 1.2rem 1.5rem;
+        margin-bottom: 1.2rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        transition: box-shadow 0.2s, border 0.2s;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .order-card:hover, .order-card:focus-visible {
+        box-shadow: 0 4px 16px rgba(43,108,176,0.10);
+        border: 1.5px solid #2b6cb0;
+        outline: none;
+    }
+    body.high-contrast .order-card:hover, .order-card:focus-visible  {
+        background: #FFD600 !important;
+        color: #222 !important;
+        border: 1.5px solid #FFD600;
+    }
+    .order-card .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+    .order-card .order-status {
+        padding: 0.2em 0.7em;
+        border-radius: 6px;
+        font-size: 0.95em;
+        font-weight: 600;
+        text-transform: capitalize;
+        background: #e2e8f0;
+        color: #2b6cb0;
+    }
+    .order-card .order-status.completed { background: #e6ffed; color: #276749; }
+    .order-card .order-status.pending { background: #fffbea; color: #b7791f; }
+    .order-card .order-status.cancelled { background: #fff4f4; color: #c53030; }
+    .order-card .order-status.hold { background: #fffde7; color: #b7791f; }
+    @media (max-width: 600px) {
+        .order-card { padding: 1em; }
+        .order-card .order-details { flex-direction: column; gap: 0.5em; }
+    }
+    /* Alto contraste: el estado 'hold' es amarillo brillante con texto oscuro */
+    body.high-contrast .order-card .order-status.hold {
+        background: #FFD600 !important;
+        color: #222 !important;
+        border: 1.5px solid #FFD600;
+    }
+    </style>
 </head>
 <body>
     <!-- Enlaces de omisión -->
@@ -747,36 +802,81 @@
         }
 
         /**
-         * Cargar órdenes del usuario
+         * Cargar órdenes del usuario y renderizarlas como tarjetas clicables
          */
         async function loadUserOrders() {
             const ordersList = document.getElementById('orders-list');
-            
+            if (!ordersList) return;
+
+            // Estado de carga
+            ordersList.innerHTML = `
+                <div class="loading-message">
+                    <p>Cargando pedidos...</p>
+                </div>
+            `;
+
             try {
-                const orders = await dataManagerOptimized.getUserOrders();
-                
-                if (orders.length === 0) {
+                // Obtener órdenes del usuario autenticado
+                let orders = [];
+                if (dataManagerOptimized.getUserOrders) {
+                    orders = await dataManagerOptimized.getUserOrders();
+                } else if (apiService.getUserOrders) {
+                    // Fallback si no existe en dataManagerOptimized
+                    const currentUser = dataManagerOptimized.getCurrentUser();
+                    if (!currentUser) throw new Error('No autenticado');
+                    orders = await apiService.getUserOrders(currentUser.id);
+                } else {
+                    throw new Error('No se puede obtener el historial de pedidos');
+                }
+
+                // Si no hay pedidos
+                if (!orders || orders.length === 0) {
                     ordersList.innerHTML = `
                         <div class="empty-state">
-                            <p>No tienes pedidos aún.</p>
-                            <a href="catalogo.html" class="btn btn-primary">Explorar productos</a>
+                            <p>No tienes pedidos realizados aún.</p>
                         </div>
                     `;
-                } else {
-                    ordersList.innerHTML = orders.map(order => `
-                        <div class="order-item">
+                    return;
+                }
+
+                // Renderizar tarjetas de órdenes
+                ordersList.innerHTML = orders.map(order => {
+                    // Formatear fecha y total
+                    const orderDate = order.order_date ? new Date(order.order_date).toLocaleDateString() : '';
+                    const total = typeof order.total === 'number'
+                        ? new Intl.NumberFormat('es-CR', { style: 'currency', currency: 'CRC' }).format(order.total)
+                        : order.total || '';
+                    const status = order.status ? order.status.toLowerCase() : '';
+                    return `
+                        <div class="order-card" tabindex="0" role="button" aria-label="Ver detalles de la orden #${order.id}" data-order-id="${order.id}">
                             <div class="order-header">
-                                <h4>Orden #${order.id}</h4>
-                                <span class="order-status ${order.status}">${order.status}</span>
+                                <span class="order-number"><strong>Orden #${order.id}</strong></span>
+                                <span class="order-status ${status}">${status}</span>
                             </div>
                             <div class="order-details">
-                                <p><strong>Fecha:</strong> ${new Date(order.order_date).toLocaleDateString()}</p>
-                                <p><strong>Total:</strong> ₡${order.total}</p>
+                                <span><strong>Fecha:</strong> ${orderDate}</span>
+                                <span><strong>Total:</strong> ${total}</span>
                             </div>
+                            ${order.description ? `<div class="order-description">${order.description}</div>` : ''}
                         </div>
-                    `).join('');
-                }
-                
+                    `;
+                }).join('');
+
+                // Hacer las tarjetas clicables
+                ordersList.querySelectorAll('.order-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const orderId = this.getAttribute('data-order-id');
+                        alert('ID de la orden: ' + orderId);
+                        // Futuro: navegar a detalle de orden
+                    });
+                    card.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.click();
+                        }
+                    });
+                });
+
             } catch (error) {
                 console.error('Error cargando órdenes:', error);
                 ordersList.innerHTML = `
@@ -997,6 +1097,25 @@
                 input.addEventListener('blur', () => validateProfileField(input, inputId));
                 input.addEventListener('input', () => clearProfileFieldError(input));
             }
+        });
+
+        // ================= CARRITO EN LOCALSTORAGE ===================
+        function updateCartCounter() {
+            const CART_KEY = 'shoppingCart';
+            let cart = [];
+            try {
+                cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            } catch (e) {
+                cart = [];
+            }
+            const totalItems = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+            const cartCountElem = document.getElementById('cart-count');
+            if (cartCountElem) {
+                cartCountElem.textContent = totalItems;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCounter();
         });
 
 

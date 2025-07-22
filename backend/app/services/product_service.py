@@ -38,7 +38,9 @@ class ProductService:
         """Obtener un producto por ID"""
         product = self.db.query(Product).filter(Product.id == product_id).first()
         if product:
-            return ProductResponse.from_orm(product)
+            data = ProductResponse.from_orm(product).dict()
+            data["rating_count"] = product.rating_count
+            return ProductResponse(**data)
         return None
     
     def get_products(
@@ -130,6 +132,7 @@ class ProductService:
             # Construir la respuesta incluyendo image_url
             product_data = ProductResponse.from_orm(product).dict()
             product_data["image_url"] = image_url
+            product_data["rating_count"] = product.rating_count
             result.append(ProductResponse(**product_data))
         return {
             "total_products": total_products,
@@ -174,8 +177,10 @@ class ProductService:
                 
                 # Crear el objeto de respuesta
                 product_data = {
+                    "id": product.id,  # Agregar el id del producto
                     "name": product.name,
                     "average_rating": product.average_rating,
+                    "rating_count": product.rating_count,
                     "price": product.price,
                     "image_url": image.image_url if image else None
                 }
@@ -194,18 +199,17 @@ class ProductService:
         product = self.db.query(Product).filter(Product.id == product_id).first()
         if not product:
             return None
-        
         # Verificar que la categoría existe si se está actualizando
         if product_data.category_id and not self.category_repo.get_by_id(product_data.category_id):
             raise ValueError("Categoría no encontrada")
-        
         # Los colores se manejan a través de la tabla ProductColor
         # No hay validación directa de color_id en el producto
-        
         update_data = product_data.dict(exclude_unset=True)
+        # No permitir modificar rating_count ni average_rating desde ProductUpdate
+        update_data.pop("rating_count", None)
+        update_data.pop("average_rating", None)
         for field, value in update_data.items():
             setattr(product, field, value)
-        
         self.db.commit()
         self.db.refresh(product)
         return ProductResponse.from_orm(product)
@@ -238,14 +242,15 @@ class ProductService:
         category = product.category
         category_data = CategoryResponse.from_orm(category)
         # Obtener colores disponibles (join ProductColor + Color)
+        from sqlalchemy.orm import joinedload
         product_colors = (
-            self.db.query(ProductColor)
+            self.db.query(ProductColor, Color)
+            .join(Color, ProductColor.color_id == Color.id)
             .filter(ProductColor.product_id == product_id)
             .all()
         )
         colors = []
-        for pc in product_colors:
-            color = self.db.query(Color).filter(Color.id == pc.color_id).first()
+        for pc, color in product_colors:
             color_data = {
                 "id": pc.id,
                 "product_id": pc.product_id,
@@ -255,11 +260,9 @@ class ProductService:
                 "created_at": pc.created_at,
                 "updated_at": pc.updated_at,
                 # Detalles del color:
-                "name": color.name if color else None,
-                "hex_code": color.hex_code if color else None,
-                "description": color.description if color else None,
+                "name": color.name,
+                "hex_code": color.hex_code
             }
-            # Usar ProductColorResponse, pero extender con detalles de color
             colors.append(color_data)
         # Obtener imágenes
         images = (
@@ -275,6 +278,7 @@ class ProductService:
             "description": product.description,
             "price": product.price,
             "average_rating": product.average_rating,
+            "rating_count": product.rating_count,
             "is_active": product.is_active,
             "created_at": product.created_at,
             "updated_at": product.updated_at,
@@ -283,3 +287,18 @@ class ProductService:
             "images": images_data
         }
         return detail 
+
+    def rate_product(self, product_id: int, rating: float) -> Optional[ProductResponse]:
+        """Permite a un usuario valorar un producto. Actualiza average_rating y rating_count."""
+        product = self.db.query(Product).filter(Product.id == product_id).first()
+        if not product:
+            return None
+        # Calcular nuevo average_rating
+        total_rating = float(product.average_rating) * product.rating_count
+        new_count = product.rating_count + 1
+        new_average = (total_rating + rating) / new_count
+        product.average_rating = round(new_average, 2)
+        product.rating_count = new_count
+        self.db.commit()
+        self.db.refresh(product)
+        return ProductResponse.from_orm(product) 

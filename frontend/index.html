@@ -485,32 +485,34 @@
                 imageUrl = imageUrl.substring(1);
             }
             
+            // Nuevo: obtener el número de calificaciones
+            const ratingCount = product.rating_count || product.count_rating || product.numero_resenas || 0;
+
             return `
-                <article class="product-card featured-product" role="article" aria-labelledby="product-${product.name.replace(/\s+/g, '-').toLowerCase()}">
+                <div class="product-card featured-product" role="article" aria-labelledby="product-${product.name.replace(/\s+/g, '-').toLowerCase()}" tabindex="0" style="cursor:pointer;" onclick="window.location.href='detalle.html?id=${encodeURIComponent(product.id)}'">
                     <div class="product-image">
                         <img src="${imageUrl}" 
-                             alt="Imagen de ${product.name}" 
+                             alt="Imagen de ${escapeHtml(product.name)}" 
                              loading="lazy"
                              onerror="this.src='assets/images/placeholder-generic.svg'">
                     </div>
-                    
                     <div class="product-info">
                         <h3 id="product-${product.name.replace(/\s+/g, '-').toLowerCase()}" class="product-name">
                             ${escapeHtml(product.name)}
                         </h3>
-                        
                         <div class="product-price">
                             <span class="current-price">${price}</span>
                         </div>
-                        
                         <div class="product-rating" aria-label="Calificación: ${product.average_rating} de 5 estrellas">
                             <div class="stars" aria-hidden="true">
                                 ${stars}
                             </div>
                             <span class="rating-text">(${product.average_rating})</span>
+                            <span class="rating-count">${ratingCount} calificaciones</span>
                         </div>
+                        <a href="detalle.html?id=${encodeURIComponent(product.id)}" class="btn btn-primary" aria-label="Ver detalles de ${escapeHtml(product.name)}" style="margin-top:0.5rem;" onclick="event.stopPropagation();">Ver detalles</a>
                     </div>
-                </article>
+                </div>
             `;
         }
 
@@ -627,4 +629,23 @@
                 grid.innerHTML = `<p style="color: red;">Error al cargar categorías: ${error.message}</p>`;
             }
         }
+
+        // ================= CARRITO EN LOCALSTORAGE ===================
+        function updateCartCounter() {
+            const CART_KEY = 'shoppingCart';
+            let cart = [];
+            try {
+                cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            } catch (e) {
+                cart = [];
+            }
+            const totalItems = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+            const cartCountElem = document.getElementById('cart-count');
+            if (cartCountElem) {
+                cartCountElem.textContent = totalItems;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCounter();
+        });
     </script>

@@ -36,6 +36,15 @@ class OrderResponse(OrderBase):
 class OrderWithItems(OrderResponse):
     items: List['OrderItemResponse'] = []
 
+class OrderCartItem(BaseModel):
+    productId: int
+    colorId: int
+    quantity: int
+
+class OrderCartRequest(BaseModel):
+    cart_items: List[OrderCartItem]
+    description: Optional[str] = None
+
 # Resolver referencias circulares
 from .order_item import OrderItemResponse, OrderItemCreate
 OrderWithItems.model_rebuild()

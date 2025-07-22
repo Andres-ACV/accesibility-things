@@ -4,6 +4,10 @@ from ..models.order import Order
 from ..models.order_item import OrderItem
 from ..schemas.order import OrderCreate, OrderUpdate, OrderResponse
 from ..schemas.order_item import OrderItemCreate
+from ..models.product import Product
+from ..models.color import Color
+from ..models.product_image import ProductImage
+from ..schemas.order import OrderDetailResponse, OrderDetailItemResponse
 
 class OrderService:
     def __init__(self, db: Session):
@@ -82,3 +86,56 @@ class OrderService:
         ).offset(skip).limit(limit).all()
         
         return [OrderResponse.from_orm(order) for order in orders] 
+
+    def get_order_detail(self, order_id: int) -> Optional[OrderDetailResponse]:
+        """Obtener todos los detalles de una orden, incluyendo ítems, producto y color"""
+        order = self.db.query(Order).filter(Order.id == order_id).first()
+        if not order:
+            return None
+        items = []
+        for item in order.items:
+            # Obtener producto
+            product = self.db.query(Product).filter(Product.id == item.product_id).first()
+            # Obtener imagen principal
+            image = self.db.query(ProductImage).filter(
+                ProductImage.product_id == product.id,
+                ProductImage.is_primary == True
+            ).first()
+            if not image:
+                image = self.db.query(ProductImage).filter(ProductImage.product_id == product.id).first()
+            image_url = image.image_url if image else None
+            # Obtener color
+            color = self.db.query(Color).filter(Color.id == item.color_id).first()
+            # Construir info
+            product_info = {
+                "name": product.name if product else None,
+                "description": product.description if product else None,
+                "image_url": image_url,
+                "average_rating": float(product.average_rating) if product else None,
+                "rating_count": product.rating_count if product else None
+            }
+            color_info = {
+                "name": color.name if color else None,
+                "hex_code": color.hex_code if color else None
+            }
+            items.append(OrderDetailItemResponse(
+                order_item_id=item.id,
+                product_id=item.product_id,
+                color_id=item.color_id,
+                quantity=item.quantity,
+                unit_price=float(item.unit_price),
+                subtotal=float(item.subtotal),
+                product_info=product_info,
+                color_info=color_info
+            ))
+        return OrderDetailResponse(
+            id=order.id,
+            user_id=order.user_id,
+            description=order.description,
+            total=float(order.total),
+            status=order.status,
+            order_date=order.order_date,
+            created_at=order.created_at,
+            updated_at=order.updated_at,
+            items=items
+        ) 

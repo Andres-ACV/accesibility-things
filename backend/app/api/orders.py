@@ -8,7 +8,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from ..services.access_service import AccessService
 from ..repositories.access_repository import AccessRepository
 from ..models import Product, ProductColor, Order, OrderItem, OrderStatus
-from ..schemas.order import OrderCartRequest, OrderResponse
+from ..schemas.order import OrderCartRequest, OrderResponse, OrderDetailResponse
 from sqlalchemy.exc import SQLAlchemyError
 from decimal import Decimal
 import traceback
@@ -182,4 +182,34 @@ def delete_order(
     success = service.delete_order(order_id)
     if not success:
         raise HTTPException(status_code=404, detail="Orden no encontrada")
-    return {"message": "Orden eliminada exitosamente"} 
+    return {"message": "Orden eliminada exitosamente"}
+
+@router.get("/detail/{order_id}", response_model=OrderDetailResponse)
+def get_order_detail(
+    order_id: int,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: Session = Depends(get_db),
+    service: AccessService = Depends(get_access_service)
+):
+    """Obtener todos los detalles de una orden, incluyendo ítems, producto y color. Requiere autenticación."""
+    try:
+        # Autenticación
+        try:
+            user = service.get_current_user(credentials.credentials)
+        except Exception:
+            raise HTTPException(status_code=401, detail="No autenticado o token inválido")
+        # Obtener detalle de la orden
+        order_service = OrderService(db)
+        order_detail = order_service.get_order_detail(order_id)
+        if not order_detail:
+            raise HTTPException(status_code=404, detail="Orden no encontrada")
+        # Solo el dueño de la orden o un admin puede ver el detalle
+        if order_detail.user_id != user.id:
+            # Si el usuario no es admin, denegar acceso
+            if not (hasattr(user, "role") and user.role and user.role.name.lower() == "admin"):
+                raise HTTPException(status_code=403, detail="No tiene permiso para ver esta orden")
+        return order_detail
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error inesperado: {str(e)}") 

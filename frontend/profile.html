@@ -858,21 +858,34 @@
                                 <span><strong>Total:</strong> ${total}</span>
                             </div>
                             ${order.description ? `<div class="order-description">${order.description}</div>` : ''}
+                            <div class="order-actions">
+                                <button type="button" class="btn btn-secondary order-detail-btn" aria-label="Ver detalles de la orden #${order.id}">Ver Detalles</button>
+                            </div>
                         </div>
                     `;
                 }).join('');
 
-                // Hacer las tarjetas clicables
+                // Hacer las tarjetas clicables y accesibles
                 ordersList.querySelectorAll('.order-card').forEach(card => {
-                    card.addEventListener('click', function() {
-                        const orderId = this.getAttribute('data-order-id');
-                        alert('ID de la orden: ' + orderId);
-                        // Futuro: navegar a detalle de orden
+                    const orderId = card.getAttribute('data-order-id');
+                    // Click en la tarjeta (excepto si el click es en el botón)
+                    card.addEventListener('click', function(e) {
+                        if (e.target.classList.contains('order-detail-btn')) return;
+                        window.location.href = `orderDetail.html?id=${orderId}`;
                     });
+                    // Click en el botón 'Ver Detalles'
+                    const btn = card.querySelector('.order-detail-btn');
+                    if (btn) {
+                        btn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            window.location.href = `orderDetail.html?id=${orderId}`;
+                        });
+                    }
+                    // Accesibilidad: Enter/Espacio en la tarjeta
                     card.addEventListener('keydown', function(e) {
                         if (e.key === 'Enter' || e.key === ' ') {
                             e.preventDefault();
-                            this.click();
+                            window.location.href = `orderDetail.html?id=${orderId}`;
                         }
                     });
                 });

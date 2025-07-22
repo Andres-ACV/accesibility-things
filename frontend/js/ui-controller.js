@@ -1949,6 +1949,27 @@ class UIController {
         const ordersContainer = document.getElementById('orders-list');
         if (ordersContainer) {
             ordersContainer.innerHTML = ordersHtml;
+            // Delegación de eventos para .clickable-order
+            const listContainer = document.getElementById('orders-list-container');
+            if (listContainer) {
+                listContainer.addEventListener('click', function(e) {
+                    const orderDiv = e.target.closest('.clickable-order');
+                    if (orderDiv && !e.target.classList.contains('order-detail-btn')) {
+                        const orderId = orderDiv.getAttribute('data-order-id');
+                        if (orderId) {
+                            window.location.href = `orderDetail.html?id=${orderId}`;
+                        }
+                    }
+                });
+                listContainer.addEventListener('keydown', function(e) {
+                    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('clickable-order')) {
+                        const orderId = e.target.getAttribute('data-order-id');
+                        if (orderId) {
+                            window.location.href = `orderDetail.html?id=${orderId}`;
+                        }
+                    }
+                });
+            }
         }
     }
 
@@ -1966,6 +1987,7 @@ class UIController {
             `;
         }
 
+        // Generar HTML de las órdenes
         const ordersListHtml = orders.map(order => {
             const orderDate = new Date(order.date);
             const formattedDate = orderDate.toLocaleDateString('es-CR', {
@@ -1991,28 +2013,25 @@ class UIController {
             };
 
             return `
-                <div class="order-item" role="article" aria-labelledby="order-${order.orderNumber}">
+                <div class="order-item clickable-order" role="article" aria-labelledby="order-${order.orderNumber}" tabindex="0" data-order-id="${order.orderNumber}">
                     <div class="order-header">
                         <h4 id="order-${order.orderNumber}">Pedido #${order.orderNumber}</h4>
                         <span class="order-status" style="background-color: ${statusColors[order.status]}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.9em;">
                             ${statusLabels[order.status]}
                         </span>
                     </div>
-                    
                     <div class="order-details">
                         <p><strong>Fecha:</strong> ${formattedDate}</p>
                         <p><strong>Total:</strong> ${this.formatPrice(order.total)}</p>
                         <p><strong>Productos:</strong> ${order.cart.length} artículo${order.cart.length > 1 ? 's' : ''}</p>
-                        
                         <div class="order-address">
                             <p><strong>Dirección de envío:</strong></p>
                             <p>${order.shippingAddress.direccion}</p>
                             <p>${order.shippingAddress.canton}, ${order.shippingAddress.provincia}</p>
                         </div>
                     </div>
-                    
                     <div class="order-actions">
-                        <button type="button" class="btn btn-secondary" onclick="uiController.showOrderDetails('${order.orderNumber}')">
+                        <button type="button" class="btn btn-secondary order-detail-btn" onclick="uiController.showOrderDetails('${order.orderNumber}')">
                             Ver Detalles
                         </button>
                     </div>
@@ -2020,7 +2039,8 @@ class UIController {
             `;
         }).join('');
 
-        return ordersListHtml;
+        // Devolver el HTML envuelto en un contenedor para event delegation
+        return `<div id="orders-list-container">${ordersListHtml}</div>`;
     }
 
     renderOrderHistory(orders) {
@@ -2172,76 +2192,8 @@ class UIController {
     }
 
     showOrderDetails(orderNumber) {
-        console.log('📋 Mostrando detalles del pedido:', orderNumber);
-        
-        const order = this.dataManager.getOrderById(orderNumber);
-        if (!order) {
-            this.showNotification('Pedido no encontrado', 'error');
-            return;
-        }
-
-        const orderDate = new Date(order.date);
-        const formattedDate = orderDate.toLocaleDateString('es-CR', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-
-        const productsHtml = order.cart.map(item => `
-            <div class="order-product-item">
-                <div class="product-info">
-                    <h5>${item.nombre}</h5>
-                    <p>Cantidad: ${item.quantity}</p>
-                    <p>Precio unitario: ${this.formatPrice(item.precio)}</p>
-                    <p><strong>Subtotal: ${this.formatPrice(item.precio * item.quantity)}</strong></p>
-                </div>
-            </div>
-        `).join('');
-
-        const detailsHtml = `
-            <div class="order-details-full">
-                <div class="order-details-header">
-                    <h3>Detalles del Pedido #${order.orderNumber}</h3>
-                    <p class="order-date">${formattedDate}</p>
-                </div>
-                
-                <div class="order-info-sections">
-                    <section class="order-section">
-                        <h4>Información del Cliente</h4>
-                        <p><strong>Nombre:</strong> ${order.customerInfo.nombre}</p>
-                        <p><strong>Email:</strong> ${order.customerInfo.email}</p>
-                        <p><strong>Teléfono:</strong> ${order.customerInfo.telefono}</p>
-                    </section>
-                    
-                    <section class="order-section">
-                        <h4>Dirección de Envío</h4>
-                        <p>${order.shippingAddress.direccion}</p>
-                        <p>${order.shippingAddress.canton}, ${order.shippingAddress.provincia}</p>
-                    </section>
-                    
-                    <section class="order-section">
-                        <h4>Productos</h4>
-                        <div class="order-products-list">
-                            ${productsHtml}
-                        </div>
-                    </section>
-                    
-                    <section class="order-section">
-                        <h4>Resumen de Costos</h4>
-                        <div class="cost-summary">
-                            <p>Subtotal: ${this.formatPrice(order.subtotal)}</p>
-                            <p>Envío: ${this.formatPrice(order.shipping)}</p>
-                            <p>IVA (13%): ${this.formatPrice(order.tax)}</p>
-                            <p class="total-cost"><strong>Total: ${this.formatPrice(order.total)}</strong></p>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        `;
-
-        this.showOrderHistoryModal(detailsHtml);
+        // Redirigir a la página de detalle de la orden
+        window.location.href = `orderDetail.html?id=${orderNumber}`;
     }
 
     addOrderHistoryStyles() {

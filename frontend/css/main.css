@@ -428,6 +428,7 @@ nav[role="navigation"] {
 }
 
 .cart-badge {
+    display: inline-block !important;
     background-color: var(--color-error);
     color: white;
     border-radius: 50%;

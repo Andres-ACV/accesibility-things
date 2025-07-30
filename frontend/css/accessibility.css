@@ -85,6 +85,231 @@ body.high-contrast .btn-outline:hover {
     border-color: var(--hc-texto) !important;
 }
 
+/* Estilos globales para todos los botones en modo alto contraste */
+body.high-contrast button,
+body.high-contrast [role="button"],
+body.high-contrast .btn,
+body.high-contrast .btn-test,
+body.high-contrast .retry-btn,
+body.high-contrast .quantity-btn,
+body.high-contrast .remove-item-btn,
+body.high-contrast .accessibility-btn,
+body.high-contrast a.btn,
+body.high-contrast a[role="button"] {
+    color: white !important;
+}
+
+/* Estilos específicos para botones con clases específicas */
+body.high-contrast .btn-danger {
+    background-color: var(--hc-error) !important;
+    color: white !important;
+    border-color: var(--hc-error) !important;
+}
+
+body.high-contrast .btn-danger:hover,
+body.high-contrast .btn-danger:focus {
+    background-color: #ff3333 !important;
+    color: white !important;
+    border-color: #ff3333 !important;
+}
+
+body.high-contrast .btn-test {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast .btn-test:hover {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast .retry-btn {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast .retry-btn:hover {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast .quantity-btn {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast .quantity-btn:hover {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast .quantity-btn:disabled {
+    background-color: var(--hc-fondo-alt) !important;
+    color: white !important;
+    border-color: var(--hc-borde) !important;
+    opacity: 0.6 !important;
+}
+
+body.high-contrast .remove-item-btn {
+    background-color: var(--hc-error) !important;
+    color: white !important;
+    border-color: var(--hc-error) !important;
+}
+
+body.high-contrast .remove-item-btn:hover {
+    background-color: #ff3333 !important;
+    color: white !important;
+    border-color: #ff3333 !important;
+}
+
+body.high-contrast .accessibility-btn {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast .accessibility-btn:hover {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+/* Estilos para botones de diferentes tamaños */
+body.high-contrast .btn-large {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast .btn-large:hover {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast .btn-sm {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast .btn-sm:hover {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+/* Estilos para botones deshabilitados */
+body.high-contrast .btn:disabled,
+body.high-contrast button:disabled,
+body.high-contrast [role="button"]:disabled {
+    background-color: var(--hc-fondo-alt) !important;
+    color: white !important;
+    border-color: var(--hc-borde) !important;
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+}
+
+/* Estilos para enlaces que actúan como botones */
+body.high-contrast a.btn {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+    text-decoration: none !important;
+}
+
+body.high-contrast a.btn:hover {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast a.btn.btn-primary {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast a.btn.btn-primary:hover {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast a.btn.btn-secondary {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast a.btn.btn-secondary:hover {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast a.btn.btn-outline {
+    background-color: var(--hc-fondo) !important;
+    color: white !important;
+    border-color: var(--hc-borde) !important;
+}
+
+body.high-contrast a.btn.btn-outline:hover {
+    background-color: var(--hc-texto) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-texto) !important;
+}
+
+/* Estilos para elementos con role="button" */
+body.high-contrast [role="button"] {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+    cursor: pointer !important;
+}
+
+body.high-contrast [role="button"]:hover {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast [role="button"]:focus {
+    outline: 2px solid var(--hc-primario) !important;
+    outline-offset: 2px !important;
+}
+
+/* Estilos para botones específicos de la aplicación */
+body.high-contrast .order-detail-btn {
+    background-color: var(--hc-secundario) !important;
+    color: white !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast .order-detail-btn:hover {
+    background-color: var(--hc-primario) !important;
+    color: white !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast .notification-close {
+    background-color: var(--hc-error) !important;
+    color: white !important;
+    border-color: var(--hc-error) !important;
+}
+
+body.high-contrast .notification-close:hover {
+    background-color: #ff3333 !important;
+    color: white !important;
+    border-color: #ff3333 !important;
+}
+
 body.high-contrast input, 
 body.high-contrast select, 
 body.high-contrast textarea {

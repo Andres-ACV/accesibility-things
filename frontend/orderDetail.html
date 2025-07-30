@@ -109,14 +109,17 @@
                         <!-- Ítems de la orden se cargarán aquí -->
                     </tbody>
                 </table>
-                <div class="cart-actions">
-                    <button type="button" class="btn btn-primary" id="send-ratings-btn">
-                        <span aria-hidden="true">⭐</span> Enviar Calificaciones
-                    </button>
-                    <button type="button" class="btn btn-outline" id="back-to-orders-btn">
-                        <span aria-hidden="true">🔙</span> Volver a Mis Pedidos
-                    </button>
-                </div>
+                                    <div class="cart-actions">
+                        <button type="button" class="btn btn-primary" id="send-ratings-btn">
+                            <span aria-hidden="true">⭐</span> Enviar Calificaciones
+                        </button>
+                        <button type="button" class="btn btn-outline" id="back-to-orders-btn">
+                            <span aria-hidden="true">🔙</span> Volver a Mis Pedidos
+                        </button>
+                    </div>
+                    
+                    <!-- Contenedor de notificaciones del detalle de orden -->
+                    <div id="order-detail-notification-container" class="profile-notification-container" aria-live="polite"></div>
             </section>
             <!-- Resumen del pedido -->
             <aside class="order-summary" id="order-summary" role="complementary" aria-labelledby="summary-title">
@@ -128,14 +131,6 @@
                             <tr>
                                 <th scope="row">Subtotal:</th>
                                 <td id="subtotal-amount">₡0</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Envío:</th>
-                                <td id="shipping-amount">₡0</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Impuestos:</th>
-                                <td id="tax-amount">₡0</td>
                             </tr>
                             <tr class="total-row">
                                 <th scope="row">Total:</th>
@@ -279,9 +274,6 @@
     // Renderizar resumen del pedido
     function renderOrderSummary(order) {
         document.getElementById('subtotal-amount').textContent = formatPrice(order.total);
-        // Si tienes desglose de envío/impuestos, cámbialo aquí. Si no, pon 0.
-        document.getElementById('shipping-amount').textContent = formatPrice(0);
-        document.getElementById('tax-amount').textContent = formatPrice(0);
         document.getElementById('total-amount').textContent = formatPrice(order.total);
     }
     // Cargar detalle de la orden
@@ -343,7 +335,8 @@
             }
         });
         if (ratingsToSend.length === 0) {
-            alert('Por favor ingresa al menos una calificación antes de enviar.');
+            showOrderDetailNotification('Por favor ingresa al menos una calificación antes de enviar.', 'error');
+            announceToScreenReader('Por favor ingresa al menos una calificación antes de enviar.');
             return;
         }
         let token = localStorage.getItem('authToken');
@@ -351,7 +344,8 @@
             token = window.dataManagerOptimized.apiService.getStoredToken();
         }
         if (!token) {
-            alert('No se encontró token de autenticación. Por favor inicia sesión de nuevo.');
+            showOrderDetailNotification('No se encontró token de autenticación. Por favor inicia sesión de nuevo.', 'error');
+            announceToScreenReader('No se encontró token de autenticación. Por favor inicia sesión de nuevo.');
             return;
         }
         const backendUrl = window.BACKEND_URL || 'http://localhost:8000';
@@ -374,11 +368,78 @@
             }
         }
         if (successCount > 0) {
-            alert('¡Calificaciones enviadas exitosamente!');
+            showOrderDetailNotification('¡Calificaciones enviadas exitosamente!', 'success');
+            announceToScreenReader('¡Calificaciones enviadas exitosamente!');
             loadOrderDetail(); // Recargar para actualizar ratings
         } else {
-            alert('No se pudieron enviar las calificaciones. Intenta de nuevo.');
+            showOrderDetailNotification('No se pudieron enviar las calificaciones. Intenta de nuevo.', 'error');
+            announceToScreenReader('No se pudieron enviar las calificaciones. Intenta de nuevo.');
         }
+    /**
+     * Mostrar notificación en orderDetail (igual que profile)
+     */
+    function showOrderDetailNotification(message, type = 'info') {
+        const container = document.getElementById('order-detail-notification-container');
+        if (!container) {
+            // Fallback: si no existe, usa el método global
+            window.showNotification(message, type);
+            return;
+        }
+
+        // Limpia notificaciones previas
+        container.innerHTML = '';
+
+        // Crea el elemento de notificación
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.setAttribute('role', 'alert');
+        notification.setAttribute('aria-live', 'polite');
+        notification.textContent = message;
+
+        // Si es error, agrega botón de cierre
+        if (type === 'error') {
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'notification-close';
+            closeBtn.setAttribute('aria-label', 'Cerrar notificación');
+            closeBtn.innerHTML = '&times;';
+            closeBtn.onclick = () => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            };
+            notification.appendChild(closeBtn);
+        }
+
+        container.appendChild(notification);
+
+        // Remueve después de 10 segundos si es éxito
+        if (type === 'success') {
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 10000);
+        }
+    }
+
+    /**
+     * Anunciar mensaje a screen reader
+     */
+    function announceToScreenReader(message, priority = 'polite') {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', priority);
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.className = 'sr-only';
+        announcement.textContent = message;
+        
+        document.body.appendChild(announcement);
+        
+        setTimeout(() => {
+            if (announcement.parentNode) {
+                announcement.parentNode.removeChild(announcement);
+            }
+        }, 1000);
+    }
     }
     // Botón volver a mis pedidos
     function backToOrders() {

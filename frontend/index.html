@@ -158,12 +158,7 @@
             </p>
         </section>
         
-        <section class="info-box">
-            <h3>Envíos Gratuitos</h3>
-            <p>
-                Envíos gratuitos a toda Costa Rica en compras superiores a ₡25,000
-            </p>
-        </section>
+
     </aside>
     
     <!-- Pie de página -->
@@ -608,7 +603,7 @@
                 
                 console.log(`✅ Generando ${categories.length} botones de categorías...`);
                 const categoriesHtml = categories.map(cat => `
-                    <a href="catalogo.html?categoria=${encodeURIComponent(cat.id)}"
+                    <a href="catalogo.html?categoryId=${encodeURIComponent(cat.id)}"
                        class="btn btn-primary btn-large category-btn"
                        role="button"
                        tabindex="0"

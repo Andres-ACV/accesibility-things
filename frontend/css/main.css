@@ -2594,3 +2594,79 @@ body.large-font .featured-product .rating-text {
         transform: none;
     }
 } 
+
+/* =================== INDICADOR DE FILTRO ACTIVO =================== */
+.active-filter-indicator {
+    background: var(--color-primary);
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: slideInDown 0.3s ease-out;
+}
+
+.active-filter-indicator button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s ease;
+}
+
+.active-filter-indicator button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.active-filter-indicator button:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para alto contraste */
+body.high-contrast .active-filter-indicator {
+    background: #000;
+    border: 2px solid #fff;
+}
+
+body.high-contrast .active-filter-indicator button:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+/* Estilos para texto grande */
+body.large-font .active-filter-indicator {
+    font-size: 1.1rem;
+    padding: 1rem 1.25rem;
+}
+
+/* Responsive para el indicador de filtro */
+@media (max-width: 768px) {
+    .active-filter-indicator {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .active-filter-indicator button {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+}

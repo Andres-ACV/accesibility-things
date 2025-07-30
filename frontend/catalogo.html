@@ -444,9 +444,131 @@
             setupFilterEvents();
             setupSearchEvent();
             setupSortEvent();
+            
+            // Leer parámetros de URL y aplicar filtros iniciales
+            await initializeFromUrlParams();
+            
             loadProducts();
             updateCartCounter(); // Sincronizar el contador del carrito
         });
+
+        /**
+         * Leer parámetros de URL y aplicar filtros iniciales
+         */
+        async function initializeFromUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryId = urlParams.get('categoryId');
+            
+            if (categoryId) {
+                console.log(`🎯 Aplicando filtro de categoría desde URL: ${categoryId}`);
+                catalogState.category_id = Number(categoryId);
+                
+                // Actualizar la interfaz para reflejar el filtro activo
+                await updateCategoryFilterUI(categoryId);
+            }
+        }
+
+        /**
+         * Actualizar la interfaz de filtros para reflejar la categoría seleccionada
+         */
+        async function updateCategoryFilterUI(categoryId) {
+            // Esperar a que las categorías se carguen
+            if (categoriesCache.length === 0) {
+                console.log('⏳ Esperando a que se carguen las categorías...');
+                await new Promise(resolve => {
+                    const checkCategories = () => {
+                        if (categoriesCache.length > 0) {
+                            resolve();
+                        } else {
+                            setTimeout(checkCategories, 100);
+                        }
+                    };
+                    checkCategories();
+                });
+            }
+            
+            // Buscar la categoría seleccionada
+            const selectedCategory = categoriesCache.find(cat => cat.id == categoryId);
+            if (selectedCategory) {
+                console.log(`✅ Categoría encontrada: ${selectedCategory.name}`);
+                
+                // Actualizar el radio button correspondiente
+                const radioButton = document.querySelector(`input[name="categoria"][value="${categoryId}"]`);
+                if (radioButton) {
+                    radioButton.checked = true;
+                    console.log(`✅ Radio button actualizado para categoría ${selectedCategory.name}`);
+                }
+                
+                // Actualizar el título de la página para mostrar el filtro activo
+                updatePageTitle(selectedCategory.name);
+                
+                // Mostrar indicador de filtro activo
+                showActiveFilterIndicator(selectedCategory.name);
+            } else {
+                console.warn(`⚠️ Categoría con ID ${categoryId} no encontrada`);
+            }
+        }
+
+        /**
+         * Actualizar el título de la página para mostrar el filtro activo
+         */
+        function updatePageTitle(categoryName) {
+            // Mantener siempre "Catálogo de Productos" como título
+            // No se modifica el título de la página
+        }
+
+        /**
+         * Mostrar indicador de filtro activo
+         */
+        function showActiveFilterIndicator(categoryName) {
+            // Crear o actualizar el indicador de filtro activo
+            let filterIndicator = document.querySelector('.active-filter-indicator');
+            if (!filterIndicator) {
+                filterIndicator = document.createElement('div');
+                filterIndicator.className = 'active-filter-indicator';
+                
+                const catalogHeader = document.querySelector('.catalog-header');
+                if (catalogHeader) {
+                    catalogHeader.appendChild(filterIndicator);
+                }
+            }
+            
+            filterIndicator.innerHTML = `
+                <span aria-hidden="true">🎯</span>
+                <span>Filtro activo: <strong>${categoryName}</strong></span>
+                <button type="button" onclick="clearCategoryFilter()" 
+                        aria-label="Limpiar filtro de categoría">
+                    <span aria-hidden="true">✕</span>
+                </button>
+            `;
+        }
+
+        /**
+         * Limpiar filtro de categoría
+         */
+        function clearCategoryFilter() {
+            catalogState.category_id = null;
+            
+            // Limpiar URL
+            const url = new URL(window.location);
+            url.searchParams.delete('categoryId');
+            window.history.replaceState({}, '', url);
+            
+            // Limpiar interfaz
+            const filterIndicator = document.querySelector('.active-filter-indicator');
+            if (filterIndicator) {
+                filterIndicator.remove();
+            }
+            
+            // Limpiar radio button
+            const todasInput = document.querySelector('input[name="categoria"][value=""]');
+            if (todasInput) {
+                todasInput.checked = true;
+            }
+            
+            // Recargar productos
+            loadProducts();
+        }
 
         function setupFilterEvents() {
             const filtersForm = document.querySelector('.filters-form');

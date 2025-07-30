@@ -165,14 +165,6 @@
                                 <th scope="row">Subtotal:</th>
                                 <td id="subtotal-amount">₡0</td>
                             </tr>
-                            <tr>
-                                <th scope="row">Envío:</th>
-                                <td id="shipping-amount">₡0</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Impuestos:</th>
-                                <td id="tax-amount">₡0</td>
-                            </tr>
                             <tr class="total-row">
                                 <th scope="row">Total:</th>
                                 <td id="total-amount">₡0</td>
@@ -573,14 +565,9 @@
             cart.forEach(item => {
                 subtotal += item.productPrice * item.quantity;
             });
-            // Envío: ₡2,500 si hay productos, 0 si no
-            let shipping = cart.length ? 2500 : 0;
-            // Impuestos: 13% del subtotal
-            let tax = Math.round(subtotal * 0.13);
-            let total = subtotal + shipping + tax;
+            // El total es igual al subtotal (sin envío)
+            let total = subtotal;
             document.getElementById('subtotal-amount').textContent = formatPrice(subtotal);
-            document.getElementById('shipping-amount').textContent = formatPrice(shipping);
-            document.getElementById('tax-amount').textContent = formatPrice(tax);
             document.getElementById('total-amount').textContent = formatPrice(total);
         }
 

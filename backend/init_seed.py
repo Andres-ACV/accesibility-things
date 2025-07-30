@@ -32,7 +32,7 @@ USERS = [
     },
     {
         "id": 2,
-        "email": "jun@gmail.com",
+        "email": "juan@gmail.com",
         "city": "Heredia",
         "hashed_password": "$2b$12$Yi6r6ieMni.Z3TtEWocHe.I2O8uiRr3itYGWFfIOgI9wVvZqXe85C",
         "full_name": "Juan Pepe",

@@ -90,6 +90,11 @@ html {
     scroll-behavior: smooth;
 }
 
+ /* Estrellas de calificación amarillas */
+.star.star-filled, .star.star-half {
+    color: #fbbf24 !important;
+}
+
 body {
     min-height: 100vh;
     display: flex;

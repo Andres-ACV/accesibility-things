@@ -180,6 +180,15 @@ body.high-contrast .accessibility-btn:hover {
     border-color: var(--hc-secundario) !important;
 }
 
+/* Excepción específica para el botón de tamaño de texto */
+body.high-contrast #font-size-toggle {
+    color: black !important;
+}
+
+body.high-contrast #font-size-toggle:hover {
+    color: black !important;
+}
+
 /* Estilos para botones de diferentes tamaños */
 body.high-contrast .btn-large {
     background-color: var(--hc-primario) !important;

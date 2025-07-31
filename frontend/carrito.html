@@ -448,12 +448,22 @@
             if (!cart.length) {
                 cartEmpty.style.display = '';
                 cartContent.style.display = 'none';
+                // Ocultar el botón de proceder al checkout cuando el carrito está vacío
+                const checkoutBtn = document.getElementById('proceed-checkout');
+                if (checkoutBtn) {
+                    checkoutBtn.style.display = 'none';
+                }
                 updateOrderSummary();
                 updateCartCounter();
                 return;
             } else {
                 cartEmpty.style.display = 'none';
                 cartContent.style.display = '';
+                // Mostrar el botón de proceder al checkout cuando hay productos
+                const checkoutBtn = document.getElementById('proceed-checkout');
+                if (checkoutBtn) {
+                    checkoutBtn.style.display = '';
+                }
             }
 
             cart.forEach((item, idx) => {
@@ -524,7 +534,6 @@
          * Vacía el carrito completamente
          */
         function clearCart() {
-            if (!confirm('¿Estás seguro de que deseas vaciar el carrito?')) return;
             saveCart([]);
             renderCartItems();
         }

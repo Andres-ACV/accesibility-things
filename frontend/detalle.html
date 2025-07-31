@@ -416,7 +416,7 @@
         return html;
     }
     function formatPrice(price) {
-        return new Intl.NumberFormat('es-CR', { style: 'currency', currency: 'CRC' }).format(price);
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'CRC' }).format(price);
     }
     function escapeHtml(text) {
         const div = document.createElement('div');

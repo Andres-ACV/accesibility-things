@@ -155,9 +155,9 @@
                     <li role="none">
                         <button role="tab" 
                                 id="tab-account" 
-                                aria-selected="true" 
+                                aria-selected="false" 
                                 aria-controls="panel-account"
-                                class="profile-tab active">
+                                class="profile-tab">
                             <span aria-hidden="true">👤</span>
                             Mi Cuenta
                         </button>
@@ -186,13 +186,13 @@
             </nav>
             
             <!-- Panel de Mi Cuenta -->
+            <!-- Panel de Mi Cuenta -->
             <div role="tabpanel" 
                  id="panel-account" 
                  aria-labelledby="tab-account" 
-                 class="profile-panel active">
-                <h3>Información de la Cuenta</h3>
-                
-                <form class="account-form" aria-label="Formulario de actualización de cuenta">
+                 class="profile-panel"
+                 style="display: none;">
+                <h3>Información de la Cuenta</h3>                <form class="account-form" aria-label="Formulario de actualización de cuenta">
                     <fieldset>
                         <legend>Información Personal</legend>
                         
@@ -608,10 +608,43 @@
         }
 
         /**
+         * Determinar qué tab debe estar activo según la página de origen
+         */
+        function determineActiveTab() {
+            // Verificar si viene de una URL con hash específico
+            const hash = window.location.hash;
+            if (hash === '#orders' || hash === '#mis-pedidos') {
+                // Limpiar el hash de la URL después de detectarlo
+                if (window.history && window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.pathname + window.location.search);
+                }
+                return 'tab-orders';
+            }
+            
+            // Verificar si viene de orderDetail.html o orden-completada.html
+            const referrer = document.referrer;
+            if (referrer) {
+                if (referrer.includes('orderDetail.html') || referrer.includes('orden-completada.html')) {
+                    return 'tab-orders';
+                }
+            }
+            
+            // Verificar parámetros URL (por si se usa ?tab=orders)
+            const params = new URLSearchParams(window.location.search);
+            const tabParam = params.get('tab');
+            if (tabParam === 'orders' || tabParam === 'pedidos') {
+                return 'tab-orders';
+            }
+            
+            // Por defecto, activar Mi Cuenta
+            return 'tab-account';
+        }
+
+        /**
          * Configurar eventos del perfil
          */
         function setupProfileEvents() {
-            // Configurar tabs
+            // Configurar tabs con el tab inicial correcto
             setupProfileTabs();
             
             // Configurar formulario de perfil
@@ -634,6 +667,43 @@
             const tabs = document.querySelectorAll('.profile-tab');
             const panels = document.querySelectorAll('.profile-panel');
             
+            // Determinar qué tab debe estar activo inicialmente
+            const activeTabId = determineActiveTab();
+            
+            // Configurar el estado inicial de los tabs
+            tabs.forEach(tab => {
+                const isActive = tab.id === activeTabId;
+                tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                if (isActive) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            // Configurar el estado inicial de los panels
+            panels.forEach(panel => {
+                const correspondingTabId = panel.getAttribute('aria-labelledby');
+                const isActive = correspondingTabId === activeTabId;
+                
+                if (isActive) {
+                    panel.style.display = 'block';
+                    panel.classList.add('active');
+                } else {
+                    panel.style.display = 'none';
+                    panel.classList.remove('active');
+                }
+            });
+            
+            // Cargar contenido del panel activo si es necesario
+            const activePanel = document.getElementById(`panel-${activeTabId.replace('tab-', '')}`);
+            if (activePanel && activePanel.id === 'panel-orders') {
+                loadUserOrders();
+            } else if (activePanel && activePanel.id === 'panel-products') {
+                loadSellerProducts();
+            }
+            
+            // Configurar event listeners para los tabs
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     const targetPanel = document.getElementById(tab.getAttribute('aria-controls'));

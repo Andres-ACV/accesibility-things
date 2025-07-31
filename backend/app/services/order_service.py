@@ -125,6 +125,7 @@ class OrderService:
                 quantity=item.quantity,
                 unit_price=float(item.unit_price),
                 subtotal=float(item.subtotal),
+                customer_rating=item.customer_rating,  # Incluir la valoración del cliente
                 product_info=product_info,
                 color_info=color_info
             ))

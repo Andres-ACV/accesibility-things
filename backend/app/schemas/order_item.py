@@ -19,10 +19,12 @@ class OrderItemCreate(BaseModel):
 class OrderItemUpdate(BaseModel):
     quantity: Optional[int] = None
     unit_price: Optional[Decimal] = None
+    customer_rating: Optional[int] = None
 
 class OrderItemResponse(OrderItemBase):
     id: int
     subtotal: Decimal
+    customer_rating: Optional[int] = None
     created_at: datetime
 
     class Config:

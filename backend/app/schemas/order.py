@@ -57,6 +57,7 @@ class OrderDetailItemResponse(BaseModel):
     quantity: int
     unit_price: Decimal
     subtotal: Decimal
+    customer_rating: Optional[int] = None  # Valoración del cliente (1-5)
     product_info: dict  # name, description, image_url, average_rating, rating_count
     color_info: dict    # name, hex_code
 

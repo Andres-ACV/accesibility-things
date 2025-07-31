@@ -4,6 +4,7 @@ from typing import List, Optional
 from ..config.database import get_db
 from ..services.product_service import ProductService
 from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse, TopSellingProductResponse, ProductListPaginatedResponse, ProductDetailResponse
+from ..schemas.product_rating import ProductRatingRequest, ProductRatingResponse
 
 router = APIRouter(prefix="/products", tags=["products"])
 
@@ -116,18 +117,92 @@ def delete_product(
         raise HTTPException(status_code=404, detail="Producto no encontrado")
     return {"message": "Producto eliminado exitosamente"}
 
-@router.post("/{product_id}/rate", response_model=ProductResponse)
+@router.post("/{product_id}/rate", response_model=ProductRatingResponse)
 def rate_product(
     product_id: int,
-    rating: float = Body(..., embed=True, ge=0, le=5, description="Valoración entre 0 y 5"),
+    rating_request: ProductRatingRequest,
     db: Session = Depends(get_db)
 ):
-    """Valorar un producto. Actualiza average_rating y rating_count."""
-    service = ProductService(db)
-    product = service.rate_product(product_id, rating)
-    if not product:
-        raise HTTPException(status_code=404, detail="Producto no encontrado")
-    return product
+    """
+    Valorar un producto específico basado en un order_item.
+    Actualiza customer_rating en order_items y recalcula average_rating y rating_count del producto.
+    """
+    try:
+        service = ProductService(db)
+        result = service.rate_product(
+            product_id=product_id,
+            order_item_id=rating_request.order_item_id,
+            rating_score=rating_request.rating_score
+        )
+        return ProductRatingResponse(**result)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error interno del servidor al procesar la valoración")
+
+@router.get("/{product_id}/ratings-debug")
+def debug_product_ratings(
+    product_id: int,
+    db: Session = Depends(get_db)
+):
+    """Endpoint de debug para verificar las valoraciones de un producto"""
+    from ..models.order_item import OrderItem
+    from sqlalchemy import text
+    
+    try:
+        # Obtener el producto
+        service = ProductService(db)
+        product = service.get_product(product_id)
+        if not product:
+            raise HTTPException(status_code=404, detail="Producto no encontrado")
+        
+        # Obtener todos los order_items para este producto
+        order_items = db.query(OrderItem).filter(OrderItem.product_id == product_id).all()
+        
+        # Obtener solo las valoraciones válidas
+        valid_ratings = [item.customer_rating for item in order_items if item.customer_rating is not None]
+        
+        # Consulta SQL directa
+        rating_query = text("""
+            SELECT customer_rating 
+            FROM order_items 
+            WHERE product_id = :product_id 
+            AND customer_rating IS NOT NULL
+        """)
+        
+        sql_ratings = db.execute(rating_query, {"product_id": product_id}).fetchall()
+        sql_ratings_values = [row[0] for row in sql_ratings]
+        
+        return {
+            "product_id": product_id,
+            "product_name": product.name,
+            "current_average_rating": float(product.average_rating) if product.average_rating else 0,
+            "current_rating_count": product.rating_count,
+            "order_items_count": len(order_items),
+            "order_items_with_ratings": len(valid_ratings),
+            "ratings_from_orm": valid_ratings,
+            "ratings_from_sql": sql_ratings_values,
+            "calculated_average": sum(valid_ratings) / len(valid_ratings) if valid_ratings else 0,
+            "calculated_count": len(valid_ratings)
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
+
+@router.post("/{product_id}/recalculate-ratings")
+def recalculate_product_ratings(
+    product_id: int,
+    db: Session = Depends(get_db)
+):
+    """Forzar recálculo de valoraciones para un producto (útil para debugging)"""
+    try:
+        service = ProductService(db)
+        result = service.recalculate_product_ratings(product_id)
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error recalculando valoraciones: {str(e)}")
 
 @router.get("/detail/{product_id}", response_model=ProductDetailResponse)
 def get_product_detail(

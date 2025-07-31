@@ -1,6 +1,6 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from sqlalchemy import func, desc
+from sqlalchemy import func, desc, text
 from ..models.product import Product
 from ..models.order_item import OrderItem
 from ..models.product_image import ProductImage
@@ -288,17 +288,150 @@ class ProductService:
         }
         return detail 
 
-    def rate_product(self, product_id: int, rating: float) -> Optional[ProductResponse]:
-        """Permite a un usuario valorar un producto. Actualiza average_rating y rating_count."""
+    def rate_product(self, product_id: int, order_item_id: int, rating_score: int) -> dict:
+        """
+        Permite a un usuario valorar un producto específico basado en un order_item.
+        Actualiza la valoración en order_items y recalcula average_rating y rating_count del producto.
+        """
+        from ..models.order_item import OrderItem
+        
+        # Iniciar transacción
+        try:
+            # 1. Buscar el order_item y validar que pertenece al producto
+            order_item = (
+                self.db.query(OrderItem)
+                .filter(OrderItem.id == order_item_id, OrderItem.product_id == product_id)
+                .first()
+            )
+            
+            if not order_item:
+                raise ValueError("Order item no encontrado o no pertenece al producto especificado")
+            
+            # 2. Verificar que el order_item no tenga ya una valoración
+            if order_item.customer_rating is not None:
+                raise ValueError("Este ítem de orden ya ha sido valorado")
+            
+            # 3. Buscar el producto
+            product = self.db.query(Product).filter(Product.id == product_id).first()
+            if not product:
+                raise ValueError("Producto no encontrado")
+            
+            # 4. Actualizar la valoración en order_items
+            order_item.customer_rating = rating_score
+            
+            # 5. Hacer flush para persistir el cambio antes del recálculo
+            self.db.flush()
+            
+            # 6. Usar el método auxiliar para recalcular las valoraciones
+            recalc_result = self.recalculate_product_ratings_internal(product_id)
+            
+            # 7. Confirmar todos los cambios
+            self.db.commit()
+            self.db.refresh(order_item)
+            self.db.refresh(product)
+            
+            return {
+                "message": "Valoración procesada exitosamente",
+                "product_id": product_id,
+                "order_item_id": order_item_id,
+                "rating_score": rating_score,
+                "new_average_rating": recalc_result["new_average_rating"],
+                "new_rating_count": recalc_result["new_rating_count"]
+            }
+            
+        except Exception as e:
+            self.db.rollback()
+            raise e
+    
+    def recalculate_product_ratings_internal(self, product_id: int) -> dict:
+        """
+        Método interno para recalcular valoraciones sin commit.
+        Se usa dentro de transacciones existentes.
+        """
+        # Obtener todas las valoraciones válidas usando SQL directo
+        rating_query = text("""
+            SELECT customer_rating 
+            FROM order_items 
+            WHERE product_id = :product_id 
+            AND customer_rating IS NOT NULL
+        """)
+        
+        rating_results = self.db.execute(
+            rating_query, 
+            {"product_id": product_id}
+        ).fetchall()
+        
+        # Extraer valores
+        rating_values = [row[0] for row in rating_results]
+        
+        # Calcular nuevos valores
+        new_rating_count = len(rating_values)
+        new_average_rating = sum(rating_values) / new_rating_count if new_rating_count > 0 else 0.0
+        
+        # Buscar y actualizar el producto
         product = self.db.query(Product).filter(Product.id == product_id).first()
-        if not product:
-            return None
-        # Calcular nuevo average_rating
-        total_rating = float(product.average_rating) * product.rating_count
-        new_count = product.rating_count + 1
-        new_average = (total_rating + rating) / new_count
-        product.average_rating = round(new_average, 2)
-        product.rating_count = new_count
-        self.db.commit()
-        self.db.refresh(product)
-        return ProductResponse.from_orm(product) 
+        if product:
+            product.average_rating = round(new_average_rating, 2)
+            product.rating_count = new_rating_count
+        
+        return {
+            "new_average_rating": float(new_average_rating),
+            "new_rating_count": new_rating_count,
+            "ratings_found": rating_values
+        }
+    
+    def recalculate_product_ratings(self, product_id: int) -> dict:
+        """
+        Método auxiliar para recalcular las valoraciones de un producto.
+        Útil para mantener consistencia en la base de datos.
+        """
+        from ..models.order_item import OrderItem
+        
+        try:
+            # Buscar el producto
+            product = self.db.query(Product).filter(Product.id == product_id).first()
+            if not product:
+                raise ValueError("Producto no encontrado")
+            
+            # Obtener todas las valoraciones válidas usando SQL directo
+            rating_query = text("""
+                SELECT customer_rating 
+                FROM order_items 
+                WHERE product_id = :product_id 
+                AND customer_rating IS NOT NULL
+            """)
+            
+            rating_results = self.db.execute(
+                rating_query, 
+                {"product_id": product_id}
+            ).fetchall()
+            
+            # Extraer valores
+            rating_values = [row[0] for row in rating_results]
+            
+            # Calcular nuevos valores
+            new_rating_count = len(rating_values)
+            new_average_rating = sum(rating_values) / new_rating_count if new_rating_count > 0 else 0.0
+            
+            # Actualizar el producto
+            old_average = float(product.average_rating) if product.average_rating else 0
+            old_count = product.rating_count
+            
+            product.average_rating = round(new_average_rating, 2)
+            product.rating_count = new_rating_count
+            
+            self.db.commit()
+            self.db.refresh(product)
+            
+            return {
+                "product_id": product_id,
+                "old_average_rating": old_average,
+                "old_rating_count": old_count,
+                "new_average_rating": float(product.average_rating),
+                "new_rating_count": product.rating_count,
+                "ratings_found": rating_values
+            }
+            
+        except Exception as e:
+            self.db.rollback()
+            raise e 

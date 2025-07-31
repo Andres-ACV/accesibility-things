@@ -13,6 +13,7 @@ class OrderItem(Base):
     quantity = Column(Integer, nullable=False)
     unit_price = Column(Numeric(10, 2), nullable=False)
     subtotal = Column(Numeric(10, 2), nullable=False)
+    customer_rating = Column(Integer, nullable=True)  # Valoración del cliente (1-5)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
     # Relationships

@@ -7,6 +7,49 @@
     <meta name="description" content="Detalle de la orden de compra, ítems y calificación de productos">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/accessibility.css">
+    <style>
+        /* Estilos para los controles de calificación */
+        .rating-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .rating-input {
+            width: 60px;
+            padding: 0.25rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .rating-input:disabled {
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: not-allowed;
+        }
+        
+        .rating-input:focus {
+            outline: 2px solid #007bff;
+            border-color: #007bff;
+        }
+        
+        .rating-info {
+            font-size: 0.875rem;
+            color: #666;
+            line-height: 1.3;
+        }
+        
+        .rating-info small {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Visibilidad del botón de envío */
+        #send-ratings-btn[style*="display: none"] {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Enlaces de omisión -->
@@ -219,30 +262,42 @@
     function renderOrderItems(items) {
         const tbody = document.getElementById('cart-items');
         tbody.innerHTML = '';
+        
         items.forEach((item, idx) => {
             const tr = document.createElement('tr');
+            
             // Producto
             const tdProduct = document.createElement('td');
             tdProduct.textContent = item.product_info.name || 'Producto';
             tdProduct.setAttribute('data-label', 'Producto');
+            
             // Color
             const tdColor = document.createElement('td');
             tdColor.textContent = item.color_info.name || '-';
             tdColor.setAttribute('data-label', 'Color');
+            
             // Precio unitario
             const tdPrice = document.createElement('td');
             tdPrice.textContent = formatPrice(item.unit_price);
             tdPrice.setAttribute('data-label', 'Precio Unitario');
+            
             // Cantidad
             const tdQty = document.createElement('td');
             tdQty.textContent = item.quantity;
             tdQty.setAttribute('data-label', 'Cantidad');
+            
             // Subtotal
             const tdSubtotal = document.createElement('td');
             tdSubtotal.textContent = formatPrice(item.subtotal);
             tdSubtotal.setAttribute('data-label', 'Subtotal');
+            
             // Calificación
             const tdRating = document.createElement('td');
+            
+            // Contenedor para el input y la información
+            const ratingContainer = document.createElement('div');
+            ratingContainer.className = 'rating-container';
+            
             // Input para calificar
             const ratingInput = document.createElement('input');
             ratingInput.type = 'number';
@@ -252,15 +307,44 @@
             ratingInput.className = 'rating-input';
             ratingInput.setAttribute('aria-label', `Calificar producto ${item.product_info.name}`);
             ratingInput.setAttribute('data-product-id', item.product_id);
+            ratingInput.setAttribute('data-order-item-id', item.order_item_id);
             ratingInput.setAttribute('data-idx', idx);
-            // Mostrar calificación actual y cantidad de calificaciones
-            const ratingInfo = document.createElement('span');
+            
+            // Verificar si ya tiene calificación
+            if (item.customer_rating !== null && item.customer_rating !== undefined) {
+                // Ya calificado - deshabilitar input y mostrar valor
+                ratingInput.disabled = true;
+                ratingInput.value = item.customer_rating;
+                ratingInput.setAttribute('aria-label', `Producto ${item.product_info.name} ya calificado con ${item.customer_rating} estrellas`);
+            } else {
+                // Sin calificar - habilitar input
+                ratingInput.disabled = false;
+                ratingInput.placeholder = '1-5';
+            }
+            
+            // Información de calificación del producto
+            const ratingInfo = document.createElement('div');
             ratingInfo.className = 'rating-info';
-            ratingInfo.textContent = `Calificación actual: ${item.product_info.average_rating || 0} (${item.product_info.rating_count || 0})`;
-            tdRating.appendChild(ratingInput);
-            tdRating.appendChild(document.createElement('br'));
-            tdRating.appendChild(ratingInfo);
+            
+            const avgRating = item.product_info.average_rating || 0;
+            const ratingCount = item.product_info.rating_count || 0;
+            
+            if (item.customer_rating !== null && item.customer_rating !== undefined) {
+                ratingInfo.innerHTML = `
+                    <small>✅ Ya calificado: ${item.customer_rating}/5</small><br>
+                    <small>Promedio general: ${avgRating} (${ratingCount} calificaciones)</small>
+                `;
+            } else {
+                ratingInfo.innerHTML = `
+                    <small>Promedio actual: ${avgRating} (${ratingCount} calificaciones)</small>
+                `;
+            }
+            
+            ratingContainer.appendChild(ratingInput);
+            ratingContainer.appendChild(ratingInfo);
+            tdRating.appendChild(ratingContainer);
             tdRating.setAttribute('data-label', 'Calificación');
+            
             // Agregar celdas
             tr.appendChild(tdProduct);
             tr.appendChild(tdColor);
@@ -268,8 +352,26 @@
             tr.appendChild(tdQty);
             tr.appendChild(tdSubtotal);
             tr.appendChild(tdRating);
+            
             tbody.appendChild(tr);
         });
+        
+        // Actualizar visibilidad del botón de enviar calificaciones
+        updateSendRatingsButtonVisibility();
+    }
+    
+    // Función para actualizar la visibilidad del botón de enviar calificaciones
+    function updateSendRatingsButtonVisibility() {
+        const enabledInputs = document.querySelectorAll('.rating-input:not([disabled])');
+        const sendRatingsBtn = document.getElementById('send-ratings-btn');
+        
+        if (enabledInputs.length > 0) {
+            sendRatingsBtn.style.display = '';
+            sendRatingsBtn.disabled = false;
+        } else {
+            sendRatingsBtn.style.display = 'none';
+            sendRatingsBtn.disabled = true;
+        }
     }
     // Renderizar resumen del pedido
     function renderOrderSummary(order) {
@@ -322,23 +424,54 @@
     }
     // Enviar calificaciones
     async function sendRatings() {
-        const rows = document.querySelectorAll('#cart-items tr');
+        // Obtener solo los inputs habilitados (que no han sido calificados)
+        const enabledInputs = document.querySelectorAll('.rating-input:not([disabled])');
         let ratingsToSend = [];
-        rows.forEach(row => {
-            const input = row.querySelector('input.rating-input');
-            if (input && input.value) {
+        let hasValidationErrors = false;
+        
+        // Recopilar calificaciones válidas
+        enabledInputs.forEach(input => {
+            const value = input.value.trim();
+            if (value) {
                 const productId = input.getAttribute('data-product-id');
-                const rating = Number(input.value);
-                if (productId && rating >= 1 && rating <= 5) {
-                    ratingsToSend.push({ productId, rating });
+                const orderItemId = input.getAttribute('data-order-item-id');
+                const rating = Number(value);
+                
+                // Validación en frontend
+                if (!productId || !orderItemId) {
+                    hasValidationErrors = true;
+                    showOrderDetailNotification('Error interno: Falta información del producto.', 'error');
+                    return;
                 }
+                
+                if (isNaN(rating) || rating < 1 || rating > 5) {
+                    hasValidationErrors = true;
+                    input.focus();
+                    showOrderDetailNotification('Por favor ingresa una calificación válida entre 1 y 5.', 'error');
+                    announceToScreenReader('Por favor ingresa una calificación válida entre 1 y 5.');
+                    return;
+                }
+                
+                ratingsToSend.push({ 
+                    productId: parseInt(productId), 
+                    orderItemId: parseInt(orderItemId),
+                    rating: rating,
+                    input: input // Guardar referencia al input para deshabilitarlo después
+                });
             }
         });
+        
+        if (hasValidationErrors) {
+            return;
+        }
+        
         if (ratingsToSend.length === 0) {
             showOrderDetailNotification('Por favor ingresa al menos una calificación antes de enviar.', 'error');
             announceToScreenReader('Por favor ingresa al menos una calificación antes de enviar.');
             return;
         }
+        
+        // Obtener token de autenticación
         let token = localStorage.getItem('authToken');
         if (!token && window.dataManagerOptimized && window.dataManagerOptimized.apiService) {
             token = window.dataManagerOptimized.apiService.getStoredToken();
@@ -348,9 +481,23 @@
             announceToScreenReader('No se encontró token de autenticación. Por favor inicia sesión de nuevo.');
             return;
         }
+        
+        // Mostrar indicador de carga
+        const sendBtn = document.getElementById('send-ratings-btn');
+        const originalBtnText = sendBtn.innerHTML;
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<span aria-hidden="true">⏳</span> Enviando calificaciones...';
+        
+        showOrderDetailNotification('Enviando calificaciones...', 'info');
+        announceToScreenReader('Enviando calificaciones...');
+        
         const backendUrl = window.BACKEND_URL || 'http://localhost:8000';
         let successCount = 0;
-        for (const { productId, rating } of ratingsToSend) {
+        let errorCount = 0;
+        const errors = [];
+        
+        // Enviar cada calificación individualmente
+        for (const { productId, orderItemId, rating, input } of ratingsToSend) {
             try {
                 const response = await fetch(`${backendUrl}/products/${productId}/rate`, {
                     method: 'POST',
@@ -358,23 +505,73 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ rating })
+                    body: JSON.stringify({ 
+                        order_item_id: orderItemId,
+                        rating_score: rating 
+                    })
                 });
-                if (response.status === 200) {
+                
+                if (response.ok) {
                     successCount++;
+                    // Deshabilitar el input y actualizar su estado
+                    input.disabled = true;
+                    input.value = rating;
+                    input.setAttribute('aria-label', `Producto ya calificado con ${rating} estrellas`);
+                    
+                    // Actualizar la información visual
+                    const ratingInfo = input.parentNode.querySelector('.rating-info');
+                    if (ratingInfo) {
+                        ratingInfo.innerHTML = `
+                            <small>✅ Ya calificado: ${rating}/5</small><br>
+                            <small>Calificación enviada correctamente</small>
+                        `;
+                    }
+                } else {
+                    errorCount++;
+                    const errorData = await response.json().catch(() => ({ detail: 'Error desconocido' }));
+                    errors.push(`Producto ${productId}: ${errorData.detail || 'Error desconocido'}`);
                 }
             } catch (e) {
-                // Ignorar errores individuales
+                errorCount++;
+                errors.push(`Producto ${productId}: Error de conexión`);
+                console.error('Error enviando calificación:', e);
             }
         }
-        if (successCount > 0) {
-            showOrderDetailNotification('¡Calificaciones enviadas exitosamente!', 'success');
-            announceToScreenReader('¡Calificaciones enviadas exitosamente!');
-            loadOrderDetail(); // Recargar para actualizar ratings
+        
+        // Restaurar botón y mostrar resultados
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = originalBtnText;
+        
+        // Mostrar mensaje de resultado
+        if (successCount > 0 && errorCount === 0) {
+            showOrderDetailNotification(`¡${successCount} calificación(es) enviada(s) exitosamente!`, 'success');
+            announceToScreenReader(`¡${successCount} calificación(es) enviada(s) exitosamente!`);
+            
+            // Recargar datos para actualizar promedios
+            setTimeout(() => {
+                loadOrderDetail();
+            }, 2000);
+            
+        } else if (successCount > 0 && errorCount > 0) {
+            showOrderDetailNotification(
+                `${successCount} calificación(es) enviada(s) correctamente, ${errorCount} fallaron.`, 
+                'warning'
+            );
+            announceToScreenReader(`${successCount} calificación(es) enviada(s) correctamente, ${errorCount} fallaron.`);
+            
         } else {
-            showOrderDetailNotification('No se pudieron enviar las calificaciones. Intenta de nuevo.', 'error');
+            let errorMessage = 'No se pudieron enviar las calificaciones.';
+            if (errors.length > 0) {
+                errorMessage += ' Errores: ' + errors.join('; ');
+            }
+            showOrderDetailNotification(errorMessage, 'error');
             announceToScreenReader('No se pudieron enviar las calificaciones. Intenta de nuevo.');
         }
+        
+        // Actualizar visibilidad del botón
+        updateSendRatingsButtonVisibility();
+    }
+    
     /**
      * Mostrar notificación en orderDetail (igual que profile)
      */
@@ -440,7 +637,7 @@
             }
         }, 1000);
     }
-    }
+    
     // Botón volver a mis pedidos
     function backToOrders() {
         window.location.href = 'profile.html#orders';

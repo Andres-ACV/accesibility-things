@@ -97,7 +97,8 @@ def create_order(
                     color_id=item["color_id"],
                     quantity=item["quantity"],
                     unit_price=item["unit_price"],
-                    subtotal=item["subtotal"]
+                    subtotal=item["subtotal"],
+                    customer_rating=None  # Inicializar como NULL
                 )
                 db.add(db_item)
 

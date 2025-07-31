@@ -298,7 +298,8 @@ SEED_ORDER_ITEM = {
     "quantity": 1,
     "unit_price": 250.00,
     "subtotal": 250.00,
-    "created_at": datetime.now()
+    "created_at": datetime.now(),
+    "customer_rating":4
 }
 
 # Helper para obtener o crear orden

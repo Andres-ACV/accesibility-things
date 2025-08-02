@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de la Orden</title>
+    <meta name="description" content="Detalle de la orden de compra, ítems y calificación de productos">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+    <style>
+        /* Estilos para los controles de calificación */
+        .rating-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .rating-input {
+            width: 60px;
+            padding: 0.25rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .rating-input:disabled {
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: not-allowed;
+        }
+        
+        .rating-input:focus {
+            outline: 2px solid #007bff;
+            border-color: #007bff;
+        }
+        
+        .rating-info {
+            font-size: 0.875rem;
+            color: #666;
+            line-height: 1.3;
+        }
+        
+        .rating-info small {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Visibilidad del botón de envío */
+        #send-ratings-btn[style*="display: none"] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Enlaces de omisión -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    <a href="#nav-main" class="skip-link">Saltar a navegación</a>
+    <a href="#cart-items" class="skip-link">Saltar a productos de la orden</a>
+    <a href="#order-summary" class="skip-link">Saltar al resumen del pedido</a>
+    
+    <!-- Encabezado de página -->
+    <header role="banner">
+        <div class="header-container">
+            <div class="logo">
+                <h1>
+                    <a href="index.html" aria-label="Accessibility Things - Página de inicio">
+                        Accessibility Things
+                    </a>
+                </h1>
+                <p class="tagline">Productos de accesibilidad para una vida independiente</p>
+            </div>
+            <div class="accessibility-controls" role="region" aria-label="Controles de accesibilidad">
+                <button type="button" id="high-contrast-toggle" aria-pressed="false" class="accessibility-btn">
+                    <span class="sr-only">Activar</span>
+                    <span aria-hidden="true">🌓</span>
+                    Alto contraste
+                </button>
+                <button type="button" id="font-size-toggle" aria-pressed="false" class="accessibility-btn">
+                    <span class="sr-only">Aumentar</span>
+                    <span aria-hidden="true">🔍</span>
+                    Tamaño de texto
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navegación principal -->
+    <nav id="nav-main" role="navigation" aria-label="Navegación principal">
+        <ul role="menubar" class="nav-menu">
+            <li role="none">
+                <a href="index.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🏠</span>
+                    Inicio
+                </a>
+            </li>
+            <li role="none">
+                <a href="catalogo.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🛍️</span>
+                    Catálogo
+                </a>
+            </li>
+            <li role="none">
+                <a href="carrito.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🛒</span>
+                    Carrito
+                    <span id="cart-count" class="cart-badge" aria-label="productos en el carrito">0</span>
+                </a>
+            </li>
+            <li role="none">
+                <a href="profile.html" role="menuitem" class="nav-link" id="profile-link">
+                    <span aria-hidden="true">👤</span>
+                    <span id="profile-text">Mi Perfil</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Breadcrumbs -->
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+        <ol>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="profile.html">Mi Perfil</a></li>
+            <li aria-current="page">Detalle de la Orden</li>
+        </ol>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <main id="main-content" role="main">
+        <div class="cart-header">
+            <h2 id="order-title">Detalle de la Orden</h2>
+            <p id="order-description">Consulta los detalles de tu compra y califica los productos recibidos.</p>
+        </div>
+        <div id="loading-message" class="loading-message" aria-live="polite" style="display:none;">Cargando detalles de la orden...</div>
+        <div id="error-message" class="notification notification-error" role="alert" style="display:none;"></div>
+        <div class="cart-layout" id="order-detail-content" style="display:none;">
+            <!-- Productos de la orden -->
+            <section id="cart-items-section" class="cart-items" aria-labelledby="cart-items-title">
+                <h3 id="cart-items-title">Productos de la Orden</h3>
+                <table class="cart-table" role="table" aria-label="Productos de la orden">
+                    <caption class="sr-only">Lista de productos de la orden y calificación</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Color</th>
+                            <th scope="col">Precio Unitario</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Subtotal</th>
+                            <th scope="col">Calificación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items">
+                        <!-- Ítems de la orden se cargarán aquí -->
+                    </tbody>
+                </table>
+                                    <div class="cart-actions">
+                        <button type="button" class="btn btn-primary" id="send-ratings-btn">
+                            <span aria-hidden="true">⭐</span> Enviar Calificaciones
+                        </button>
+                        <button type="button" class="btn btn-outline" id="back-to-orders-btn">
+                            <span aria-hidden="true">🔙</span> Volver a Mis Pedidos
+                        </button>
+                    </div>
+                    
+                    <!-- Contenedor de notificaciones del detalle de orden -->
+                    <div id="order-detail-notification-container" class="profile-notification-container" aria-live="polite"></div>
+            </section>
+            <!-- Resumen del pedido -->
+            <aside class="order-summary" id="order-summary" role="complementary" aria-labelledby="summary-title">
+                <h3 id="summary-title">Resumen del Pedido</h3>
+                <div class="summary-content">
+                    <table class="summary-table" role="table" aria-label="Resumen de costos">
+                        <caption class="sr-only">Desglose de costos de la orden</caption>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Subtotal:</th>
+                                <td id="subtotal-amount">₡0</td>
+                            </tr>
+                            <tr class="total-row">
+                                <th scope="row">Total:</th>
+                                <td id="total-amount">₡0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </aside>
+        </div>
+    </main>
+    <!-- Pie de página -->
+    <footer role="contentinfo">
+        <div class="footer-content">
+            <section class="footer-section">
+                <h4>Accessibility Things</h4>
+                <p>
+                    Comprometidos con la inclusión y la accesibilidad en Costa Rica, 
+                    cumpliendo con la Ley 7600.
+                </p>
+            </section>
+            <section class="footer-section">
+                <h4>Enlaces Útiles</h4>
+                <ul>
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="profile.html">Mi Cuenta</a></li>
+                    <li><a href="carrito.html">Carrito</a></li>
+                    <li><a href="#" aria-describedby="ayuda-desc">Ayuda</a></li>
+                </ul>
+                <span id="ayuda-desc" class="sr-only">Página de ayuda y preguntas frecuentes</span>
+            </section>
+            <section class="footer-section">
+                <h4>Contacto</h4>
+                <address>
+                    <p>Email: <a href="mailto:info@accessibilitythings.cr">info@accessibilitythings.cr</a></p>
+                    <p>Teléfono: <a href="tel:+50622334455">+506 2233-4455</a></p>
+                </address>
+            </section>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Accessibility Things. Todos los derechos reservados.</p>
+            <p>
+                <a href="#">Términos de Uso</a> | 
+                <a href="#">Política de Privacidad</a> | 
+                <a href="#">Accesibilidad</a>
+            </p>
+        </div>
+    </footer>
+    <!-- Scripts -->
+    <script src="js/api-service.js"></script>
+    <script src="js/data-manager-optimized.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script>
+    // Utilidad para formatear moneda
+    function formatPrice(price) {
+        return new Intl.NumberFormat('es-CR', {
+            style: 'currency',
+            currency: 'CRC',
+            minimumFractionDigits: 0
+        }).format(price);
+    }
+    // Obtener parámetro de la URL
+    function getOrderIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('orderId') || params.get('id');
+    }
+    // Mostrar/ocultar estados
+    function showLoading() {
+        document.getElementById('loading-message').style.display = '';
+        document.getElementById('error-message').style.display = 'none';
+        document.getElementById('order-detail-content').style.display = 'none';
+    }
+    function showError(msg) {
+        document.getElementById('loading-message').style.display = 'none';
+        const err = document.getElementById('error-message');
+        err.textContent = msg;
+        err.style.display = '';
+        document.getElementById('order-detail-content').style.display = 'none';
+    }
+    function showOrderDetail() {
+        document.getElementById('loading-message').style.display = 'none';
+        document.getElementById('error-message').style.display = 'none';
+        document.getElementById('order-detail-content').style.display = '';
+    }
+    // Renderizar ítems de la orden
+    function renderOrderItems(items) {
+        const tbody = document.getElementById('cart-items');
+        tbody.innerHTML = '';
+        
+        items.forEach((item, idx) => {
+            const tr = document.createElement('tr');
+            
+            // Producto
+            const tdProduct = document.createElement('td');
+            tdProduct.textContent = item.product_info.name || 'Producto';
+            tdProduct.setAttribute('data-label', 'Producto');
+            
+            // Color
+            const tdColor = document.createElement('td');
+            tdColor.textContent = item.color_info.name || '-';
+            tdColor.setAttribute('data-label', 'Color');
+            
+            // Precio unitario
+            const tdPrice = document.createElement('td');
+            tdPrice.textContent = formatPrice(item.unit_price);
+            tdPrice.setAttribute('data-label', 'Precio Unitario');
+            
+            // Cantidad
+            const tdQty = document.createElement('td');
+            tdQty.textContent = item.quantity;
+            tdQty.setAttribute('data-label', 'Cantidad');
+            
+            // Subtotal
+            const tdSubtotal = document.createElement('td');
+            tdSubtotal.textContent = formatPrice(item.subtotal);
+            tdSubtotal.setAttribute('data-label', 'Subtotal');
+            
+            // Calificación
+            const tdRating = document.createElement('td');
+            
+            // Contenedor para el input y la información
+            const ratingContainer = document.createElement('div');
+            ratingContainer.className = 'rating-container';
+            
+            // Input para calificar
+            const ratingInput = document.createElement('input');
+            ratingInput.type = 'number';
+            ratingInput.min = 1;
+            ratingInput.max = 5;
+            ratingInput.step = 1;
+            ratingInput.className = 'rating-input';
+            ratingInput.setAttribute('aria-label', `Calificar producto ${item.product_info.name}`);
+            ratingInput.setAttribute('data-product-id', item.product_id);
+            ratingInput.setAttribute('data-order-item-id', item.order_item_id);
+            ratingInput.setAttribute('data-idx', idx);
+            
+            // Verificar si ya tiene calificación
+            if (item.customer_rating !== null && item.customer_rating !== undefined) {
+                // Ya calificado - deshabilitar input y mostrar valor
+                ratingInput.disabled = true;
+                ratingInput.value = item.customer_rating;
+                ratingInput.setAttribute('aria-label', `Producto ${item.product_info.name} ya calificado con ${item.customer_rating} estrellas`);
+            } else {
+                // Sin calificar - habilitar input
+                ratingInput.disabled = false;
+                ratingInput.placeholder = '1-5';
+            }
+            
+            // Información de calificación del producto
+            const ratingInfo = document.createElement('div');
+            ratingInfo.className = 'rating-info';
+            
+            const avgRating = item.product_info.average_rating || 0;
+            const ratingCount = item.product_info.rating_count || 0;
+            
+            if (item.customer_rating !== null && item.customer_rating !== undefined) {
+                ratingInfo.innerHTML = `
+                    <small>✅ Ya calificado: ${item.customer_rating}/5</small><br>
+                    <small>Promedio general: ${avgRating} (${ratingCount} calificaciones)</small>
+                `;
+            } else {
+                ratingInfo.innerHTML = `
+                    <small>Promedio actual: ${avgRating} (${ratingCount} calificaciones)</small>
+                `;
+            }
+            
+            ratingContainer.appendChild(ratingInput);
+            ratingContainer.appendChild(ratingInfo);
+            tdRating.appendChild(ratingContainer);
+            tdRating.setAttribute('data-label', 'Calificación');
+            
+            // Agregar celdas
+            tr.appendChild(tdProduct);
+            tr.appendChild(tdColor);
+            tr.appendChild(tdPrice);
+            tr.appendChild(tdQty);
+            tr.appendChild(tdSubtotal);
+            tr.appendChild(tdRating);
+            
+            tbody.appendChild(tr);
+        });
+        
+        // Actualizar visibilidad del botón de enviar calificaciones
+        updateSendRatingsButtonVisibility();
+    }
+    
+    // Función para actualizar la visibilidad del botón de enviar calificaciones
+    function updateSendRatingsButtonVisibility() {
+        const enabledInputs = document.querySelectorAll('.rating-input:not([disabled])');
+        const sendRatingsBtn = document.getElementById('send-ratings-btn');
+        
+        if (enabledInputs.length > 0) {
+            sendRatingsBtn.style.display = '';
+            sendRatingsBtn.disabled = false;
+        } else {
+            sendRatingsBtn.style.display = 'none';
+            sendRatingsBtn.disabled = true;
+        }
+    }
+    // Renderizar resumen del pedido
+    function renderOrderSummary(order) {
+        document.getElementById('subtotal-amount').textContent = formatPrice(order.total);
+        document.getElementById('total-amount').textContent = formatPrice(order.total);
+    }
+    // Cargar detalle de la orden
+    async function loadOrderDetail() {
+        showLoading();
+        const orderId = getOrderIdFromUrl();
+        if (!orderId) {
+            showError('No se especificó el ID de la orden.');
+            return;
+        }
+        document.getElementById('order-title').textContent = `Detalle de la Orden #${orderId}`;
+        // Token
+        let token = localStorage.getItem('authToken');
+        if (!token && window.dataManagerOptimized && window.dataManagerOptimized.apiService) {
+            token = window.dataManagerOptimized.apiService.getStoredToken();
+        }
+        if (!token) {
+            showError('No se encontró token de autenticación. Por favor inicia sesión de nuevo.');
+            return;
+        }
+        try {
+            const backendUrl = window.BACKEND_URL || 'http://localhost:8000';
+            const response = await fetch(`${backendUrl}/orders/detail/${orderId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.status === 200) {
+                const order = await response.json();
+                renderOrderItems(order.items);
+                renderOrderSummary(order);
+                showOrderDetail();
+            } else if (response.status === 404) {
+                showError('Orden no encontrada.');
+            } else if (response.status === 403) {
+                showError('No tienes permiso para ver esta orden.');
+            } else if (response.status === 401) {
+                showError('No autenticado. Por favor inicia sesión.');
+            } else {
+                showError('Error al cargar la orden.');
+            }
+        } catch (e) {
+            showError('Error de red o del servidor al cargar la orden.');
+        }
+    }
+    // Enviar calificaciones
+    async function sendRatings() {
+        // Obtener solo los inputs habilitados (que no han sido calificados)
+        const enabledInputs = document.querySelectorAll('.rating-input:not([disabled])');
+        let ratingsToSend = [];
+        let hasValidationErrors = false;
+        
+        // Recopilar calificaciones válidas
+        enabledInputs.forEach(input => {
+            const value = input.value.trim();
+            if (value) {
+                const productId = input.getAttribute('data-product-id');
+                const orderItemId = input.getAttribute('data-order-item-id');
+                const rating = Number(value);
+                
+                // Validación en frontend
+                if (!productId || !orderItemId) {
+                    hasValidationErrors = true;
+                    showOrderDetailNotification('Error interno: Falta información del producto.', 'error');
+                    return;
+                }
+                
+                if (isNaN(rating) || rating < 1 || rating > 5) {
+                    hasValidationErrors = true;
+                    input.focus();
+                    showOrderDetailNotification('Por favor ingresa una calificación válida entre 1 y 5.', 'error');
+                    announceToScreenReader('Por favor ingresa una calificación válida entre 1 y 5.');
+                    return;
+                }
+                
+                ratingsToSend.push({ 
+                    productId: parseInt(productId), 
+                    orderItemId: parseInt(orderItemId),
+                    rating: rating,
+                    input: input // Guardar referencia al input para deshabilitarlo después
+                });
+            }
+        });
+        
+        if (hasValidationErrors) {
+            return;
+        }
+        
+        if (ratingsToSend.length === 0) {
+            showOrderDetailNotification('Por favor ingresa al menos una calificación antes de enviar.', 'error');
+            announceToScreenReader('Por favor ingresa al menos una calificación antes de enviar.');
+            return;
+        }
+        
+        // Obtener token de autenticación
+        let token = localStorage.getItem('authToken');
+        if (!token && window.dataManagerOptimized && window.dataManagerOptimized.apiService) {
+            token = window.dataManagerOptimized.apiService.getStoredToken();
+        }
+        if (!token) {
+            showOrderDetailNotification('No se encontró token de autenticación. Por favor inicia sesión de nuevo.', 'error');
+            announceToScreenReader('No se encontró token de autenticación. Por favor inicia sesión de nuevo.');
+            return;
+        }
+        
+        // Mostrar indicador de carga
+        const sendBtn = document.getElementById('send-ratings-btn');
+        const originalBtnText = sendBtn.innerHTML;
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<span aria-hidden="true">⏳</span> Enviando calificaciones...';
+        
+        showOrderDetailNotification('Enviando calificaciones...', 'info');
+        announceToScreenReader('Enviando calificaciones...');
+        
+        const backendUrl = window.BACKEND_URL || 'http://localhost:8000';
+        let successCount = 0;
+        let errorCount = 0;
+        const errors = [];
+        
+        // Enviar cada calificación individualmente
+        for (const { productId, orderItemId, rating, input } of ratingsToSend) {
+            try {
+                const response = await fetch(`${backendUrl}/products/${productId}/rate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ 
+                        order_item_id: orderItemId,
+                        rating_score: rating 
+                    })
+                });
+                
+                if (response.ok) {
+                    successCount++;
+                    // Deshabilitar el input y actualizar su estado
+                    input.disabled = true;
+                    input.value = rating;
+                    input.setAttribute('aria-label', `Producto ya calificado con ${rating} estrellas`);
+                    
+                    // Actualizar la información visual
+                    const ratingInfo = input.parentNode.querySelector('.rating-info');
+                    if (ratingInfo) {
+                        ratingInfo.innerHTML = `
+                            <small>✅ Ya calificado: ${rating}/5</small><br>
+                            <small>Calificación enviada correctamente</small>
+                        `;
+                    }
+                } else {
+                    errorCount++;
+                    const errorData = await response.json().catch(() => ({ detail: 'Error desconocido' }));
+                    errors.push(`Producto ${productId}: ${errorData.detail || 'Error desconocido'}`);
+                }
+            } catch (e) {
+                errorCount++;
+                errors.push(`Producto ${productId}: Error de conexión`);
+                console.error('Error enviando calificación:', e);
+            }
+        }
+        
+        // Restaurar botón y mostrar resultados
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = originalBtnText;
+        
+        // Mostrar mensaje de resultado
+        if (successCount > 0 && errorCount === 0) {
+            showOrderDetailNotification(`¡${successCount} calificación(es) enviada(s) exitosamente!`, 'success');
+            announceToScreenReader(`¡${successCount} calificación(es) enviada(s) exitosamente!`);
+            
+            // Recargar datos para actualizar promedios
+            setTimeout(() => {
+                loadOrderDetail();
+            }, 2000);
+            
+        } else if (successCount > 0 && errorCount > 0) {
+            showOrderDetailNotification(
+                `${successCount} calificación(es) enviada(s) correctamente, ${errorCount} fallaron.`, 
+                'warning'
+            );
+            announceToScreenReader(`${successCount} calificación(es) enviada(s) correctamente, ${errorCount} fallaron.`);
+            
+        } else {
+            let errorMessage = 'No se pudieron enviar las calificaciones.';
+            if (errors.length > 0) {
+                errorMessage += ' Errores: ' + errors.join('; ');
+            }
+            showOrderDetailNotification(errorMessage, 'error');
+            announceToScreenReader('No se pudieron enviar las calificaciones. Intenta de nuevo.');
+        }
+        
+        // Actualizar visibilidad del botón
+        updateSendRatingsButtonVisibility();
+    }
+    
+    /**
+     * Mostrar notificación en orderDetail (igual que profile)
+     */
+    function showOrderDetailNotification(message, type = 'info') {
+        const container = document.getElementById('order-detail-notification-container');
+        if (!container) {
+            // Fallback: si no existe, usa el método global
+            window.showNotification(message, type);
+            return;
+        }
+
+        // Limpia notificaciones previas
+        container.innerHTML = '';
+
+        // Crea el elemento de notificación
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.setAttribute('role', 'alert');
+        notification.setAttribute('aria-live', 'polite');
+        notification.textContent = message;
+
+        // Si es error, agrega botón de cierre
+        if (type === 'error') {
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'notification-close';
+            closeBtn.setAttribute('aria-label', 'Cerrar notificación');
+            closeBtn.innerHTML = '&times;';
+            closeBtn.onclick = () => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            };
+            notification.appendChild(closeBtn);
+        }
+
+        container.appendChild(notification);
+
+        // Remueve después de 10 segundos si es éxito
+        if (type === 'success') {
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 10000);
+        }
+    }
+
+    /**
+     * Anunciar mensaje a screen reader
+     */
+    function announceToScreenReader(message, priority = 'polite') {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', priority);
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.className = 'sr-only';
+        announcement.textContent = message;
+        
+        document.body.appendChild(announcement);
+        
+        setTimeout(() => {
+            if (announcement.parentNode) {
+                announcement.parentNode.removeChild(announcement);
+            }
+        }, 1000);
+    }
+    
+    // Botón volver a mis pedidos
+    function backToOrders() {
+        window.location.href = 'profile.html#orders';
+    }
+    // ================= CARRITO EN LOCALSTORAGE ===================
+    function updateCartCounter() {
+        const CART_KEY = 'shoppingCart';
+        let cart = [];
+        try {
+            cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+        } catch (e) {
+            cart = [];
+        }
+        const totalItems = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+        const cartCountElem = document.getElementById('cart-count');
+        if (cartCountElem) {
+            cartCountElem.textContent = totalItems;
+        }
+    }
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.dataManagerOptimized && window.dataManagerOptimized.init) {
+            window.dataManagerOptimized.init();
+        }
+        // Mostrar info de usuario en el header si está logueado
+        try {
+            const user = window.dataManagerOptimized && window.dataManagerOptimized.getCurrentUser && window.dataManagerOptimized.getCurrentUser();
+            if (user) {
+                const profileText = document.getElementById('profile-text');
+                if (profileText) {
+                    profileText.textContent = `Mi Perfil | ${user.email}`;
+                }
+                const profileLink = document.getElementById('profile-link');
+                if (profileLink) {
+                    profileLink.href = 'profile.html';
+                }
+            }
+        } catch (e) {}
+        // Actualizar contador del carrito igual que en el perfil
+        if (window.dataManagerOptimized && window.dataManagerOptimized.updateCartCounter) {
+            window.dataManagerOptimized.updateCartCounter();
+        }
+        if (typeof window.updateCartCounter === 'function') {
+            window.updateCartCounter();
+        }
+        loadOrderDetail();
+        document.getElementById('send-ratings-btn').addEventListener('click', sendRatings);
+        document.getElementById('back-to-orders-btn').addEventListener('click', backToOrders);
+        updateCartCounter(); // Actualizar contador del carrito en detalle de orden
+    });
+    </script>
+</body>
+</html> 

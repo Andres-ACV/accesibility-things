@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Accessibility Things</title>
+    <meta name="description" content="Explora nuestro catálogo de productos de accesibilidad organizados por categorías y necesidades específicas">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+    <!-- Enlaces de omisión -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    <a href="#nav-main" class="skip-link">Saltar a navegación</a>
+    <a href="#search-form" class="skip-link">Saltar a búsqueda</a>
+    <a href="#filters" class="skip-link">Saltar a filtros</a>
+    
+    <!-- Encabezado de página -->
+    <header role="banner">
+        <div class="header-container">
+            <div class="logo">
+                <h1>
+                    <a href="index.html" aria-label="Accessibility Things - Página de inicio">
+                        Accessibility Things
+                    </a>
+                </h1>
+                <p class="tagline">Productos de accesibilidad para una vida independiente</p>
+            </div>
+            
+            <!-- Controles de accesibilidad -->
+            <div class="accessibility-controls" role="region" aria-label="Controles de accesibilidad">
+                <button type="button" id="high-contrast-toggle" aria-pressed="false" class="accessibility-btn">
+                    <span class="sr-only">Activar</span>
+                    <span aria-hidden="true">🌓</span>
+                    Alto contraste
+                </button>
+                <button type="button" id="font-size-toggle" aria-pressed="false" class="accessibility-btn">
+                    <span class="sr-only">Aumentar</span>
+                    <span aria-hidden="true">🔍</span>
+                    Tamaño de texto
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navegación principal -->
+    <nav id="nav-main" role="navigation" aria-label="Navegación principal">
+        <ul role="menubar" class="nav-menu">
+            <li role="none">
+                <a href="index.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🏠</span>
+                    Inicio
+                </a>
+            </li>
+            <li role="none">
+                <a href="catalogo.html" role="menuitem" aria-current="page" class="nav-link active">
+                    <span aria-hidden="true">🛍️</span>
+                    Catálogo
+                </a>
+            </li>
+            <li role="none">
+                <a href="carrito.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🛒</span>
+                    Carrito
+                    <span id="cart-count" class="cart-badge" aria-label="productos en el carrito">0</span>
+                </a>
+            </li>
+            <li role="none">
+                <a href="profile.html" role="menuitem" class="nav-link" id="profile-link">
+                    <span aria-hidden="true">👤</span>
+                    <span id="profile-text">Mi Perfil</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Breadcrumbs -->
+    <nav aria-label="Ruta de navegación" class="breadcrumb">
+        <ol>
+            <li><a href="index.html">Inicio</a></li>
+            <li aria-current="page">Catálogo</li>
+        </ol>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <main id="main-content" role="main">
+        <div class="catalog-header">
+            <h2>Catálogo de Productos</h2>
+            <p>Encuentra productos especializados para diferentes tipos de discapacidad y necesidades.</p>
+        </div>
+        
+        <!-- Formulario de búsqueda -->
+        <section class="search-section" aria-labelledby="search-title">
+            <h3 id="search-title">Buscar Productos</h3>
+            <form id="search-form" class="search-form" role="search">
+                <fieldset>
+                    <legend class="sr-only">Búsqueda de productos</legend>
+                    <div class="search-input-group">
+                        <label for="search-input" class="sr-only">Buscar productos</label>
+                        <input type="search" 
+                               id="search-input" 
+                               name="search" 
+                               placeholder="Buscar productos..." 
+                               aria-describedby="search-help"
+                               autocomplete="off">
+                        <div id="search-help" class="help-text">
+                            Ingresa el nombre o característica del producto que buscas
+                        </div>
+                        <button type="submit" class="btn btn-primary search-btn">
+                            <span class="sr-only">Buscar</span>
+                            <span aria-hidden="true">🔍</span>
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+        
+        <div class="catalog-layout">
+            <!-- Filtros -->
+            <aside id="filters" class="filters-sidebar" role="complementary" aria-labelledby="filters-title">
+                <h3 id="filters-title">Filtros</h3>
+                
+                <form class="filters-form" aria-label="Filtros de búsqueda">
+                    <!-- Filtro por categoría -->
+                    <fieldset class="filter-group">
+                        <legend>Categoría</legend>
+                        <div class="filter-options">
+                            <input type="radio" id="todas-categorias" name="categoria" value="" checked>
+                            <label for="todas-categorias">Todas las categorías</label>
+                            
+                            <input type="radio" id="movilidad" name="categoria" value="1">
+                            <label for="movilidad">Movilidad</label>
+                            
+                            <input type="radio" id="visual" name="categoria" value="2">
+                            <label for="visual">Discapacidad Visual</label>
+                            
+                            <input type="radio" id="auditiva" name="categoria" value="3">
+                            <label for="auditiva">Discapacidad Auditiva</label>
+                            
+                            <input type="radio" id="cognitiva" name="categoria" value="4">
+                            <label for="cognitiva">Discapacidad Cognitiva</label>
+                            
+                            <input type="radio" id="embarazo" name="categoria" value="5">
+                            <label for="embarazo">Embarazo y Maternidad</label>
+                        </div>
+                    </fieldset>
+                    
+                    <!-- Filtro por rango de precio -->
+                    <fieldset class="filter-group">
+                        <legend>Rango de Precio</legend>
+                        <div class="price-range">
+                            <div class="price-input-group">
+                                <label for="precio-min">Precio mínimo</label>
+                                <input type="number" 
+                                       id="precio-min" 
+                                       name="precio_min" 
+                                       min="0" 
+                                       step="1"
+                                       placeholder="0"
+                                       aria-describedby="precio-help">
+                            </div>
+                            <div class="price-input-group">
+                                <label for="precio-max">Precio máximo</label>
+                                <input type="number" 
+                                       id="precio-max" 
+                                       name="precio_max" 
+                                       min="0" 
+                                       step="1"
+                                       placeholder="1000000"
+                                       aria-describedby="precio-help">
+                            </div>
+                            <div id="precio-help" class="help-text">
+                                Precios en colones costarricenses
+                            </div>
+                        </div>
+                    </fieldset>
+                    
+                    <!-- Botones de filtros -->
+                    <div class="filter-actions">
+                        <button type="submit" class="btn btn-primary">
+                            Aplicar filtros
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            Limpiar filtros
+                        </button>
+                    </div>
+                </form>
+            </aside>
+            
+            <!-- Lista de productos -->
+            <section class="products-section" aria-labelledby="products-title">
+                <div class="products-header">
+                    <h3 id="products-title">Productos Encontrados</h3>
+                    <div class="products-controls">
+                        <div class="results-count" aria-live="polite">
+                            <span id="results-count">Mostrando 12 de 45 productos</span>
+                        </div>
+                        <div class="sort-controls">
+                            <label for="sort-select">Ordenar por:</label>
+                            <select id="sort-select" name="sort" aria-describedby="sort-help">
+                                <option value="relevancia">Relevancia</option>
+                                <option value="precio-asc">Precio: Menor a Mayor</option>
+                                <option value="precio-desc">Precio: Mayor a Menor</option>
+                                <option value="nombre">Nombre A-Z</option>
+                                <option value="fecha">Más Recientes</option>
+                            </select>
+                            <div id="sort-help" class="sr-only">
+                                Cambia el orden de los productos mostrados
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="products-grid" class="products-grid" role="group" aria-label="Lista de productos">
+                    <!-- Los productos se cargarán dinámicamente aquí -->
+                    <div class="loading-message" aria-live="polite">
+                        Cargando productos...
+                    </div>
+                </div>
+                
+                <!-- Paginación -->
+                <nav class="pagination" aria-label="Navegación de páginas">
+                    <ul class="pagination-list">
+                        <li>
+                            <a href="#" aria-label="Página anterior" class="pagination-link disabled">
+                                <span aria-hidden="true">‹</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Página 1" aria-current="page" class="pagination-link active">1</a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Página 2" class="pagination-link">2</a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Página 3" class="pagination-link">3</a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Página siguiente" class="pagination-link">
+                                <span aria-hidden="true">›</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Pie de página -->
+    <footer role="contentinfo">
+        <div class="footer-content">
+            <section class="footer-section">
+                <h4>Accessibility Things</h4>
+                <p>
+                    Comprometidos con la inclusión y la accesibilidad en Costa Rica, 
+                    cumpliendo con la Ley 7600.
+                </p>
+            </section>
+            
+            <section class="footer-section">
+                <h4>Enlaces Útiles</h4>
+                <ul>
+                    <li><a href="catalogo.html" aria-current="page">Catálogo</a></li>
+                    <li><a href="profile.html">Mi Cuenta</a></li>
+                    <li><a href="carrito.html">Carrito</a></li>
+                    <li><a href="#" aria-describedby="ayuda-desc">Ayuda</a></li>
+                </ul>
+                <span id="ayuda-desc" class="sr-only">
+                    Página de ayuda y preguntas frecuentes
+                </span>
+            </section>
+            
+            <section class="footer-section">
+                <h4>Contacto</h4>
+                <address>
+                    <p>
+                        Email: <a href="mailto:info@accessibilitythings.cr">info@accessibilitythings.cr</a>
+                    </p>
+                    <p>
+                        Teléfono: <a href="tel:+50622334455">+506 2233-4455</a>
+                    </p>
+                </address>
+            </section>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Accessibility Things. Todos los derechos reservados.</p>
+            <p>
+                <a href="#">Términos de Uso</a> | 
+                <a href="#">Política de Privacidad</a> | 
+                <a href="#">Accesibilidad</a>
+            </p>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script>
+        // Configuración de URL del backend (ajusta aquí si es necesario)
+        // window.BACKEND_URL = 'http://localhost:8000'; // Por defecto, descomenta y ajusta si usas otro puerto o dominio
+    </script>
+    <script src="js/api-service.js"></script>
+    <script src="js/data-manager-optimized.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script>
+        // =================== ESTADO GLOBAL DE CATÁLOGO ===================
+        const catalogState = {
+            page: 1,
+            limit: 4,
+            sort_by: 'average_rating',
+            sort_order: 'desc',
+            category_id: null,
+            min_price: null,
+            max_price: null,
+            min_avg_rating: null,
+            color_id: null,
+            search: '',
+        };
+        let totalProducts = 0;
+        let lastProducts = [];
+        let categoriesCache = [];
+        let colorsCache = [];
+
+        // =================== CARGA Y RENDERIZADO DE PRODUCTOS ===================
+        async function loadProducts() {
+            setLoadingState(true);
+            try {
+                // Construir parámetros para backend
+                const params = {};
+                if (catalogState.page) params.page = catalogState.page;
+                if (catalogState.limit) params.limit = catalogState.limit;
+                if (catalogState.sort_by) params.sort_by = catalogState.sort_by;
+                if (catalogState.sort_order) params.sort_order = catalogState.sort_order;
+                if (catalogState.category_id) params.category_id = catalogState.category_id;
+                if (catalogState.min_price) params.min_price = catalogState.min_price;
+                if (catalogState.max_price) params.max_price = catalogState.max_price;
+                if (catalogState.min_avg_rating) params.min_avg_rating = catalogState.min_avg_rating;
+                if (catalogState.color_id) params.color_id = catalogState.color_id;
+                if (catalogState.search && catalogState.search.trim() !== '') params.search = catalogState.search.trim();
+
+                // CORRECCIÓN: Usar el método proxy correcto
+                const response = await dataManagerOptimized.getProductosPaginado(params);
+                lastProducts = response.products;
+                totalProducts = response.total_products;
+                renderProducts(response.products);
+                updateResultsCount(response.products.length, response.total_products);
+                renderPagination(response.page, response.limit, response.total_products);
+                setLoadingState(false);
+            } catch (error) {
+                setLoadingState(false);
+                showErrorMessage('No se pudieron cargar los productos: ' + error.message);
+            }
+        }
+
+        // =================== FILTROS DINÁMICOS ===================
+        async function loadCategoriesAndColors() {
+            // Cargar categorías
+            try {
+                categoriesCache = await dataManagerOptimized.getCategorias();
+                updateCategoryFilters(categoriesCache);
+            } catch (e) {
+                showErrorMessage('No se pudieron cargar las categorías');
+            }
+            // Cargar colores
+            try {
+                colorsCache = await dataManagerOptimized.api.getColors ? await dataManagerOptimized.api.getColors() : [];
+                updateColorFilters(colorsCache);
+            } catch (e) {
+                // Si no hay endpoint, ignora
+            }
+        }
+
+        function updateCategoryFilters(categories) {
+            const filterOptions = document.querySelector('.filter-options');
+            if (!filterOptions) return;
+            filterOptions.innerHTML = '';
+            // Opción "Todas"
+            const todasInput = document.createElement('input');
+            todasInput.type = 'radio';
+            todasInput.id = 'todas-categorias';
+            todasInput.name = 'categoria';
+            todasInput.value = '';
+            todasInput.checked = true;
+            const todasLabel = document.createElement('label');
+            todasLabel.setAttribute('for', 'todas-categorias');
+            todasLabel.textContent = 'Todas las categorías';
+            filterOptions.appendChild(todasInput);
+            filterOptions.appendChild(todasLabel);
+            // Dinámicas
+            categories.forEach(category => {
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.id = `cat-${category.id}`;
+                input.name = 'categoria';
+                input.value = category.id;
+                const label = document.createElement('label');
+                label.setAttribute('for', `cat-${category.id}`);
+                label.textContent = category.name;
+                filterOptions.appendChild(input);
+                filterOptions.appendChild(label);
+            });
+        }
+
+        function updateColorFilters(colors) {
+            let colorSelect = document.getElementById('color-select');
+            if (!colorSelect) {
+                // Crear el select si no existe
+                const fieldset = document.createElement('fieldset');
+                fieldset.className = 'filter-group';
+                const legend = document.createElement('legend');
+                legend.textContent = 'Color';
+                fieldset.appendChild(legend);
+                colorSelect = document.createElement('select');
+                colorSelect.id = 'color-select';
+                colorSelect.name = 'color_id';
+                const optionAll = document.createElement('option');
+                optionAll.value = '';
+                optionAll.textContent = 'Todos los colores';
+                colorSelect.appendChild(optionAll);
+                fieldset.appendChild(colorSelect);
+                // Insertar antes de los botones de filtros
+                const filtersForm = document.querySelector('.filters-form');
+                const filterActions = filtersForm.querySelector('.filter-actions');
+                filtersForm.insertBefore(fieldset, filterActions);
+            } else {
+                colorSelect.innerHTML = '';
+                const optionAll = document.createElement('option');
+                optionAll.value = '';
+                optionAll.textContent = 'Todos los colores';
+                colorSelect.appendChild(optionAll);
+            }
+            colors.forEach(color => {
+                const option = document.createElement('option');
+                option.value = color.id;
+                option.textContent = color.name;
+                colorSelect.appendChild(option);
+            });
+        }
+
+        // =================== FILTROS Y BÚSQUEDA ===================
+        document.addEventListener('DOMContentLoaded', async function() {
+            await dataManagerOptimized.init();
+            await loadCategoriesAndColors();
+            updateHeaderUserInfo();
+            setupFilterEvents();
+            setupSearchEvent();
+            setupSortEvent();
+            
+            // Leer parámetros de URL y aplicar filtros iniciales
+            await initializeFromUrlParams();
+            
+            loadProducts();
+            updateCartCounter(); // Sincronizar el contador del carrito
+        });
+
+        /**
+         * Leer parámetros de URL y aplicar filtros iniciales
+         */
+        async function initializeFromUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryId = urlParams.get('categoryId');
+            
+            if (categoryId) {
+                console.log(`🎯 Aplicando filtro de categoría desde URL: ${categoryId}`);
+                catalogState.category_id = Number(categoryId);
+                
+                // Actualizar la interfaz para reflejar el filtro activo
+                await updateCategoryFilterUI(categoryId);
+            }
+        }
+
+        /**
+         * Actualizar la interfaz de filtros para reflejar la categoría seleccionada
+         */
+        async function updateCategoryFilterUI(categoryId) {
+            // Esperar a que las categorías se carguen
+            if (categoriesCache.length === 0) {
+                console.log('⏳ Esperando a que se carguen las categorías...');
+                await new Promise(resolve => {
+                    const checkCategories = () => {
+                        if (categoriesCache.length > 0) {
+                            resolve();
+                        } else {
+                            setTimeout(checkCategories, 100);
+                        }
+                    };
+                    checkCategories();
+                });
+            }
+            
+            // Buscar la categoría seleccionada
+            const selectedCategory = categoriesCache.find(cat => cat.id == categoryId);
+            if (selectedCategory) {
+                console.log(`✅ Categoría encontrada: ${selectedCategory.name}`);
+                
+                // Actualizar el radio button correspondiente
+                const radioButton = document.querySelector(`input[name="categoria"][value="${categoryId}"]`);
+                if (radioButton) {
+                    radioButton.checked = true;
+                    console.log(`✅ Radio button actualizado para categoría ${selectedCategory.name}`);
+                }
+                
+                // Actualizar el título de la página para mostrar el filtro activo
+                updatePageTitle(selectedCategory.name);
+                
+                // Mostrar indicador de filtro activo
+                showActiveFilterIndicator(selectedCategory.name);
+            } else {
+                console.warn(`⚠️ Categoría con ID ${categoryId} no encontrada`);
+            }
+        }
+
+        /**
+         * Actualizar el título de la página para mostrar el filtro activo
+         */
+        function updatePageTitle(categoryName) {
+            // Mantener siempre "Catálogo de Productos" como título
+            // No se modifica el título de la página
+        }
+
+        /**
+         * Mostrar indicador de filtro activo
+         */
+        function showActiveFilterIndicator(categoryName) {
+            // Crear o actualizar el indicador de filtro activo
+            let filterIndicator = document.querySelector('.active-filter-indicator');
+            if (!filterIndicator) {
+                filterIndicator = document.createElement('div');
+                filterIndicator.className = 'active-filter-indicator';
+                
+                const catalogHeader = document.querySelector('.catalog-header');
+                if (catalogHeader) {
+                    catalogHeader.appendChild(filterIndicator);
+                }
+            }
+            
+            filterIndicator.innerHTML = `
+                <span aria-hidden="true">🎯</span>
+                <span>Filtro activo: <strong>${categoryName}</strong></span>
+                <button type="button" onclick="clearCategoryFilter()" 
+                        aria-label="Limpiar filtro de categoría">
+                    <span aria-hidden="true">✕</span>
+                </button>
+            `;
+        }
+
+        /**
+         * Limpiar filtro de categoría
+         */
+        function clearCategoryFilter() {
+            catalogState.category_id = null;
+            
+            // Limpiar URL
+            const url = new URL(window.location);
+            url.searchParams.delete('categoryId');
+            window.history.replaceState({}, '', url);
+            
+            // Limpiar interfaz
+            const filterIndicator = document.querySelector('.active-filter-indicator');
+            if (filterIndicator) {
+                filterIndicator.remove();
+            }
+            
+            // Limpiar radio button
+            const todasInput = document.querySelector('input[name="categoria"][value=""]');
+            if (todasInput) {
+                todasInput.checked = true;
+            }
+            
+            // Recargar productos
+            loadProducts();
+        }
+
+        function setupFilterEvents() {
+            const filtersForm = document.querySelector('.filters-form');
+            if (!filtersForm) return;
+            // Aplicar filtros
+            filtersForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Leer categoría
+                const catInput = filtersForm.querySelector('input[name="categoria"]:checked');
+                catalogState.category_id = catInput && catInput.value ? Number(catInput.value) : null;
+                // Precio
+                const minInput = filtersForm.querySelector('input[name="precio_min"]');
+                const maxInput = filtersForm.querySelector('input[name="precio_max"]');
+                catalogState.min_price = minInput && minInput.value ? Number(minInput.value) : null;
+                catalogState.max_price = maxInput && maxInput.value ? Number(maxInput.value) : null;
+                // Calificación
+                const ratingSelect = filtersForm.querySelector('#rating-select');
+                catalogState.min_avg_rating = ratingSelect && ratingSelect.value ? Number(ratingSelect.value) : null;
+                // Color
+                const colorSelect = filtersForm.querySelector('#color-select');
+                catalogState.color_id = colorSelect && colorSelect.value ? Number(colorSelect.value) : null;
+                // Reiniciar página
+                catalogState.page = 1;
+                loadProducts();
+            });
+            // Limpiar filtros
+            filtersForm.addEventListener('reset', function(e) {
+                setTimeout(() => {
+                    catalogState.category_id = null;
+                    catalogState.min_price = null;
+                    catalogState.max_price = null;
+                    catalogState.min_avg_rating = null;
+                    catalogState.color_id = null;
+                    catalogState.page = 1;
+                    loadProducts();
+                }, 0);
+            });
+        }
+
+        function setupSearchEvent() {
+            const searchForm = document.getElementById('search-form');
+            if (!searchForm) return;
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const searchInput = searchForm.querySelector('#search-input');
+                catalogState.search = searchInput && searchInput.value ? searchInput.value : '';
+                catalogState.page = 1;
+                loadProducts();
+            });
+        }
+
+        function setupSortEvent() {
+            const sortSelect = document.getElementById('sort-select');
+            if (!sortSelect) return;
+            sortSelect.addEventListener('change', function () {
+                const value = sortSelect.value;
+                switch (value) {
+                    case 'precio-asc':
+                        catalogState.sort_by = 'price';
+                        catalogState.sort_order = 'asc';
+                        break;
+                    case 'precio-desc':
+                        catalogState.sort_by = 'price';
+                        catalogState.sort_order = 'desc';
+                        break;
+                    case 'nombre':
+                        catalogState.sort_by = 'name';
+                        catalogState.sort_order = 'asc';
+                        break;
+                    case 'fecha':
+                        catalogState.sort_by = 'created_at';
+                        catalogState.sort_order = 'desc';
+                        break;
+                    case 'relevancia':
+                    default:
+                        catalogState.sort_by = 'average_rating';
+                        catalogState.sort_order = 'desc';
+                        break;
+                }
+                loadProducts();
+            });
+        }
+
+        // =================== CALIFICACIÓN (RATING) SELECT DINÁMICO ===================
+        (function addRatingSelect() {
+            const filtersForm = document.querySelector('.filters-form');
+            if (!filtersForm) return;
+            let ratingFieldset = document.createElement('fieldset');
+            ratingFieldset.className = 'filter-group';
+            let legend = document.createElement('legend');
+            legend.textContent = 'Calificación mínima';
+            ratingFieldset.appendChild(legend);
+            let select = document.createElement('select');
+            select.id = 'rating-select';
+            select.name = 'min_avg_rating';
+            [
+                { value: '', label: 'Todas las calificaciones' },
+                { value: '4', label: '4 estrellas o más' },
+                { value: '3', label: '3 estrellas o más' },
+                { value: '2', label: '2 estrellas o más' },
+                { value: '1', label: '1 estrella o más' },
+            ].forEach(opt => {
+                let option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.label;
+                select.appendChild(option);
+            });
+            ratingFieldset.appendChild(select);
+            // Insertar antes de los botones de filtros
+            const filterActions = filtersForm.querySelector('.filter-actions');
+            filtersForm.insertBefore(ratingFieldset, filterActions);
+        })();
+
+        // =================== ESTADO DE CARGA Y ERRORES ACCESIBLES ===================
+        function setLoadingState(isLoading) {
+            const productsGrid = document.getElementById('products-grid');
+            if (!productsGrid) return;
+            if (isLoading) {
+                productsGrid.innerHTML = '<div class="loading-message" aria-live="polite" role="status">Cargando productos...</div>';
+            }
+        }
+
+        // Función para renderizar productos
+        function renderProducts(products) {
+            const productsGrid = document.getElementById('products-grid');
+            if (!productsGrid) return;
+
+            if (!products || products.length === 0) {
+                productsGrid.innerHTML = '<p class="empty-state">No hay productos disponibles.</p>';
+                return;
+            }
+
+            // Helper para mostrar nombre legible de categoría
+            function getCategoryDisplayName(category) {
+                const categoryNames = {
+                    '1': 'Movilidad',
+                    '2': 'Discapacidad Visual',
+                    '3': 'Discapacidad Auditiva',
+                    '4': 'Discapacidad Cognitiva',
+                    '5': 'Embarazo y Maternidad',
+                    'software': 'Software',
+                };
+                return categoryNames[category] || category;
+            }
+
+            const productsHtml = products.map(product => `
+                <div class="product-card featured-product" data-categoria="${escapeHtml(product.category_id)}" role="article" aria-labelledby="product-${escapeHtml(product.id)}">
+                    <div class="product-image">
+                        <a href="detalle.html?id=${escapeHtml(product.id)}" tabindex="0">
+                            <img src="${escapeHtml(product.image_url) || 'images/placeholder-generic.svg'}"
+                                 alt="${escapeHtml(product.description) || 'Imagen de producto'}"
+                                 loading="lazy"
+                                 onerror="this.src='images/placeholder-generic.svg'">
+                        </a>
+                    </div>
+                    <div class="product-info">
+                        <h3 id="product-${escapeHtml(product.id)}" class="product-name">
+                            <a href="detalle.html?id=${escapeHtml(product.id)}" tabindex="0">${escapeHtml(product.name)}</a>
+                        </h3>
+                        <span class="product-category">${escapeHtml(product.category_id)}<!-- Aquí puedes mapear a nombre de categoría si lo deseas --></span>
+                        <div class="product-price">
+                            <span class="current-price">${formatPrice(product.price)}</span>
+                        </div>
+                        <div class="product-rating" aria-label="Calificación: ${Number(product.average_rating) || 0} de 5 estrellas">
+                            <div class="stars" aria-hidden="true">
+                                ${generateStarRating(Number(product.average_rating) || 0)}
+                            </div>
+                            <span class="rating-text">(${
+                                typeof product.average_rating === 'number' && !isNaN(product.average_rating)
+                                    ? product.average_rating.toFixed(1)
+                                    : Number(product.average_rating) && !isNaN(Number(product.average_rating))
+                                        ? Number(product.average_rating).toFixed(1)
+                                        : '0.0'
+                            })</span>
+                            <span class="rating-count">${product.rating_count || product.count_rating || product.numero_resenas || 0} calificaciones</span>
+                        </div>
+                        <a href="detalle.html?id=${escapeHtml(product.id)}" class="btn btn-primary" aria-label="Ver detalles de ${escapeHtml(product.name)}">
+                            Ver detalles
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+            productsGrid.innerHTML = productsHtml;
+        }
+
+        function updateResultsCount(shown, total) {
+            const resultsCount = document.getElementById('results-count');
+            if (resultsCount) {
+                resultsCount.textContent = `Mostrando ${shown} de ${total} productos`;
+            }
+        }
+
+        function renderPagination(page, limit, total) {
+            const paginationNav = document.querySelector('.pagination');
+            const paginationList = paginationNav ? paginationNav.querySelector('.pagination-list') : null;
+            if (!paginationList) return;
+
+            // Calcular total de páginas
+            const totalPages = Math.ceil(total / limit);
+            paginationList.innerHTML = '';
+
+            // Botón anterior
+            const prevLi = document.createElement('li');
+            const prevBtn = document.createElement('a');
+            prevBtn.href = '#';
+            prevBtn.className = 'pagination-link';
+            prevBtn.setAttribute('aria-label', 'Página anterior');
+            prevBtn.innerHTML = '<span aria-hidden="true">‹</span>';
+            if (page === 1) {
+                prevBtn.classList.add('disabled');
+                prevBtn.setAttribute('aria-disabled', 'true');
+                prevBtn.tabIndex = -1;
+            } else {
+                prevBtn.addEventListener('click', e => {
+                    e.preventDefault();
+                    catalogState.page--;
+                    loadProducts();
+                });
+            }
+            prevLi.appendChild(prevBtn);
+            paginationList.appendChild(prevLi);
+
+            // Números de página (máximo 5 visibles, centrado en la actual)
+            let start = Math.max(1, page - 2);
+            let end = Math.min(totalPages, page + 2);
+            if (page <= 3) end = Math.min(5, totalPages);
+            if (page >= totalPages - 2) start = Math.max(1, totalPages - 4);
+            for (let i = start; i <= end; i++) {
+                const li = document.createElement('li');
+                const btn = document.createElement('a');
+                btn.href = '#';
+                btn.className = 'pagination-link';
+                btn.textContent = i;
+                btn.setAttribute('aria-label', `Página ${i}`);
+                if (i === page) {
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-current', 'page');
+                    btn.tabIndex = 0;
+                } else {
+                    btn.addEventListener('click', e => {
+                        e.preventDefault();
+                        catalogState.page = i;
+                        loadProducts();
+                    });
+                }
+                li.appendChild(btn);
+                paginationList.appendChild(li);
+            }
+
+            // Botón siguiente
+            const nextLi = document.createElement('li');
+            const nextBtn = document.createElement('a');
+            nextBtn.href = '#';
+            nextBtn.className = 'pagination-link';
+            nextBtn.setAttribute('aria-label', 'Página siguiente');
+            nextBtn.innerHTML = '<span aria-hidden="true">›</span>';
+            if (page === totalPages || totalPages === 0) {
+                nextBtn.classList.add('disabled');
+                nextBtn.setAttribute('aria-disabled', 'true');
+                nextBtn.tabIndex = -1;
+            } else {
+                nextBtn.addEventListener('click', e => {
+                    e.preventDefault();
+                    catalogState.page++;
+                    loadProducts();
+                });
+            }
+            nextLi.appendChild(nextBtn);
+            paginationList.appendChild(nextLi);
+        }
+
+            // Funciones auxiliares
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function formatPrice(price) {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'CRC'
+                }).format(price);
+            }
+
+            function generateStarRating(rating) {
+                const fullStars = Math.floor(rating);
+                const hasHalfStar = rating % 1 >= 0.5;
+                const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                let stars = '';
+                for (let i = 0; i < fullStars; i++) {
+                    stars += '<span class="star star-filled" aria-hidden="true">★</span>';
+                }
+                if (hasHalfStar) {
+                    stars += '<span class="star star-half" aria-hidden="true">☆</span>';
+                }
+                for (let i = 0; i < emptyStars; i++) {
+                    stars += '<span class="star star-empty" aria-hidden="true">☆</span>';
+                }
+                return stars;
+            }
+
+            function showErrorMessage(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification notification-error';
+                notification.innerHTML = `
+                    <strong>Error</strong>
+                    <p>${message}</p>
+                `;
+                document.body.insertBefore(notification, document.body.firstChild);
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 10000);
+            }
+
+            /**
+             * Actualizar información del usuario en el header
+             */
+            function updateHeaderUserInfo() {
+                const currentUser = dataManagerOptimized.getCurrentUser();
+                const profileLink = document.getElementById('profile-link');
+                const profileText = document.getElementById('profile-text');
+                if (currentUser) {
+                    // Usuario está logueado
+                    profileText.textContent = `Mi Perfil | ${currentUser.email}`;
+                    profileLink.href = 'profile.html';
+                } else {
+                    // Usuario no está logueado
+                    profileText.textContent = 'Mi Perfil';
+                    profileLink.href = 'login.html';
+                }
+            }
+
+        // ================= CARRITO EN LOCALSTORAGE ===================
+        function updateCartCounter() {
+            const CART_KEY = 'shoppingCart';
+            let cart = [];
+            try {
+                cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            } catch (e) {
+                cart = [];
+            }
+            const totalItems = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+            const cartCountElem = document.getElementById('cart-count');
+            if (cartCountElem) {
+                cartCountElem.textContent = totalItems;
+            }
+        }
+        </script>
+    </body>
+</html>

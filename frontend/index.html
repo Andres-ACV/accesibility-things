@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Accessibility Things</title>
+    <meta name="description" content="Plataforma especializada en productos de accesibilidad para personas con discapacidad, adultos mayores y embarazadas en Costa Rica">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+    <!-- Enlaces de omisión -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    <a href="#nav-main" class="skip-link">Saltar a navegación</a>
+    
+    <!-- Encabezado de página -->
+    <header role="banner">
+        <div class="header-container">
+            <div class="logo">
+                <h1>
+                    <a href="index.html" aria-label="Accessibility Things - Página de inicio">
+                        Accessibility Things
+                    </a>
+                </h1>
+                <p class="tagline">Productos de accesibilidad para una vida independiente</p>
+            </div>
+            
+            <!-- Controles de accesibilidad -->
+            <div class="accessibility-controls" role="region" aria-label="Controles de accesibilidad">
+                <button type="button" id="high-contrast-toggle" aria-pressed="false" class="accessibility-btn">
+                    <span class="sr-only">Activar</span>
+                    <span aria-hidden="true">🌓</span>
+                    Alto contraste
+                </button>
+                <button type="button" id="font-size-toggle" aria-pressed="false" class="accessibility-btn">
+                    <span class="sr-only">Aumentar</span>
+                    <span aria-hidden="true">🔍</span>
+                    Tamaño de texto
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navegación principal -->
+    <nav id="nav-main" role="navigation" aria-label="Navegación principal">
+        <ul role="menubar" class="nav-menu">
+            <li role="none">
+                <a href="index.html" role="menuitem" aria-current="page" class="nav-link active">
+                    <span aria-hidden="true">🏠</span>
+                    Inicio
+                </a>
+            </li>
+            <li role="none">
+                <a href="catalogo.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🛍️</span>
+                    Catálogo
+                </a>
+            </li>
+            <li role="none">
+                <a href="carrito.html" role="menuitem" class="nav-link">
+                    <span aria-hidden="true">🛒</span>
+                    Carrito
+                    <span id="cart-count" class="cart-badge" aria-label="productos en el carrito">0</span>
+                </a>
+            </li>
+            <li role="none">
+                <a href="profile.html" role="menuitem" class="nav-link" id="profile-link">
+                    <span aria-hidden="true">👤</span>
+                    <span id="profile-text">Mi Perfil</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Contenido principal -->
+    <main id="main-content" role="main">
+        <section class="hero" aria-labelledby="hero-title">
+            <h2 id="hero-title">Bienvenido a Accessibility Things</h2>
+            <p class="hero-description">
+                Encuentra productos especializados para personas con discapacidad, adultos mayores y embarazadas. 
+                Nuestra plataforma está diseñada para ser completamente accesible y fácil de usar.
+            </p>
+            <div class="hero-actions">
+                <a href="catalogo.html" class="btn btn-primary" role="button">
+                    Explorar catálogo
+                </a>
+                <a href="register.html" class="btn btn-secondary" role="button" id="register-profile-btn">
+                    Crear cuenta
+                </a>
+            </div>
+        </section>
+        
+        <section class="features" aria-labelledby="features-title">
+            <h2 id="features-title">¿Por qué elegir Accessibility Things?</h2>
+            <div class="features-grid">
+                <article class="feature-card">
+                    <h3>
+                        <span aria-hidden="true">♿</span>
+                        Accesibilidad Universal
+                    </h3>
+                    <p>
+                        Plataforma diseñada siguiendo las pautas WCAG 2.1 para garantizar acceso a todos los usuarios.
+                    </p>
+                </article>
+                
+                <article class="feature-card">
+                    <h3>
+                        <span aria-hidden="true">🎯</span>
+                        Productos Especializados
+                    </h3>
+                    <p>
+                        Catálogo curado de productos específicos para diferentes tipos de discapacidad y necesidades.
+                    </p>
+                </article>
+                
+                <article class="feature-card">
+                    <h3>
+                        <span aria-hidden="true">🛡️</span>
+                        Confianza y Seguridad
+                    </h3>
+                    <p>
+                        Vendedores verificados y sistema de reseñas para compras seguras y confiables.
+                    </p>
+                </article>
+            </div>
+        </section>
+        
+        <section class="categories" aria-labelledby="categories-title">
+            <h2 id="categories-title">Categorías Principales</h2>
+            <div id="categories-grid" class="categories-grid">
+                <p id="categories-loading">Cargando categorías...</p>
+            </div>
+        </section>
+        
+        <!-- Productos Destacados -->
+        <section class="featured-products" aria-labelledby="featured-title">
+            <h2 id="featured-title">Productos Más Vendidos</h2>
+            <div id="featured-products" class="products-grid">
+                <!-- Los productos se cargan dinámicamente con JavaScript -->
+                <div class="loading-message">
+                    <p>Cargando productos más vendidos...</p>
+                </div>
+            </div>
+            <div class="featured-actions">
+                <a href="catalogo.html" class="btn btn-primary">Ver todos los productos</a>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Contenido complementario -->
+    <aside role="complementary" aria-labelledby="info-title">
+        <h2 id="info-title">Información Adicional</h2>
+        <section class="info-box">
+            <h3>Atención al Cliente</h3>
+            <p>
+                ¿Necesitas ayuda? Contáctanos en 
+                <a href="mailto:ayuda@accessibilitythings.cr">ayuda@accessibilitythings.cr</a>
+            </p>
+        </section>
+        
+
+    </aside>
+    
+    <!-- Pie de página -->
+    <footer role="contentinfo">
+        <div class="footer-content">
+            <section class="footer-section">
+                <h4>Accessibility Things</h4>
+                <p>
+                    Comprometidos con la inclusión y la accesibilidad en Costa Rica, 
+                    cumpliendo con la Ley 7600.
+                </p>
+            </section>
+            
+            <section class="footer-section">
+                <h4>Enlaces Útiles</h4>
+                <ul>
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="profile.html">Mi Cuenta</a></li>
+                    <li><a href="carrito.html">Carrito</a></li>
+                    <li><a href="#" aria-describedby="ayuda-desc">Ayuda</a></li>
+                </ul>
+                <span id="ayuda-desc" class="sr-only">
+                    Página de ayuda y preguntas frecuentes
+                </span>
+            </section>
+            
+            <section class="footer-section">
+                <h4>Contacto</h4>
+                <address>
+                    <p>
+                        Email: <a href="mailto:info@accessibilitythings.cr">info@accessibilitythings.cr</a>
+                    </p>
+                    <p>
+                        Teléfono: <a href="tel:+50622334455">+506 2233-4455</a>
+                    </p>
+                </address>
+            </section>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Accessibility Things. Todos los derechos reservados.</p>
+            <p>
+                <a href="#">Términos de Uso</a> | 
+                <a href="#">Política de Privacidad</a> | 
+                <a href="#">Accesibilidad</a>
+            </p>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="js/api-service.js"></script>
+    <script src="js/data-manager-optimized.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script>
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 Inicializando página de inicio...');
+            
+            try {
+                // Verificar que apiService esté disponible (instancia global del archivo api-service.js)
+                if (typeof apiService === 'undefined') {
+                    console.error('❌ apiService no está disponible.');
+                    // Mostrar mensaje de error en la página
+                    const categoriesGrid = document.getElementById('categories-grid');
+                    const featuredProducts = document.getElementById('featured-products');
+                    if (categoriesGrid) {
+                        categoriesGrid.innerHTML = `
+                            <div class="error-state">
+                                <p>⚠️ El servidor backend no está disponible</p>
+                                <button onclick="location.reload()" class="btn btn-secondary">Reintentar</button>
+                            </div>
+                        `;
+                    }
+                    if (featuredProducts) {
+                        featuredProducts.innerHTML = `
+                            <div class="error-state">
+                                <p>⚠️ El servidor backend no está disponible</p>
+                                <button onclick="location.reload()" class="btn btn-secondary">Reintentar</button>
+                            </div>
+                        `;
+                    }
+                    return;
+                }
+                
+                console.log('✅ API Service disponible:', apiService);
+                
+                // Verificar que dataManagerOptimized esté disponible
+                if (typeof dataManagerOptimized === 'undefined') {
+                    console.log('⏳ dataManagerOptimized no está disponible aún, esperando...');
+                    
+                    // Esperar a que dataManagerOptimized esté disponible
+                    let attempts = 0;
+                    const maxAttempts = 10;
+                    
+                    while (typeof dataManagerOptimized === 'undefined' && attempts < maxAttempts) {
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                        attempts++;
+                        console.log(`⏳ Intento ${attempts}/${maxAttempts} - esperando dataManagerOptimized...`);
+                    }
+                    
+                    if (typeof dataManagerOptimized === 'undefined') {
+                        console.error('❌ dataManagerOptimized no está disponible después de esperar');
+                        throw new Error('Data Manager no está disponible');
+                    }
+                }
+                
+                console.log('✅ Data Manager disponible:', dataManagerOptimized);
+                
+                // Inicializar data manager (opcional para la página de inicio)
+                try {
+                    console.log('🔄 Inicializando Data Manager...');
+                    await dataManagerOptimized.init();
+                    console.log('✅ Data Manager inicializado');
+                } catch (error) {
+                    console.warn('⚠️ Data Manager no se pudo inicializar, continuando sin él:', error.message);
+                }
+                
+                // Actualizar header con información del usuario
+                updateHeaderUserInfo();
+                updateRegisterProfileBtn();
+
+                // Cargar categorías dinámicamente
+                console.log('🔄 Iniciando carga de categorías...');
+                try {
+                    await loadCategoriesGrid();
+                    console.log('✅ Categorías cargadas exitosamente');
+                } catch (error) {
+                    console.error('❌ Error cargando categorías:', error);
+                }
+                
+                // Cargar productos más vendidos
+                console.log('🔄 Iniciando carga de productos más vendidos...');
+                try {
+                    await loadTopSellingProducts();
+                    console.log('✅ Productos más vendidos cargados exitosamente');
+                } catch (error) {
+                    console.error('❌ Error cargando productos más vendidos:', error);
+                }
+                
+                // Los controles de accesibilidad se inicializan automáticamente desde accessibility.js
+                console.log('✅ Index: DOM inicializado, controles de accesibilidad deberían estar activos');
+                
+            } catch (error) {
+                console.error('❌ Error durante la inicialización:', error);
+                
+                // Mostrar error en la página
+                const categoriesGrid = document.getElementById('categories-grid');
+                const featuredProducts = document.getElementById('featured-products');
+                
+                const errorMessage = `
+                    <div class="error-state">
+                        <p>⚠️ Error durante la inicialización: ${error.message}</p>
+                        <button onclick="location.reload()" class="btn btn-secondary">Reintentar</button>
+                    </div>
+                `;
+                
+                if (categoriesGrid) {
+                    categoriesGrid.innerHTML = errorMessage;
+                }
+                
+                if (featuredProducts) {
+                    featuredProducts.innerHTML = errorMessage;
+                }
+            }
+        });
+
+        /**
+         * Actualizar información del usuario en el header
+         */
+        function updateHeaderUserInfo() {
+            let currentUser = null;
+            
+            // Intentar obtener usuario del dataManagerOptimized si está disponible
+            if (typeof dataManagerOptimized !== 'undefined') {
+                currentUser = dataManagerOptimized.getCurrentUser();
+            }
+            
+            // Si no está disponible, intentar obtener del apiService
+            if (!currentUser && typeof apiService !== 'undefined') {
+                currentUser = apiService.getCurrentUser();
+            }
+            
+            // Si no está disponible, intentar obtener del localStorage directamente
+            if (!currentUser) {
+                try {
+                    const userStr = localStorage.getItem('accessibility_things_user');
+                    currentUser = userStr ? JSON.parse(userStr) : null;
+                } catch (error) {
+                    console.warn('Error obteniendo usuario del localStorage:', error);
+                }
+            }
+            
+            const profileLink = document.getElementById('profile-link');
+            const profileText = document.getElementById('profile-text');
+            
+            if (currentUser) {
+                // Usuario está logueado
+                profileText.textContent = `Mi Perfil | ${currentUser.email}`;
+                profileLink.href = 'profile.html';
+            } else {
+                // Usuario no está logueado
+                profileText.textContent = 'Mi Perfil';
+                profileLink.href = 'login.html';
+            }
+        }
+
+        /**
+         * Actualizar botón de registro/perfil en el hero
+         */
+        function updateRegisterProfileBtn() {
+            const btn = document.getElementById('register-profile-btn');
+            if (!btn) return;
+            let currentUser = null;
+            // Intentar obtener usuario del dataManagerOptimized si está disponible
+            if (typeof dataManagerOptimized !== 'undefined') {
+                currentUser = dataManagerOptimized.getCurrentUser();
+            }
+            // Si no está disponible, intentar obtener del apiService
+            if (!currentUser && typeof apiService !== 'undefined') {
+                currentUser = apiService.getCurrentUser();
+            }
+            // Si no está disponible, intentar obtener del localStorage directamente
+            if (!currentUser) {
+                try {
+                    const userStr = localStorage.getItem('accessibility_things_user');
+                    currentUser = userStr ? JSON.parse(userStr) : null;
+                } catch (error) {
+                    // Ignorar error
+                }
+            }
+            if (currentUser) {
+                btn.textContent = 'Mi Perfil';
+                btn.setAttribute('href', 'profile.html');
+            } else {
+                btn.textContent = 'Registrarse';
+                btn.setAttribute('href', 'register.html');
+            }
+        }
+
+        /**
+         * Cargar y renderizar productos más vendidos
+         */
+        async function loadTopSellingProducts() {
+            console.log('🔄 Iniciando carga de productos más vendidos...');
+            const container = document.getElementById('featured-products');
+            
+            if (!container) {
+                console.error('❌ No se encontró el contenedor featured-products');
+                return;
+            }
+            
+            console.log('✅ Contenedor featured-products encontrado');
+            
+            // Mostrar estado de carga
+            container.innerHTML = '<div class="loading-message"><p>Cargando productos más vendidos...</p></div>';
+            console.log('✅ Estado de carga mostrado');
+            
+            try {
+                console.log('📡 Llamando al endpoint de productos más vendidos...');
+                console.log('🔍 apiService disponible:', typeof apiService);
+                console.log('🔍 apiService.getTopSellingProducts disponible:', typeof apiService?.getTopSellingProducts);
+                
+                // Verificar que apiService esté disponible
+                if (!apiService) {
+                    console.error('❌ apiService no está disponible');
+                    container.innerHTML = '<div class="error-state"><p>Error: API Service no disponible</p></div>';
+                    return;
+                }
+                
+                console.log('📞 Llamando a apiService.getTopSellingProducts(4)...');
+                const products = await apiService.getTopSellingProducts(4);
+                console.log('📦 Productos recibidos:', products);
+                
+                if (!products) {
+                    console.log('⚠️ No se recibieron productos (null/undefined)');
+                    container.innerHTML = '<p class="empty-state">No hay productos más vendidos disponibles.</p>';
+                    return;
+                }
+                
+                if (products.length === 0) {
+                    console.log('⚠️ Se recibió array vacío de productos');
+                    container.innerHTML = '<p class="empty-state">No hay productos más vendidos disponibles.</p>';
+                    return;
+                }
+                
+                console.log(`✅ Generando ${products.length} tarjetas de productos...`);
+                const cardsHtml = products.map(product => {
+                    console.log('🎴 Generando tarjeta para:', product);
+                    return createProductCard(product);
+                }).join('');
+                
+                console.log('🎨 HTML generado:', cardsHtml);
+                container.innerHTML = cardsHtml;
+                console.log('✅ Tarjetas renderizadas exitosamente');
+                
+            } catch (error) {
+                console.error('❌ Error cargando productos más vendidos:', error);
+                container.innerHTML = `
+                    <div class="error-state">
+                        <p>Error al cargar productos más vendidos: ${error.message}</p>
+                        <button onclick="loadTopSellingProducts()" class="btn btn-secondary">Reintentar</button>
+                    </div>
+                `;
+            }
+        }
+
+        /**
+         * Crear tarjeta de producto para productos más vendidos
+         */
+        function createProductCard(product) {
+            const stars = generateStarRating(product.average_rating);
+            const price = formatPrice(product.price);
+            
+            // Corregir la ruta de la imagen
+            let imageUrl = product.image_url || 'assets/images/placeholder-generic.svg';
+            
+            // Si la imagen empieza con /, remover el slash para hacerla relativa
+            if (imageUrl.startsWith('/')) {
+                imageUrl = imageUrl.substring(1);
+            }
+            
+            // Nuevo: obtener el número de calificaciones
+            const ratingCount = product.rating_count || product.count_rating || product.numero_resenas || 0;
+
+            return `
+                <div class="product-card featured-product" role="article" aria-labelledby="product-${product.name.replace(/\s+/g, '-').toLowerCase()}" tabindex="0" style="cursor:pointer;" onclick="window.location.href='detalle.html?id=${encodeURIComponent(product.id)}'">
+                    <div class="product-image">
+                        <img src="${imageUrl}" 
+                             alt="Imagen de ${escapeHtml(product.name)}" 
+                             loading="lazy"
+                             onerror="this.src='assets/images/placeholder-generic.svg'">
+                    </div>
+                    <div class="product-info">
+                        <h3 id="product-${product.name.replace(/\s+/g, '-').toLowerCase()}" class="product-name">
+                            ${escapeHtml(product.name)}
+                        </h3>
+                        <div class="product-price">
+                            <span class="current-price">${price}</span>
+                        </div>
+                        <div class="product-rating" aria-label="Calificación: ${product.average_rating} de 5 estrellas">
+                            <div class="stars" aria-hidden="true">
+                                ${stars}
+                            </div>
+                            <span class="rating-text">(${product.average_rating})</span>
+                            <span class="rating-count">${ratingCount} calificaciones</span>
+                        </div>
+                        <a href="detalle.html?id=${encodeURIComponent(product.id)}" class="btn btn-primary" aria-label="Ver detalles de ${escapeHtml(product.name)}" style="margin-top:0.5rem;" onclick="event.stopPropagation();">Ver detalles</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Generar estrellas de calificación
+         */
+        function generateStarRating(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            
+            let stars = '';
+            
+            // Estrellas llenas
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<span class="star star-filled" aria-hidden="true">★</span>';
+            }
+            
+            // Media estrella
+            if (hasHalfStar) {
+                stars += '<span class="star star-half" aria-hidden="true">☆</span>';
+            }
+            
+            // Estrellas vacías
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<span class="star star-empty" aria-hidden="true">☆</span>';
+            }
+            
+            return stars;
+        }
+
+        /**
+         * Formatear precio
+         */
+        function formatPrice(price) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'CRC'
+            }).format(price);
+        }
+
+        /**
+         * Escapar HTML para prevenir XSS
+         */
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        /**
+         * Cargar y renderizar categorías dinámicamente
+         */
+        async function loadCategoriesGrid() {
+            console.log('🔄 Iniciando carga de categorías...');
+            const grid = document.getElementById('categories-grid');
+            const loading = document.getElementById('categories-loading');
+            
+            if (!grid) {
+                console.error('❌ No se encontró el contenedor categories-grid');
+                return;
+            }
+            
+            if (loading) loading.style.display = 'block';
+            
+            try {
+                console.log('📡 Llamando al endpoint de categorías...');
+                
+                // Verificar que apiService esté disponible
+                if (!apiService) {
+                    console.error('❌ apiService no está disponible');
+                    grid.innerHTML = '<p style="color: red;">Error: API Service no disponible</p>';
+                    if (loading) loading.style.display = 'none';
+                    return;
+                }
+                
+                const categories = await apiService.getCategories();
+                console.log('📦 Categorías recibidas:', categories);
+                
+                if (loading) loading.style.display = 'none';
+                
+                if (!categories) {
+                    console.log('⚠️ No se recibieron categorías (null/undefined)');
+                    grid.innerHTML = '<p>No hay categorías disponibles.</p>';
+                    return;
+                }
+                
+                if (categories.length === 0) {
+                    console.log('⚠️ Se recibió array vacío de categorías');
+                    grid.innerHTML = '<p>No hay categorías disponibles.</p>';
+                    return;
+                }
+                
+                console.log(`✅ Generando ${categories.length} botones de categorías...`);
+                const categoriesHtml = categories.map(cat => `
+                    <a href="catalogo.html?categoryId=${encodeURIComponent(cat.id)}"
+                       class="btn btn-primary btn-large category-btn"
+                       role="button"
+                       tabindex="0"
+                       aria-label="Ver productos de la categoría ${cat.name}"
+                       style="margin-bottom: 1rem; display: block; text-align: center;"
+                    >
+                        <span class="category-btn-title" style="font-size: 1.25rem; font-weight: 600;">${cat.name}</span><br>
+                        <span class="category-btn-desc" style="font-size: 1.1rem; font-weight: 500;">${cat.description || ''}</span>
+                    </a>
+                `).join('');
+                
+                grid.innerHTML = categoriesHtml;
+                console.log('✅ Categorías renderizadas exitosamente');
+                
+            } catch (error) {
+                console.error('❌ Error cargando categorías:', error);
+                if (loading) loading.style.display = 'none';
+                grid.innerHTML = `<p style="color: red;">Error al cargar categorías: ${error.message}</p>`;
+            }
+        }
+
+        // ================= CARRITO EN LOCALSTORAGE ===================
+        function updateCartCounter() {
+            const CART_KEY = 'shoppingCart';
+            let cart = [];
+            try {
+                cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            } catch (e) {
+                cart = [];
+            }
+            const totalItems = cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+            const cartCountElem = document.getElementById('cart-count');
+            if (cartCountElem) {
+                cartCountElem.textContent = totalItems;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCounter();
+        });
+    </script>

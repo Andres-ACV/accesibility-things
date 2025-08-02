@@ -109,6 +109,36 @@
     .star.star-empty {
         color: #d1d5db;
     }
+    
+    /* Preservar colores amarillos de estrellas en modo combinado (alto contraste + fuente grande) */
+    body.high-contrast.large-font .star.star-filled,
+    body.high-contrast.large-font .star.star-half {
+        color: #fbbf24 !important;
+    }
+    
+    body.high-contrast.large-font .star.star-half::before {
+        color: #fbbf24 !important;
+    }
+    
+    body.high-contrast.large-font .star.star-empty {
+        color: #6b7280 !important;
+    }
+    
+    /* Preservar colores amarillos para otros elementos en modo combinado */
+    body.high-contrast.large-font .image-zoom-close:hover,
+    body.high-contrast.large-font .image-zoom-close:focus {
+        background: #fbbf24 !important;
+        color: #222 !important;
+        outline: 2px solid #fbbf24 !important;
+    }
+    
+    body.high-contrast.large-font .color-btn.selected,
+    body.high-contrast.large-font .color-btn:focus-visible {
+        border: 2px solid #fbbf24 !important;
+        box-shadow: 0 0 0 2px #fbbf2433 !important;
+        background: #000 !important;
+        color: #fbbf24 !important;
+    }
     /* Modal de zoom de imagen */
     .image-zoom-modal {
         position: fixed;

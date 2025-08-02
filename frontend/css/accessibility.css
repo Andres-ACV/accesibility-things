@@ -456,6 +456,222 @@ body.high-contrast.large-font * {
     border-color: var(--hc-borde) !important;
 }
 
+/* Excepciones para elementos específicos en combinación de alto contraste y fuente grande */
+body.high-contrast.large-font h1, 
+body.high-contrast.large-font h2, 
+body.high-contrast.large-font h3, 
+body.high-contrast.large-font h4, 
+body.high-contrast.large-font h5, 
+body.high-contrast.large-font h6 {
+    color: var(--hc-primario) !important;
+}
+
+body.high-contrast.large-font a {
+    color: var(--hc-acento) !important;
+    text-decoration: underline !important;
+}
+
+body.high-contrast.large-font a:hover {
+    color: var(--hc-secundario) !important;
+}
+
+body.high-contrast.large-font .btn-primary {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast.large-font .btn-primary:hover {
+    background-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast.large-font .btn-secondary {
+    background-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast.large-font .btn-secondary:hover {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast.large-font .error-message {
+    color: var(--hc-error) !important;
+}
+
+body.high-contrast.large-font .help-text {
+    color: var(--hc-info) !important;
+}
+
+body.high-contrast.large-font .cart-badge {
+    background-color: var(--hc-error) !important;
+    color: var(--hc-fondo) !important;
+}
+
+body.high-contrast.large-font .accessibility-btn[aria-pressed="true"] {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+/* Estilos para botones específicos en combinación de alto contraste y fuente grande */
+body.high-contrast.large-font .btn-test {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast.large-font .btn-test:hover {
+    background-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast.large-font .retry-btn {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast.large-font .retry-btn:hover {
+    background-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast.large-font .quantity-btn {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast.large-font .quantity-btn:hover {
+    background-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast.large-font .quantity-btn:disabled {
+    background-color: var(--hc-fondo-alt) !important;
+    color: var(--hc-texto) !important;
+    border-color: var(--hc-borde) !important;
+    opacity: 0.6 !important;
+}
+
+body.high-contrast.large-font .accessibility-btn {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-primario) !important;
+}
+
+body.high-contrast.large-font .accessibility-btn:hover {
+    background-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-secundario) !important;
+}
+
+body.high-contrast.large-font .remove-item-btn {
+    background-color: var(--hc-error) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-error) !important;
+}
+
+body.high-contrast.large-font .remove-item-btn:hover {
+    background-color: #ff3333 !important;
+    color: var(--hc-fondo) !important;
+    border-color: #ff3333 !important;
+}
+
+body.high-contrast.large-font .btn-danger {
+    background-color: var(--hc-error) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-error) !important;
+}
+
+body.high-contrast.large-font .btn-danger:hover,
+body.high-contrast.large-font .btn-danger:focus {
+    background-color: #ff3333 !important;
+    color: var(--hc-fondo) !important;
+    border-color: #ff3333 !important;
+}
+
+body.high-contrast.large-font .btn-outline {
+    background-color: var(--hc-fondo) !important;
+    color: var(--hc-texto) !important;
+    border-color: var(--hc-borde) !important;
+}
+
+body.high-contrast.large-font .btn-outline:hover {
+    background-color: var(--hc-texto) !important;
+    color: var(--hc-fondo) !important;
+    border-color: var(--hc-texto) !important;
+}
+
+body.high-contrast.large-font .nav-link {
+    color: var(--hc-texto) !important;
+}
+
+body.high-contrast.large-font .nav-link:hover {
+    background-color: var(--hc-primario) !important;
+    color: var(--hc-fondo) !important;
+}
+
+body.high-contrast.large-font .nav-link.active {
+    background-color: var(--hc-secundario) !important;
+    color: var(--hc-fondo) !important;
+}
+
+/* Excepción específica para el botón de tamaño de texto en combinación de alto contraste y fuente grande */
+body.high-contrast.large-font #font-size-toggle {
+    color: black !important;
+}
+
+body.high-contrast.large-font #font-size-toggle:hover {
+    color: black !important;
+}
+
+/* Estilos de focus para combinación de alto contraste y fuente grande */
+body.high-contrast.large-font [role="button"]:focus {
+    outline: 2px solid var(--hc-primario) !important;
+    outline-offset: 2px !important;
+}
+
+.keyboard-user.high-contrast.large-font :focus-visible {
+    outline: 3px solid var(--hc-primario) !important;
+    outline-offset: 3px !important;
+}
+
+body.high-contrast.large-font .btn:focus,
+body.high-contrast.large-font button:focus,
+body.high-contrast.large-font [role="button"]:focus {
+    outline: 2px solid var(--hc-primario) !important;
+    outline-offset: 2px !important;
+}
+
+body.high-contrast.large-font input:focus, 
+body.high-contrast.large-font select:focus, 
+body.high-contrast.large-font textarea:focus {
+    border-color: var(--hc-primario) !important;
+    box-shadow: 0 0 0 2px var(--hc-primario) !important;
+}
+
+/* Preservar colores amarillos de estrellas de calificación en modo combinado */
+body.high-contrast.large-font .star.star-filled,
+body.high-contrast.large-font .star.star-half,
+body.high-contrast.large-font .featured-product .star-filled,
+body.high-contrast.large-font .featured-product .star-half {
+    color: #fbbf24 !important;
+}
+
+body.high-contrast.large-font .star.star-half::before,
+body.high-contrast.large-font .featured-product .star-half::before {
+    color: #fbbf24 !important;
+}
+
 /* Mejoras para lectores de pantalla */
 @media (prefers-reduced-motion: reduce) {
     body.high-contrast .feature-card:hover,
@@ -931,4 +1147,31 @@ body.high-contrast.large-font * {
     .slide-in {
         animation: none;
     }
-} 
+}
+
+/* ==========================================================================
+   FIX: Preservación de colores amarillos en modo combinado (alto contraste + fuente grande)
+   
+   Problema corregido:
+   - Al activar ambos modos (alto contraste + tamaño de texto grande), los textos 
+     amarillos se volvían blancos debido a la regla genérica en body.high-contrast.large-font *
+   - Las estrellas de calificación (#fbbf24) también se volvían blancas perdiendo
+     su color distintivo amarillo
+   
+   Solución implementada:
+   - Se agregaron reglas específicas para preservar los colores amarillos (#ffff00) 
+     para elementos como títulos, botones primarios, enlaces, y otros elementos 
+     que deben mantener el color amarillo distintivo del modo de alto contraste
+   - Se agregaron reglas específicas para preservar el color amarillo (#fbbf24)
+     de todas las estrellas de calificación (.star.star-filled, .star.star-half)
+     incluyendo sus pseudo-elementos ::before
+   - Se mantiene la especificidad correcta usando body.high-contrast.large-font
+   - Se preservan los estilos de focus con outline amarillo
+   
+   Archivos modificados:
+   - accessibility.css: reglas generales y específicas de estrellas
+   - main.css: reglas específicas para productos destacados
+   - detalle.html: estilos inline para página de detalle
+   
+   Fecha: Agosto 2025
+   ========================================================================== */ 

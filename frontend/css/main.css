@@ -2542,6 +2542,32 @@ body.high-contrast .featured-product .star-empty {
     color: #6b7280;
 }
 
+/* Preservar colores amarillos de estrellas en modo combinado (alto contraste + fuente grande) */
+body.high-contrast.large-font .star.star-filled,
+body.high-contrast.large-font .star.star-half {
+    color: #fbbf24 !important;
+}
+
+body.high-contrast.large-font .star.star-half::before {
+    color: #fbbf24 !important;
+}
+
+body.high-contrast.large-font .featured-product .star-filled {
+    color: #fbbf24 !important;
+}
+
+body.high-contrast.large-font .featured-product .star-half {
+    color: #fbbf24 !important;
+}
+
+body.high-contrast.large-font .featured-product .star-half::before {
+    color: #fbbf24 !important;
+}
+
+body.high-contrast.large-font .featured-product .star-empty {
+    color: #6b7280 !important;
+}
+
 /* Tamaño de fuente grande para productos destacados */
 body.large-font .featured-product .product-name {
     font-size: 1.5rem;

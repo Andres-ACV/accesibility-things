@@ -9,7 +9,7 @@
 <link href="presentacion-accesibilidad_files/libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.32">
 
-  <meta name="author" content="Danny Valerio Andres Calvo">
+  <meta name="author" content="Andrés Calvo Vargas (Cédula: 118800941)  Danny Valerio Ramírez (Cédula: 402340420)">
   <meta name="dcterms.date" content="2024-01-01">
   <title>Accessibility Things</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -136,7 +136,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Danny Valerio<br>Andres Calvo 
+Andrés Calvo Vargas (Cédula: 118800941)<br> Danny Valerio Ramírez (Cédula: 402340420) 
 </div>
 </div>
 </div>
@@ -394,35 +394,42 @@ Danny Valerio<br>Andres Calvo
 <li><strong>Historial de Órdenes</strong>: Los compradores pueden consultar un resumen de los pedidos que han realizado.</li>
 </ul>
 </section>
+<section id="características-de-accesibilidad" class="slide level2 smaller">
+<h2>Características de Accesibilidad</h2>
+<p>El proyecto se construyó con un enfoque central en el cumplimiento de las pautas WCAG 2.1/2.2 (Nivel AA), garantizando una experiencia inclusiva.</p>
+<h3 class="smaller" id="perceptible">1. Perceptible</h3>
+<ul>
+<li><strong>Contraste de Color:</strong> Se asegura un alto contraste entre el texto y el fondo para facilitar la lectura, y se ofrece un modo de “Alto Contraste” opcional.</li>
+<li><strong>Texto Alternativo:</strong> Todas las imágenes significativas incluyen descripciones para que los lectores de pantalla puedan interpretarlas.</li>
+<li><strong>Adaptabilidad:</strong> El diseño se adapta a diferentes tamaños de pantalla y orientaciones sin pérdida de información.</li>
+</ul>
+<h3 class="smaller" id="operable">2. Operable</h3>
+<ul>
+<li><strong>Navegación por Teclado:</strong> Toda la funcionalidad del sitio es accesible utilizando únicamente el teclado, con un orden de foco lógico y predecible.</li>
+<li><strong>Control del Usuario:</strong> Se ofrecen controles para ajustar el tamaño de la fuente y se evitan las animaciones que puedan causar molestias o distracciones.</li>
+</ul>
+<h3 class="smaller" id="comprensible">3. Comprensible</h3>
+<ul>
+<li><strong>Estructura Semántica:</strong> Se utiliza HTML semántico (<code>&lt;main&gt;</code>, <code>&lt;nav&gt;</code>, etc.) y roles ARIA para dar una estructura clara y significativa al contenido, facilitando la navegación para tecnologías asistivas.</li>
+<li><strong>Etiquetas e Instrucciones:</strong> Todos los campos de formulario, botones y controles están claramente etiquetados para indicar su propósito y funcionamiento.</li>
+</ul>
+<h3 class="smaller" id="robusto">4. Robusto</h3>
+<ul>
+<li><strong>Compatibilidad:</strong> El código está diseñado para ser compatible con una amplia gama de navegadores y tecnologías de asistencia, incluyendo los lectores de pantalla más comunes.</li>
+<li><strong>Gestión de Foco y Anuncios Dinámicos:</strong> Se gestiona el foco de manera predecible en las interacciones y se usan “Live Regions” de ARIA para anunciar cambios importantes (como “producto añadido al carrito”) sin interrumpir al usuario.</li>
+</ul>
+</section>
 <section id="patrones-de-diseño-implementados" class="slide level2 smaller">
 <h2>Patrones de Diseño Implementados</h2>
 <p>El sistema implementa patrones de diseño probados para garantizar un código mantenible, escalable y robusto tanto en el backend como en el frontend.</p>
 <h3 id="patrones-clave-del-backend">Patrones Clave del Backend</h3>
-<ul>
-<li><strong>Arquitectura en Capas:</strong> Organiza el código en capas (Presentación, Lógica, Datos) para una máxima separación de responsabilidades.</li>
-<li><strong>Repositorio:</strong> Centraliza y abstrae el acceso a la base de datos (CRUD), desacoplando la lógica de negocio de la persistencia.</li>
-<li><strong>Inyección de Dependencias:</strong> Usada por FastAPI para proveer recursos a los endpoints (como la sesión de BD), lo que simplifica las pruebas.</li>
-<li><strong>Data Transfer Object (DTO):</strong> Define esquemas de datos con Pydantic para validar y serializar la información de la API de forma segura.</li>
-</ul>
-<h3 id="patrones-clave-del-frontend">Patrones Clave del Frontend</h3>
-<ul>
-<li><strong>Módulo y Singleton:</strong> Organiza el código en módulos y usa Singleton para tener una única fuente de verdad para el estado de la aplicación.</li>
-<li><strong>Observer:</strong> Permite que la interfaz de usuario reaccione a cambios en los datos (ej. en el carrito) de forma desacoplada.</li>
-<li><strong>Strategy:</strong> Aplica diferentes estrategias para manejar datos, como obtener productos de la API y gestionar el carrito de forma local.</li>
-<li><strong>Progressive Enhancement:</strong> Asegura la funcionalidad con HTML básico y la mejora progresivamente con CSS y JavaScript para un acceso universal.</li>
-</ul>
-</section>
-<section id="patrones-de-diseño-implementados-1" class="slide level2 smaller">
-<h2>Patrones de Diseño Implementados</h2>
-<p>El sistema implementa patrones de diseño probados para garantizar un código mantenible, escalable y robusto tanto en el backend como en el frontend.</p>
-<h3 id="patrones-clave-del-backend-1">Patrones Clave del Backend</h3>
 <ul>
 <li><strong>Arquitectura en Capas:</strong> Organiza el código en capas (API, Lógica, Datos) para una máxima separación de responsabilidades.</li>
 <li><strong>Repositorio:</strong> Centraliza el acceso a la base de datos (CRUD), desacoplando la lógica de negocio de la persistencia.</li>
 <li><strong>Inyección de Dependencias:</strong> Usada por FastAPI para proveer recursos a los endpoints (como la sesión de BD), lo que simplifica las pruebas.</li>
 <li><strong>Data Transfer Object (DTO):</strong> Define esquemas con Pydantic para validar y serializar de forma segura los datos de la API.</li>
 </ul>
-<h3 id="patrones-clave-del-frontend-1">Patrones Clave del Frontend</h3>
+<h3 id="patrones-clave-del-frontend">Patrones Clave del Frontend</h3>
 <ul>
 <li><strong>Módulo y Singleton:</strong> Organiza el código en módulos y usa Singleton para garantizar una única fuente de verdad para el estado de la aplicación.</li>
 <li><strong>Observer:</strong> Permite que la interfaz reaccione a cambios en los datos (ej. en el carrito) de forma desacoplada y eficiente.</li>
@@ -433,20 +440,20 @@ Danny Valerio<br>Andres Calvo
 <section id="despliegue-e-infraestructura" class="slide level2 smaller">
 <h2>Despliegue e Infraestructura</h2>
 <p>El entorno de desarrollo está diseñado para ser desacoplado y replicable, utilizando tecnologías de containerización para separar los servicios.</p>
-<h3 class="smaller" id="containerización-con-docker">Containerización con Docker</h3>
+<h3 id="containerización-con-docker">Containerización con Docker</h3>
 <ul>
-<li><strong>Backend Aislado:</strong> La API del backend se ejecuta dentro de un contenedor de Docker, lo que garantiza que el entorno de la aplicación sea consistente y esté aislado del sistema operativo anfitrión.</li>
-<li><strong>Dependencias Gestionadas:</strong> El <code>Dockerfile</code> del backend se encarga de instalar todas las dependencias de Python necesarias, creando una imagen portable y autónoma.</li>
+<li><strong>Backend Aislado:</strong> El backend se ejecuta en un contenedor Docker, lo que garantiza un entorno de aplicación consistente y aislado.</li>
+<li><strong>Dependencias Gestionadas:</strong> El <code>Dockerfile</code> instala todas las dependencias de Python, creando una imagen portable y lista para usar.</li>
 </ul>
-<h3 class="smaller" id="orquestación-con-docker-compose">Orquestación con Docker Compose</h3>
+<h3 id="orquestación-con-docker-compose">Orquestación con Docker Compose</h3>
 <ul>
-<li><strong>Gestión de Servicios:</strong> Se utiliza <code>docker-compose</code> para definir y ejecutar la aplicación multi-contenedor, que incluye el servicio del backend y el servicio de la base de datos PostgreSQL.</li>
-<li><strong>Comunicación y Redes:</strong> Docker Compose configura automáticamente una red interna, permitiendo que el backend se comunique de forma segura y sencilla con la base de datos.</li>
+<li><strong>Gestión de Servicios:</strong> Se usa <code>docker-compose</code> para definir y orquestar los servicios del backend y la base de datos PostgreSQL.</li>
+<li><strong>Comunicación Segura:</strong> Docker Compose crea una red interna para que el backend y la base de datos se comuniquen de forma segura.</li>
 </ul>
-<h3 class="smaller" id="entorno-de-desarrollo-local">Entorno de Desarrollo Local</h3>
+<h3 id="entorno-de-desarrollo-local">Entorno de Desarrollo Local</h3>
 <ul>
-<li><strong>Separación Frontend-Backend:</strong> Durante el desarrollo, el frontend se sirve de forma independiente a través de un servidor HTTP de Python, mientras que el backend y la base de datos se ejecutan con <code>docker-compose</code>.</li>
-<li><strong>Flexibilidad:</strong> Este enfoque permite a los desarrolladores hacer cambios en el frontend y verlos reflejados al instante, sin necesidad de reconstruir los contenedores de Docker.</li>
+<li><strong>Separación de Entornos:</strong> El frontend se ejecuta con un servidor Python independiente, mientras el backend y la base de datos usan <code>docker-compose</code>.</li>
+<li><strong>Flexibilidad y Rapidez:</strong> Este desacoplamiento permite modificar el frontend en tiempo real sin necesidad de reconstruir los contenedores.</li>
 </ul>
 </section>
 <section id="demostración-de-la-aplicación" class="slide level2">

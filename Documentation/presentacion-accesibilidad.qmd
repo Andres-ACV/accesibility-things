@@ -2,7 +2,7 @@
 title: "Accessibility Things"
 subtitle: "Plataforma de E-commerce Accesible para Productos de Asistencia"
 author:
-  - name: "Danny Valerio<br>Andres Calvo"
+  - name: "Andrés Calvo Vargas (Cédula: 118800941)<br>  Danny Valerio Ramírez (Cédula: 402340420) "
 date: "Diciembre 2024"
 format:
   revealjs:
@@ -13,7 +13,7 @@ format:
     highlight-style: github
     code-fold: true
     scrollable: true
-    fig-responsive: true
+    fig-responsive: true 
     css: custom.css
 lang: es
 ---

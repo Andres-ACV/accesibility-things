@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<script src="presentacion-accesibilidad_files/libs/clipboard/clipboard.min.js"></script>
+<script src="presentacion-accesibilidad_files/libs/quarto-html/tabby.min.js"></script>
+<script src="presentacion-accesibilidad_files/libs/quarto-html/popper.min.js"></script>
+<script src="presentacion-accesibilidad_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="presentacion-accesibilidad_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="presentacion-accesibilidad_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="presentacion-accesibilidad_files/libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.32">
+
+  <meta name="author" content="Danny Valerio Andres Calvo">
+  <meta name="dcterms.date" content="2024-01-01">
+  <title>Accessibility Things</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="presentacion-accesibilidad_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="presentacion-accesibilidad_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="presentacion-accesibilidad_files/libs/revealjs/dist/theme/quarto-816793a8a4a837d14f6ea458e2f1c5cb.css">
+  <link rel="stylesheet" href="custom.css">
+  <link href="presentacion-accesibilidad_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="presentacion-accesibilidad_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="presentacion-accesibilidad_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="presentacion-accesibilidad_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Accessibility Things</h1>
+  <p class="subtitle">Plataforma de E-commerce Accesible para Productos de Asistencia</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Danny Valerio<br>Andres Calvo 
+</div>
+</div>
+</div>
+
+  <p class="date">2024-01-01</p>
+</section>
+<section id="accessibility-things" class="slide level2">
+<h2>Accessibility Things</h2>
+<p>Plataforma de e-commerce especializada en productos de accesibilidad</p>
+
+<img src="Imagenes/cenfotect.png" alt="Logo CENFOTEC" style="width: 200px; display: block; margin-left: auto; margin-right: auto;" class="r-stretch"></section>
+<section id="agenda" class="slide level2 smaller">
+<h2>Agenda</h2>
+<div class="columns smaller">
+<div class="column" style="width:50%;">
+<div class="agenda-item">
+<div class="agenda-number n1">
+<p>01</p>
+</div>
+<div class="agenda-content">
+<p><strong>Introducción y Objetivos</strong></p>
+</div>
+</div>
+<div class="agenda-item">
+<div class="agenda-number n2">
+<p>02</p>
+</div>
+<div class="agenda-content">
+<p><strong>Tecnologías Utilizadas</strong></p>
+</div>
+</div>
+<div class="agenda-item">
+<div class="agenda-number n3">
+<p>03</p>
+</div>
+<div class="agenda-content">
+<p><strong>Arquitectura Técnica</strong></p>
+</div>
+</div>
+<div class="agenda-item">
+<div class="agenda-number n4">
+<p>04</p>
+</div>
+<div class="agenda-content">
+<p><strong>Funcionalidades Implementadas</strong></p>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="agenda-item">
+<div class="agenda-number n5">
+<p>05</p>
+</div>
+<div class="agenda-content">
+<p><strong>Características de Accesibilidad</strong></p>
+</div>
+</div>
+<div class="agenda-item">
+<div class="agenda-number n6">
+<p>06</p>
+</div>
+<div class="agenda-content">
+<p><strong>Patrones de Usabilidad</strong></p>
+</div>
+</div>
+<div class="agenda-item">
+<div class="agenda-number n7">
+<p>07</p>
+</div>
+<div class="agenda-content">
+<p><strong>Demostración de la Aplicación</strong></p>
+</div>
+</div>
+<div class="agenda-item">
+<div class="agenda-number n6">
+<p>08</p>
+</div>
+<div class="agenda-content">
+<p><strong>Conclusiones y Aprendizajes</strong></p>
+</div>
+</div>
+</div></div>
+</section>
+<section id="objetivo-general" class="slide level2 smaller">
+<h2>Objetivo General</h2>
+<p>Desarrollar un sitio web destinado a facilitar tanto la comercialización como la búsqueda de productos específicos para satisfacer las necesidades de las personas con discapacidad, personas adultas mayores, embarazadas y otros grupos contemplados en la Ley 7600, considerando una experiencia de usuario accesible, conveniente y segura.</p>
+</section>
+<section id="objetivos-específicos" class="slide level2 smaller">
+<h2>Objetivos Específicos</h2>
+<ul>
+<li><strong>Diseñar</strong> una plataforma accesible e intuitiva para la gestión de artículos orientados a personas con discapacidad.</li>
+<li><strong>Implementar</strong> funciones de registro, inicio de sesión, perfil de usuario, y publicación de productos.</li>
+<li><strong>Permitir</strong> a los usuarios consultar estadísticas de ventas y administrar la información de sus productos.</li>
+<li><strong>Ofrecer</strong> a los compradores una experiencia completa de navegación, búsqueda, carrito y envío de artículos.</li>
+<li><strong>Aplicar</strong> los principios de patrones arquitectónicos, de usabilidad y las normas WCAG para desarrollar el prototipo funcional.</li>
+</ul>
+</section>
+<section id="objetivos-técnicos" class="slide level2 smaller">
+<h2>Objetivos Técnicos</h2>
+<ul>
+<li><strong>Implementar</strong> una arquitectura backend robusta con FastAPI y PostgreSQL</li>
+<li><strong>Desarrollar</strong> un frontend accesible siguiendo estándares WCAG 2.1/2.2 AA</li>
+<li><strong>Aplicar</strong> patrones de diseño arquitectónicos y de software</li>
+<li><strong>Garantizar</strong> la usabilidad para usuarios con diferentes capacidades</li>
+<li><strong>Crear</strong> un MVE de un sistema de comercio electrónico funcional y escalable</li>
+</ul>
+</section>
+<section id="qué-es-accessibility-things" class="slide level2 smaller">
+<h2>¿Qué es Accessibility Things?</h2>
+<h3 class="smaller" id="definición-del-proyecto">Definición del Proyecto</h3>
+<blockquote>
+<p><strong>Accessibility Things</strong> es una plataforma creada para facilitar la compra y venta de artículos enfocados en mejorar la calidad de vida de personas con discapacidad, adultos mayores y otros grupos contemplados en la Ley 7600.</p>
+</blockquote>
+<h3 class="smaller" id="propósito">Propósito</h3>
+<ul>
+<li>Facilitar el acceso y centralizar la oferta de productos de asistencia.</li>
+<li>Promover la inclusión, la independencia y mejorar la calidad de vida de los usuarios.</li>
+<li>Crear un espacio digital que garantice una experiencia de usuario accesible e intuitiva.</li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Enfoque</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Accesibilidad Universal</strong> como principio fundamental del diseño. <img src="./Imagenes/empresa-accesible.jpg" alt="Empresa accesible" style="width: 250px; height: auto; display: block; margin-left: auto; margin-right: auto; max-width: 100%;"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="tecnologías-utilizadas" class="slide level2 smaller">
+<h2>Tecnologías Utilizadas</h2>
+<h3 class="smaller" id="diseño-y-frontend">Diseño y Frontend</h3>
+<ul>
+<li><strong>Figma</strong>: Herramienta principal para el diseño de la interfaz y la creación de prototipos interactivos de alta fidelidad.</li>
+<li><strong>HTML5 Semántico</strong>: Para construir una estructura accesible desde la base.</li>
+<li><strong>CSS3 Avanzado</strong>: Para crear estilos responsivos y cumplir con criterios de accesibilidad visual.</li>
+<li><strong>JavaScript (ES6+)</strong>: Para la funcionalidad interactiva y el manejo de la lógica del lado del cliente.</li>
+</ul>
+<h3 class="smaller" id="backend">Backend</h3>
+<ul>
+<li><strong>FastAPI</strong>: Framework web para la creación de la API.</li>
+<li><strong>PostgreSQL</strong>: Como base de datos relacional robusta.</li>
+<li><strong>SQLAlchemy</strong>: ORM para el mapeo de objetos y el manejo de datos.</li>
+<li><strong>JWT</strong>: Para la gestión de autenticación segura basada en tokens.</li>
+</ul>
+<h3 class="smaller" id="infraestructura-y-despliegue">Infraestructura y Despliegue</h3>
+<ul>
+<li><strong>Docker &amp; Docker Compose</strong>: Para la containerización y orquestación de los servicios de la aplicación.</li>
+<li><strong>Alembic</strong>: Para gestionar las migraciones de la base de datos.</li>
+</ul>
+</section>
+<section id="arquitectura-del-sistema" class="slide level2">
+<h2>Arquitectura del Sistema</h2>
+<p><img src="Imagenes/Arquitectura Genera.png" alt="Arquitectura Genera" style="width: 1000px; height: auto; display: block; margin-left: auto; margin-right: auto; max-width: 100%;"></p>
+</section>
+<section id="arquitectura-frontend---módulos" class="slide level2 smaller">
+<h2>Arquitectura Frontend - Módulos</h2>
+<p>El frontend implementa una arquitectura basada en módulos especializados, donde cada uno tiene responsabilidades bien definidas para asegurar un código organizado y mantenible.</p>
+<ul>
+<li><strong>Presentation Layer (Capa de Presentación)</strong>
+<ul>
+<li>Responsable de la estructura visual y el estilo de la interfaz.</li>
+<li>Compuesta por HTML semántico, CSS para estilos y plantillas dinámicas para el contenido.</li>
+</ul></li>
+<li><strong>UI Controller Layer (Capa de Controlador de UI)</strong>
+<ul>
+<li>Maneja toda la interacción del usuario, como clics y eventos del teclado.</li>
+<li>Orquesta la manipulación del DOM y el renderizado de los componentes en la página.</li>
+</ul></li>
+<li><strong>Data Management Layer (Capa de Gestión de Datos)</strong>
+<ul>
+<li>Actúa como el estado central de la aplicación, gestionando la información.</li>
+<li>Administra tanto los datos locales (carrito, sesión de usuario) como los datos que se obtienen del backend.</li>
+</ul></li>
+<li><strong>API Communication Layer (Capa de Comunicación con API)</strong>
+<ul>
+<li>Encapsula toda la comunicación HTTP con la API del backend.</li>
+<li>Es responsable de gestionar los tokens de autenticación JWT y manejar los errores de conexión.</li>
+</ul></li>
+<li><strong>Accessibility Layer (Capa de Accesibilidad)</strong>
+<ul>
+<li>Contiene la lógica para los controles de usuario, como el modo de alto contraste y el ajuste del tamaño de fuente.</li>
+<li>Asegura el cumplimiento de las pautas WCAG y la correcta implementación de atributos ARIA.</li>
+</ul></li>
+</ul>
+</section>
+<section id="arquitectura-backend---capas" class="slide level2 smaller">
+<h2>Arquitectura Backend - Capas</h2>
+<p>El backend sigue una estricta arquitectura en 5 capas, donde cada una tiene una responsabilidad única para mejorar la mantenibilidad y la testabilidad del código.</p>
+<ul>
+<li><strong>API Layer (Capa de Presentación)</strong>
+<ul>
+<li>Responsable de exponer los endpoints de la API REST y manejar las solicitudes HTTP de los clientes.</li>
+<li>Gestiona la validación de datos de entrada y la serialización de las respuestas (DTOs).</li>
+</ul></li>
+<li><strong>Service Layer (Capa de Lógica de Negocio)</strong>
+<ul>
+<li>Contiene toda la lógica de negocio de la aplicación y las reglas que no pertenecen a una entidad específica.</li>
+<li>Coordina las operaciones entre diferentes repositorios para realizar tareas complejas.</li>
+</ul></li>
+<li><strong>Repository Layer (Capa de Acceso a Datos)</strong>
+<ul>
+<li>Implementa el Patrón Repositorio para abstraer y centralizar toda la comunicación con la base de datos.</li>
+<li>Proporciona una interfaz limpia para realizar operaciones CRUD (Crear, Leer, Actualizar, Borrar) sobre las entidades.</li>
+</ul></li>
+<li><strong>Model Layer (Capa de Dominio)</strong>
+<ul>
+<li>Define las entidades del sistema (como Usuario, Producto, Orden) a través de los modelos del ORM de SQLAlchemy.</li>
+<li>Establece las relaciones y restricciones entre las diferentes tablas de la base de datos.</li>
+</ul></li>
+<li><strong>Configuration &amp; Infrastructure Layer</strong>
+<ul>
+<li>Gestiona la configuración de la aplicación, como la conexión a la base de datos y las variables de entorno.</li>
+</ul></li>
+</ul>
+</section>
+<section id="base-de-datos-y-persistencia" class="slide level2 smaller">
+<h2>Base de Datos y Persistencia</h2>
+<p>El sistema utiliza PostgreSQL como motor de base de datos, con un esquema relacional gestionado a través de SQLAlchemy para asegurar la integridad y consistencia de los datos.</p>
+<h3 class="smaller" id="modelo-relacional">Modelo Relacional</h3>
+<ul>
+<li>El esquema se organiza en torno a entidades principales como <strong>Usuario, Producto, Orden y Categoría</strong>.</li>
+<li>Las relaciones complejas (muchos a muchos) se manejan con tablas de enlace, como las que conectan productos con sus colores e imágenes.</li>
+</ul>
+<h3 class="smaller" id="patrones-de-persistencia">Patrones de Persistencia</h3>
+<ul>
+<li>Se utiliza el ORM de <strong>SQLAlchemy</strong>, que implementa patrones de diseño clave:
+<ul>
+<li><strong>Active Record:</strong> Donde los modelos no solo almacenan datos, sino que también pueden encapsular comportamiento.</li>
+<li><strong>Unit of Work:</strong> SQLAlchemy gestiona automáticamente las transacciones como una unidad de trabajo, asegurando que todas las operaciones se completen con éxito o ninguna lo haga.</li>
+</ul></li>
+</ul>
+<h3 class="smaller" id="gestión-de-cambios-migraciones">Gestión de Cambios (Migraciones)</h3>
+<ul>
+<li>El versionado y la evolución del esquema de la base de datos se gestionan con <strong>Alembic</strong>.</li>
+<li>Este enfoque permite aplicar cambios de forma controlada, segura y reversible, lo cual es fundamental para el mantenimiento a largo plazo.</li>
+</ul>
+</section>
+<section id="funcionalidades-implementadas" class="slide level2 smaller">
+<h2>Funcionalidades Implementadas</h2>
+<p>Para el proyecto, nos enfocamos en desarrollar un Producto Mínimo Viable (MVP) que validara los flujos esenciales para compradores y vendedores.</p>
+<h3 class="smaller" id="gestión-de-usuarios-y-autenticación">Gestión de Usuarios y Autenticación</h3>
+<ul>
+<li><strong>Registro y Login</strong>: Sistema de creación de cuentas e inicio de sesión seguro utilizando tokens JWT.</li>
+<li><strong>Gestión de Perfil de Usuario</strong>: Los usuarios pueden ver y editar su información personal desde su panel.</li>
+</ul>
+<h3 class="smaller" id="flujo-de-compra">Flujo de Compra</h3>
+<ul>
+<li><strong>Catálogo y Detalle de Productos</strong>: Visualización de los productos disponibles con su información completa.</li>
+<li><strong>Gestión de Carrito de Compras</strong>: Funcionalidad para añadir, modificar y eliminar productos del carrito.</li>
+<li><strong>Proceso de Checkout</strong>: Flujo para que el comprador finalice la orden ingresando sus datos de envío.</li>
+<li><strong>Historial de Órdenes</strong>: Los compradores pueden consultar un resumen de los pedidos que han realizado.</li>
+</ul>
+</section>
+<section id="patrones-de-diseño-implementados" class="slide level2 smaller">
+<h2>Patrones de Diseño Implementados</h2>
+<p>El sistema implementa patrones de diseño probados para garantizar un código mantenible, escalable y robusto tanto en el backend como en el frontend.</p>
+<h3 id="patrones-clave-del-backend">Patrones Clave del Backend</h3>
+<ul>
+<li><strong>Arquitectura en Capas:</strong> Organiza el código en capas (Presentación, Lógica, Datos) para una máxima separación de responsabilidades.</li>
+<li><strong>Repositorio:</strong> Centraliza y abstrae el acceso a la base de datos (CRUD), desacoplando la lógica de negocio de la persistencia.</li>
+<li><strong>Inyección de Dependencias:</strong> Usada por FastAPI para proveer recursos a los endpoints (como la sesión de BD), lo que simplifica las pruebas.</li>
+<li><strong>Data Transfer Object (DTO):</strong> Define esquemas de datos con Pydantic para validar y serializar la información de la API de forma segura.</li>
+</ul>
+<h3 id="patrones-clave-del-frontend">Patrones Clave del Frontend</h3>
+<ul>
+<li><strong>Módulo y Singleton:</strong> Organiza el código en módulos y usa Singleton para tener una única fuente de verdad para el estado de la aplicación.</li>
+<li><strong>Observer:</strong> Permite que la interfaz de usuario reaccione a cambios en los datos (ej. en el carrito) de forma desacoplada.</li>
+<li><strong>Strategy:</strong> Aplica diferentes estrategias para manejar datos, como obtener productos de la API y gestionar el carrito de forma local.</li>
+<li><strong>Progressive Enhancement:</strong> Asegura la funcionalidad con HTML básico y la mejora progresivamente con CSS y JavaScript para un acceso universal.</li>
+</ul>
+</section>
+<section id="patrones-de-diseño-implementados-1" class="slide level2 smaller">
+<h2>Patrones de Diseño Implementados</h2>
+<p>El sistema implementa patrones de diseño probados para garantizar un código mantenible, escalable y robusto tanto en el backend como en el frontend.</p>
+<h3 id="patrones-clave-del-backend-1">Patrones Clave del Backend</h3>
+<ul>
+<li><strong>Arquitectura en Capas:</strong> Organiza el código en capas (API, Lógica, Datos) para una máxima separación de responsabilidades.</li>
+<li><strong>Repositorio:</strong> Centraliza el acceso a la base de datos (CRUD), desacoplando la lógica de negocio de la persistencia.</li>
+<li><strong>Inyección de Dependencias:</strong> Usada por FastAPI para proveer recursos a los endpoints (como la sesión de BD), lo que simplifica las pruebas.</li>
+<li><strong>Data Transfer Object (DTO):</strong> Define esquemas con Pydantic para validar y serializar de forma segura los datos de la API.</li>
+</ul>
+<h3 id="patrones-clave-del-frontend-1">Patrones Clave del Frontend</h3>
+<ul>
+<li><strong>Módulo y Singleton:</strong> Organiza el código en módulos y usa Singleton para garantizar una única fuente de verdad para el estado de la aplicación.</li>
+<li><strong>Observer:</strong> Permite que la interfaz reaccione a cambios en los datos (ej. en el carrito) de forma desacoplada y eficiente.</li>
+<li><strong>Strategy:</strong> Aplica diferentes estrategias para manejar los datos, como obtener productos desde la API y gestionar el carrito de forma local.</li>
+<li><strong>Progressive Enhancement:</strong> Asegura la funcionalidad con HTML básico y la mejora progresivamente con CSS y JavaScript para un acceso universal.</li>
+</ul>
+</section>
+<section id="despliegue-e-infraestructura" class="slide level2 smaller">
+<h2>Despliegue e Infraestructura</h2>
+<p>El entorno de desarrollo está diseñado para ser desacoplado y replicable, utilizando tecnologías de containerización para separar los servicios.</p>
+<h3 class="smaller" id="containerización-con-docker">Containerización con Docker</h3>
+<ul>
+<li><strong>Backend Aislado:</strong> La API del backend se ejecuta dentro de un contenedor de Docker, lo que garantiza que el entorno de la aplicación sea consistente y esté aislado del sistema operativo anfitrión.</li>
+<li><strong>Dependencias Gestionadas:</strong> El <code>Dockerfile</code> del backend se encarga de instalar todas las dependencias de Python necesarias, creando una imagen portable y autónoma.</li>
+</ul>
+<h3 class="smaller" id="orquestación-con-docker-compose">Orquestación con Docker Compose</h3>
+<ul>
+<li><strong>Gestión de Servicios:</strong> Se utiliza <code>docker-compose</code> para definir y ejecutar la aplicación multi-contenedor, que incluye el servicio del backend y el servicio de la base de datos PostgreSQL.</li>
+<li><strong>Comunicación y Redes:</strong> Docker Compose configura automáticamente una red interna, permitiendo que el backend se comunique de forma segura y sencilla con la base de datos.</li>
+</ul>
+<h3 class="smaller" id="entorno-de-desarrollo-local">Entorno de Desarrollo Local</h3>
+<ul>
+<li><strong>Separación Frontend-Backend:</strong> Durante el desarrollo, el frontend se sirve de forma independiente a través de un servidor HTTP de Python, mientras que el backend y la base de datos se ejecutan con <code>docker-compose</code>.</li>
+<li><strong>Flexibilidad:</strong> Este enfoque permite a los desarrolladores hacer cambios en el frontend y verlos reflejados al instante, sin necesidad de reconstruir los contenedores de Docker.</li>
+</ul>
+</section>
+<section id="demostración-de-la-aplicación" class="slide level2">
+<h2>Demostración de la Aplicación</h2>
+</section>
+<section id="próximos-pasos" class="slide level2 smaller">
+<h2>Próximos Pasos</h2>
+<h3 class="smaller" id="mejoras-técnicas">Mejoras Técnicas</h3>
+<ul>
+<li><strong>Finalización del flujo administrativo</strong></li>
+<li><strong>Optimización del flujo de vendedor</strong></li>
+</ul>
+<h3 class="smaller" id="expansión-de-funcionalidades">Expansión de Funcionalidades</h3>
+<ul>
+<li><strong>Móvil App</strong>: Aplicación nativa para dispositivos móviles</li>
+<li><strong>Pagos Online</strong>: Integración con pasarelas de pago</li>
+<li><strong>Notificaciones</strong>: Sistema de alertas y recordatorios</li>
+</ul>
+<h3 class="smaller" id="accesibilidad-avanzada">Accesibilidad Avanzada</h3>
+<ul>
+<li><strong>Voice Navigation</strong>: Navegación por comandos de voz</li>
+<li><strong>AI Assistant</strong>: Asistente inteligente para búsquedas</li>
+<li><strong>Multilingüe</strong>: Soporte para múltiples idiomas</li>
+</ul>
+</section>
+<section id="conclusiones-clave" class="slide level2 smaller">
+<h2>Conclusiones Clave</h2>
+<p>El desarrollo del proyecto nos permitió llegar a las siguientes conclusiones fundamentales, basadas en el análisis de mercado, las necesidades de los usuarios y el proceso de diseño.</p>
+<h3 class="smaller" id="conclusiones-del-análisis-y-diseño">Conclusiones del Análisis y Diseño</h3>
+<ul>
+<li><strong>Oportunidad en el Mercado:</strong> El análisis competitivo reveló que, aunque existen múltiples plataformas, hay una clara oportunidad para diferenciarse a través de una <strong>accesibilidad superior</strong> y un <strong>flujo de compra simplificado</strong>, ya que el 75% de los competidores analizados presentan procesos de compra complejos.</li>
+<li><strong>La Confianza como Factor Clave:</strong> Para los usuarios de este nicho, la confianza es decisiva. La encuesta mostró que el 87.5% de los potenciales compradores se preocupa por la calidad y procedencia de los productos.</li>
+<li><strong>Nuevos Modelos de Negocio:</strong> La encuesta identificó un número mayor de potenciales compradores que de vendedores, lo que valida la oportunidad de incluir un <strong>modelo de venta de artículos de segunda mano</strong> entre usuarios para fomentar una comunidad más activa.</li>
+</ul>
+<h3 id="logros-principales-del-prototipo">Logros Principales del Prototipo</h3>
+<ul>
+<li><strong>Diseño Centrado en el Usuario Real:</strong> Se diseñó una arquitectura de información y una interfaz que responden directamente a los problemas detectados en el análisis, como la <strong>desorganización de la información</strong> y la <strong>falta de datos esenciales</strong> en otras plataformas.</li>
+<li><strong>Base para una Comunidad Inclusiva:</strong> El prototipo sienta las bases para una plataforma que integra las herramientas esenciales tanto para el <strong>flujo de compra como para el de venta</strong>, creando un ecosistema completo para la comunidad.</li>
+</ul>
+<h3 id="aprendizajes-del-proceso">Aprendizajes del Proceso</h3>
+<ul>
+<li><strong>La Accesibilidad como Diferenciador:</strong> El principal hallazgo es que un enfoque estricto en la accesibilidad no es solo un requisito, sino el <strong>diferenciador competitivo más importante</strong> frente a otras plataformas.</li>
+<li><strong>Balance entre Estética y Norma:</strong> El mayor desafío técnico y de diseño fue encontrar un balance entre una estética atractiva y el <strong>cumplimiento riguroso de los criterios WCAG</strong>, una lección clave del proceso de prototipado en Figma.</li>
+</ul>
+</section>
+<section id="gracias-por-su-atención" class="slide level2">
+<h2>Gracias por su Atención</h2>
+<h3 class="smaller" id="preguntas-y-discusión">Preguntas y Discusión</h3>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Recordatorio</strong></p>
+</div>
+<div class="callout-content">
+<p>La accesibilidad web no es solo una buena práctica o una característica adicional, es un derecho y un principio del diseño fundamental que debemos garantizar en todas nuestras aplicaciones.</p>
+</div>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="presentacion-accesibilidad_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="presentacion-accesibilidad_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="presentacion-accesibilidad_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="presentacion-accesibilidad_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="presentacion-accesibilidad_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="presentacion-accesibilidad_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="presentacion-accesibilidad_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="presentacion-accesibilidad_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="presentacion-accesibilidad_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="presentacion-accesibilidad_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copiado");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copiado");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
+            }
+            return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

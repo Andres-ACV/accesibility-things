@@ -1,0 +1,922 @@
+/* --- Elegant Education Pack Theme for Quarto --- */
+/* Versión Final                   */
+
+/* 1. IMPORTACIÓN DE FUENTES DE GOOGLE
+--------------------------------------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Manjari:wght@400;700&display=swap');
+
+/* 2. VARIABLES GLOBALES (FUENTES Y COLORES)
+--------------------------------------------------*/
+:root {
+  /* Paleta de colores de la plantilla de Slidesgo */
+  --color-primary: #c8a591;   /* Tan/Brown [cite: 1762] */
+  --color-secondary: #a0a299; /* Grayish-Green [cite: 1763] */
+  --color-dark: #40474b;      /* Dark Slate Gray [cite: 1764] */
+  --color-light: #edecdf;     /* Off-white [cite: 1765] */
+  --color-background: #ffffff;/* White [cite: 1766] */
+  --color-accent1: #005662;
+  --color-accent2: #00796b;
+
+  /* Fuentes de la plantilla de Slidesgo */
+  --font-heading: 'Hammersmith One', sans-serif;/* [cite: 1758] */
+  --font-body: 'Manjari', sans-serif;           /* [cite: 1760] */
+}
+
+/* 3. ESTILOS GENERALES DE LA PRESENTACIÓN
+--------------------------------------------------*/
+.reveal {
+  font-family: var(--font-body);
+  color: var(--color-dark);
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal strong {
+  font-family: var(--font-heading);
+  color: var(--color-dark);
+  text-transform: none;
+}
+
+.reveal a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.reveal a:hover {
+  color: #a1806d;
+  text-decoration: underline;
+}
+
+/* 4. CLASES DE DISEÑO Y AYUDANTES
+--------------------------------------------------*/
+.light-bg {
+  background-color: var(--color-light) !important;
+}
+.light-yellow-bg {
+  background-color: #fefbf3 !important;
+}
+.light-green-bg {
+  background-color: #f0fdf4 !important;
+}
+
+/* 5. ESTILOS POR COMPONENTE
+--------------------------------------------------*/
+
+/* 5.1 Diapositiva de Título */
+#title-slide {
+  text-align: center;
+}
+#title-slide .title {
+  font-size: 2.5em;
+  /* margin-bottom: 0.2em;*/
+}
+#title-slide .subtitle {
+  font-family: var(--font-body);
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--color-secondary);
+  /* margin-bottom: 1em;*/
+}
+#title-slide .author, #title-slide .date {
+  font-family: var(--font-body);
+  font-size: 1.1em;
+  line-height: 1.2;
+  margin-bottom: 0em;
+  margin-top: 0em
+}
+
+/* 5.2 Diapositiva de Agenda */
+.agenda-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+.agenda-number {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-background);
+  font-family: var(--font-heading);
+  font-size: 1.8em;
+  flex-shrink: 0;
+}
+.agenda-number.n1, .agenda-number.n6 { background-color: var(--color-primary); }
+.agenda-number.n2, .agenda-number.n7 { background-color: var(--color-secondary); }
+.agenda-number.n3, .agenda-number.n8 { background-color: var(--color-dark); }
+.agenda-number.n4, .agenda-number.n9 { background-color: var(--color-accent1); }
+.agenda-number.n5, .agenda-number.n10 { background-color: var(--color-accent2); }
+
+.agenda-content {
+  font-size: 1.2em;
+  font-family: var(--font-body);
+}
+.agenda-content strong {
+  font-size: 1.2em;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* 5.3 Diapositiva de Objetivos */
+.objective-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 15px;
+}
+.objective-icon {
+  font-size: 1.8em;
+  color: var(--color-primary);
+  flex-shrink: 0;
+  width: 1.8em;
+  text-align: center;
+}
+.objective-content {
+  font-size: 1.2em;
+  padding-top: 0.2em;
+}
+/* 5.4 Contenido General (Subtítulos y Listas) */
+.reveal .slides section h3 {
+  font-family: var(--font-heading);
+  color: var(--color-primary); 
+  font-size: 1.6em;
+  border-bottom: 2px solid var(--color-secondary);
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+}
+
+/* Regla para listas con viñetas */
+.reveal .slides section ul {
+  list-style-type: disc; 
+  padding-left: 40px;    
+}
+
+/* ¡NUEVA REGLA! Para listas numeradas */
+.reveal .slides section ol {
+  padding-left: 40px;    /* Espacio para los números */
+}
+
+.reveal .slides section li {
+  font-family: var(--font-body);
+  font-size: 1.2em;
+  padding: 2px 0;
+  line-height: 1.5;
+}
+
+.reveal .slides section li::marker {
+   color: var(--color-accent2); 
+   font-size: 1.2em;
+}
+
+/* 5.5 Callouts (Notas, Advertencias, etc.) */
+.callout {
+  border-left-width: 5px;
+  border-left-style: solid;
+  border-radius: 5px;
+  padding: 15px 20px;
+  margin: 20px 0;
+  background-color: #f8f9fa;
+}
+
+.callout .callout-header {
+  font-family: var(--font-heading);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+/* Estilo para advertencias */
+.callout.callout-warning {
+  border-left-color: #f0ad4e;
+}
+.callout.callout-warning .callout-header {
+  color: #f0ad4e;
+}
+
+/* Estilo para notas */
+.callout.callout-note {
+  border-left-color: var(--color-secondary);
+}
+.callout.callout-note .callout-header {
+  color: var(--color-secondary);
+}
+
+/* Estilo para advertencias importantes */
+.callout.callout-important {
+  border-left-color: var(--color-primary);
+}
+.callout.callout-important .callout-header {
+  color: var(--color-primary);
+}
+
+/* Estilo para consejos o tips */
+.callout.callout-tip {
+  border-left-color: var(--color-accent2);
+}
+.callout.callout-tip .callout-header {
+  color: var(--color-accent2);
+}
+
+/* 5.6 Pestañas (Panel Tabset) */
+.panel-tabset {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.panel-tabset > .nav-tabs {
+  display: flex;
+  flex-wrap: wrap; 
+}
+
+.panel-tabset > .nav-tabs > .nav-item {
+  margin-bottom: -1px; 
+}
+
+.panel-tabset > .nav-tabs > .nav-item > .nav-link {
+  background: none;
+  border: 1px solid transparent;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  color: var(--color-secondary);
+  font-family: var(--font-heading); 
+  font-weight: normal; 
+  font-size: 1.2em; 
+  padding: 0.5em 1em;
+  margin-right: 0.05rem;
+  cursor: pointer;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.panel-tabset > .nav-tabs > .nav-item > .nav-link:hover,
+.panel-tabset > .nav-tabs > .nav-item > .nav-link:focus {
+  border-color: #e9ecef #e9ecef #dee2e6;
+}
+
+/* CAMBIO: Se elimina el fondo de la pestaña activa */
+.panel-tabset > .nav-tabs > .nav-item > .nav-link.active,
+.panel-tabset > .nav-tabs > .nav-item > .nav-link.active:focus,
+.panel-tabset > .nav-tabs > .nav-item > .nav-link.active:hover {
+  color: var(--color-primary);
+  background-color: transparent; /* <-- AJUSTE */
+  border-color: #dee2e6 #dee2e6 var(--color-background);
+}
+
+/* CAMBIO: Se elimina el fondo y el borde del contenido */
+.tab-content {
+  padding: 1em 0; /* Ajustamos padding */
+  background-color: transparent; /* <-- AJUSTE */
+  border: none; /* <-- AJUSTE */
+}
+
+.tab-content h3 {
+  font-family: var(--font-heading); 
+  color: var(--color-dark); 
+  font-size: 1.4em; 
+  margin-top: 0; 
+}
+/* 5.7 Tablas */
+.reveal .slides table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.reveal .slides th, .reveal .slides td {
+  border: 1px solid var(--color-secondary);
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.reveal .slides th {
+  background-color: var(--color-light);
+  font-family: var(--font-heading);
+}
+
+/* 5.8 Portada Personalizada */
+#custom-title-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
+#custom-title-page img {
+  margin-bottom: 2em;
+}
+
+#custom-title-page h1 {
+  font-size: 2.8em;
+  margin-bottom: 0.5em;
+}
+
+#custom-title-page h2 {
+  font-family: var(--font-body);
+  font-size: 1.4em;
+  color: var(--color-secondary);
+  font-weight: bold;
+  margin-bottom: 2em;
+}
+
+#custom-title-page .authors {
+  font-size: 1.3em;
+  line-height: 1.4;
+  margin-bottom: 1em;
+}
+
+#custom-title-page .date {
+  font-size: 1.2em;
+} 
+
+/* 6. ESTILOS DE SINTAXIS Y CÓDIGO (EXTRAÍDOS DEL HTML)
+--------------------------------------------------*/
+
+/* Estilos generales de código */
+code {
+  white-space: pre-wrap;
+}
+
+span.smallcaps {
+  font-variant: small-caps;
+}
+
+div.columns {
+  display: flex;
+  gap: min(4vw, 1.5em);
+}
+
+div.column {
+  flex: auto;
+  overflow-x: auto;
+}
+
+div.hanging-indent {
+  margin-left: 1.5em;
+  text-indent: -1.5em;
+}
+
+ul.task-list {
+  list-style: none;
+}
+
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em;
+  vertical-align: middle;
+}
+
+/* CSS para resaltado de sintaxis */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+pre > code.sourceCode {
+  white-space: pre;
+  position: relative;
+}
+
+pre > code.sourceCode > span {
+  display: inline-block;
+  line-height: 1.25;
+}
+
+pre > code.sourceCode > span:empty {
+  height: 1.2em;
+}
+
+.sourceCode {
+  overflow: visible;
+}
+
+code.sourceCode > span {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+div.sourceCode {
+  margin: 1em 0;
+}
+
+pre.sourceCode {
+  margin: 0;
+}
+
+@media screen {
+  div.sourceCode {
+    overflow: auto;
+  }
+}
+
+@media print {
+  pre > code.sourceCode {
+    white-space: pre-wrap;
+  }
+  pre > code.sourceCode > span {
+    text-indent: -5em;
+    padding-left: 5em;
+  }
+}
+
+pre.numberSource code {
+  counter-reset: source-line 0;
+}
+
+pre.numberSource code > span {
+  position: relative;
+  left: -4em;
+  counter-increment: source-line;
+}
+
+pre.numberSource code > span > a:first-child::before {
+  content: counter(source-line);
+  position: relative;
+  left: -1em;
+  text-align: right;
+  vertical-align: baseline;
+  border: none;
+  display: inline-block;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 0 4px;
+  width: 4em;
+}
+
+pre.numberSource {
+  margin-left: 3em;
+  padding-left: 4px;
+}
+
+div.sourceCode {
+  color: #24292e;
+}
+
+@media screen {
+  pre > code.sourceCode > span > a:first-child::before {
+    text-decoration: underline;
+  }
+}
+
+/* Colores para resaltado de sintaxis */
+code span {
+  color: #24292e;
+} /* Normal */
+code span.al {
+  color: #ff5555;
+  font-weight: bold;
+} /* Alert */
+code span.an {
+  color: #6a737d;
+} /* Annotation */
+code span.at {
+  color: #d73a49;
+} /* Attribute */
+code span.bn {
+  color: #005cc5;
+} /* BaseN */
+code span.bu {
+  color: #d73a49;
+} /* BuiltIn */
+code span.cf {
+  color: #d73a49;
+} /* ControlFlow */
+code span.ch {
+  color: #032f62;
+} /* Char */
+code span.cn {
+  color: #005cc5;
+} /* Constant */
+code span.co {
+  color: #6a737d;
+} /* Comment */
+code span.cv {
+  color: #6a737d;
+} /* CommentVar */
+code span.do {
+  color: #6a737d;
+} /* Documentation */
+code span.dt {
+  color: #d73a49;
+} /* DataType */
+code span.dv {
+  color: #005cc5;
+} /* DecVal */
+code span.er {
+  color: #ff5555;
+  text-decoration: underline;
+} /* Error */
+code span.ex {
+  color: #d73a49;
+  font-weight: bold;
+} /* Extension */
+code span.fl {
+  color: #005cc5;
+} /* Float */
+code span.fu {
+  color: #6f42c1;
+} /* Function */
+code span.im {
+  color: #032f62;
+} /* Import */
+code span.in {
+  color: #6a737d;
+} /* Information */
+code span.kw {
+  color: #d73a49;
+} /* Keyword */
+code span.op {
+  color: #24292e;
+} /* Operator */
+code span.ot {
+  color: #6f42c1;
+} /* Other */
+code span.pp {
+  color: #d73a49;
+} /* Preprocessor */
+code span.re {
+  color: #6a737d;
+} /* RegionMarker */
+code span.sc {
+  color: #005cc5;
+} /* SpecialChar */
+code span.ss {
+  color: #032f62;
+} /* SpecialString */
+code span.st {
+  color: #032f62;
+} /* String */
+code span.va {
+  color: #e36209;
+} /* Variable */
+code span.vs {
+  color: #032f62;
+} /* VerbatimString */
+code span.wa {
+  color: #ff5555;
+} /* Warning */
+
+/* 7. ESTILOS ESPECÍFICOS DE REVEAL.JS (EXTRAÍDOS DEL HTML)
+--------------------------------------------------*/
+
+.reveal div.sourceCode {
+  margin: 0;
+  overflow: auto;
+}
+
+.reveal div.hanging-indent {
+  margin-left: 1em;
+  text-indent: -1em;
+}
+
+.reveal .slide:not(.center) {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.reveal .slide.scrollable {
+  overflow-y: auto;
+}
+
+.reveal .footnotes {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.reveal .slide .absolute {
+  position: absolute;
+  display: block;
+}
+
+.reveal .footnotes ol {
+  counter-reset: ol;
+  list-style-type: none;
+  margin-left: 0;
+}
+
+.reveal .footnotes ol li:before {
+  counter-increment: ol;
+  content: counter(ol) ". ";
+}
+
+.reveal .footnotes ol li > p:first-child {
+  display: inline-block;
+}
+
+.reveal .slide ul,
+.reveal .slide ol {
+  margin-bottom: 0.5em;
+}
+
+.reveal .slide ul li,
+.reveal .slide ol li {
+  margin-top: 0.4em;
+  margin-bottom: 0.2em;
+}
+
+.reveal .slide ul[role="tablist"] li {
+  margin-bottom: 0;
+}
+
+.reveal .slide ul li > *:first-child,
+.reveal .slide ol li > *:first-child {
+  margin-block-start: 0;
+}
+
+.reveal .slide ul li > *:last-child,
+.reveal .slide ol li > *:last-child {
+  margin-block-end: 0;
+}
+
+.reveal .slide .columns:nth-child(3) {
+  margin-block-start: 0.8em;
+}
+
+.reveal blockquote {
+  box-shadow: none;
+}
+
+.reveal .tippy-content > * {
+  margin-top: 0.2em;
+  margin-bottom: 0.7em;
+}
+
+.reveal .tippy-content > *:last-child {
+  margin-bottom: 0.2em;
+}
+
+.reveal .slide > img.stretch.quarto-figure-center,
+.reveal .slide > img.r-stretch.quarto-figure-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reveal .slide > img.stretch.quarto-figure-left,
+.reveal .slide > img.r-stretch.quarto-figure-left {
+  display: block;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.reveal .slide > img.stretch.quarto-figure-right,
+.reveal .slide > img.r-stretch.quarto-figure-right {
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* 8. ESTILOS PARA PESTAÑAS CON TABBY (EXTRAÍDOS DEL HTML)
+--------------------------------------------------*/
+
+.panel-tabset-tabby {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.panel-tabset-tabby li {
+  margin-bottom: -1px;
+}
+
+.panel-tabset-tabby a {
+  display: block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  color: var(--color-secondary);
+  border: 1px solid transparent;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.panel-tabset-tabby a:hover,
+.panel-tabset-tabby a:focus {
+  border-color: #e9ecef #e9ecef #dee2e6;
+  color: var(--color-primary);
+}
+
+.panel-tabset-tabby a[data-tabby-default] {
+  color: var(--color-primary);
+  border-color: #dee2e6 #dee2e6 var(--color-background);
+}
+
+.tab-content > div {
+  padding: 1em 0;
+}
+
+/* 9. ESTILOS PARA BOTONES DE COPIA DE CÓDIGO
+--------------------------------------------------*/
+
+.code-copy-button {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.875em;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.code-copy-button:hover {
+  opacity: 1;
+}
+
+.code-copy-button-checked {
+  background: var(--color-accent2) !important;
+}
+
+/* 10. ESTILOS PARA FIGURAS Y IMÁGENES
+--------------------------------------------------*/
+
+.quarto-figure {
+  margin: 1em 0;
+}
+
+.quarto-figure-center {
+  text-align: center;
+}
+
+.quarto-figure-left {
+  text-align: left;
+}
+
+.quarto-figure-right {
+  text-align: right;
+}
+
+.r-stretch {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 11. ESTILOS PARA DIAPOSITIVAS PEQUEÑAS
+--------------------------------------------------*/
+
+.smaller {
+  font-size: 0.9em;
+}
+
+.smaller h2 {
+  font-size: 1.8em;
+}
+
+.smaller h3 {
+  font-size: 1.4em;
+}
+
+.smaller p, .smaller li {
+  font-size: 1em;
+}
+
+/* 12. ESTILOS PARA DIAPOSITIVAS CON SCROLL
+--------------------------------------------------*/
+
+.scrollable {
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+/* 13. ESTILOS PARA DIAPOSITIVAS CENTRADAS
+--------------------------------------------------*/
+
+.center {
+  text-align: center;
+}
+
+.center h1, .center h2, .center h3 {
+  text-align: center;
+}
+
+/* 14. ESTILOS PARA DIAPOSITIVAS DE NIVEL 2
+--------------------------------------------------*/
+
+.slide.level2 {
+  padding: 2em;
+}
+
+.slide.level2 h2 {
+  margin-bottom: 1em;
+  color: var(--color-primary);
+}
+
+/* 15. ESTILOS PARA DIAPOSITIVA DE TÍTULO
+--------------------------------------------------*/
+
+.quarto-title-block {
+  text-align: center;
+  padding: 2em;
+}
+
+.quarto-title-authors {
+  margin: 2em 0;
+}
+
+.quarto-title-author {
+  margin: 1em 0;
+}
+
+.quarto-title-author-name {
+  font-family: var(--font-heading);
+  font-size: 1.3em;
+  color: var(--color-dark);
+}
+
+/* 16. ESTILOS PARA DIAPOSITIVA DE AGENDA
+--------------------------------------------------*/
+
+.agenda-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.agenda-number {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-background);
+  font-family: var(--font-heading);
+  font-size: 1.8em;
+  flex-shrink: 0;
+}
+
+.agenda-number.n1, .agenda-number.n6 {
+  background-color: var(--color-primary);
+}
+
+.agenda-number.n2, .agenda-number.n7 {
+  background-color: var(--color-secondary);
+}
+
+.agenda-number.n3, .agenda-number.n8 {
+  background-color: var(--color-dark);
+}
+
+.agenda-number.n4, .agenda-number.n9 {
+  background-color: var(--color-accent1);
+}
+
+.agenda-number.n5, .agenda-number.n10 {
+  background-color: var(--color-accent2);
+}
+
+.agenda-content {
+  font-size: 1.2em;
+  font-family: var(--font-body);
+}
+
+.agenda-content strong {
+  font-size: 1.2em;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* 17. ESTILOS PARA DIAPOSITIVAS CON COLUMNAS
+--------------------------------------------------*/
+
+.columns {
+  display: flex;
+  gap: min(4vw, 1.5em);
+}
+
+.column {
+  flex: auto;
+  overflow-x: auto;
+}
+
+/* 18. ESTILOS PARA DIAPOSITIVAS CON SCROLL
+--------------------------------------------------*/
+
+.scrollable {
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+/* 19. ESTILOS PARA DIAPOSITIVAS CON SCROLL
+--------------------------------------------------*/
+
+.scrollable {
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+/* 20. ESTILOS PARA DIAPOSITIVAS CON SCROLL
+--------------------------------------------------*/
+
+.scrollable {
+  overflow-y: auto;
+  max-height: 100%;
+} 

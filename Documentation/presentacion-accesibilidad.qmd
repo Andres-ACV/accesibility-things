@@ -1,0 +1,399 @@
+---
+title: "Accessibility Things"
+subtitle: "Plataforma de E-commerce Accesible para Productos de Asistencia"
+author:
+  - name: "Danny Valerio<br>Andres Calvo"
+date: "Diciembre 2024"
+format:
+  revealjs:
+    theme: serif
+    slide-number: true
+    transition: slide
+    background-transition: fade
+    highlight-style: github
+    code-fold: true
+    scrollable: true
+    fig-responsive: true
+    css: custom.css
+lang: es
+---
+
+## Accessibility Things
+Plataforma de e-commerce especializada en productos de accesibilidad
+
+<img src="Imagenes/cenfotect.png" alt="Logo CENFOTEC" style="width: 200px; display: block; margin-left: auto; margin-right: auto;">
+
+---
+
+## Agenda {.smaller}
+
+::: {.columns .smaller} 
+
+::: {.column width="50%"}
+::: {.agenda-item}
+::: {.agenda-number .n1}
+01
+:::
+::: {.agenda-content}
+**Introducción y Objetivos**
+:::
+:::
+
+::: {.agenda-item}
+::: {.agenda-number .n2}
+02
+:::
+::: {.agenda-content}
+**Tecnologías Utilizadas**
+:::
+:::
+
+::: {.agenda-item}
+::: {.agenda-number .n3}
+03
+:::
+::: {.agenda-content}
+**Arquitectura Técnica**
+:::
+:::
+
+::: {.agenda-item}
+::: {.agenda-number .n4}
+04
+:::
+::: {.agenda-content}
+**Funcionalidades Implementadas**
+:::
+:::
+:::
+
+::: {.column width="50%"}
+::: {.agenda-item}
+::: {.agenda-number .n5}
+05
+:::
+::: {.agenda-content}
+**Características de Accesibilidad**
+:::
+:::
+
+::: {.agenda-item}
+::: {.agenda-number .n6}
+06
+:::
+::: {.agenda-content}
+**Patrones de Usabilidad**
+:::
+:::
+
+::: {.agenda-item}
+::: {.agenda-number .n7}
+07
+:::
+::: {.agenda-content}
+**Demostración de la Aplicación**
+:::
+:::
+
+
+::: {.agenda-item}
+::: {.agenda-number .n6}
+08
+:::
+::: {.agenda-content}
+**Conclusiones y Aprendizajes**
+:::
+:::
+
+
+:::
+
+:::
+
+---
+
+## Objetivo General {.smaller}
+
+Desarrollar un sitio web destinado a facilitar tanto la comercialización como la búsqueda de productos específicos para satisfacer las necesidades de las personas con discapacidad, personas adultas mayores, embarazadas y otros grupos contemplados en la Ley 7600, considerando una experiencia de usuario accesible, conveniente y segura.
+
+---
+
+## Objetivos Específicos {.smaller}
+
+- **Diseñar** una plataforma accesible e intuitiva para la gestión de artículos orientados a personas con discapacidad.
+- **Implementar** funciones de registro, inicio de sesión, perfil de usuario, y publicación de productos.
+- **Permitir** a los usuarios consultar estadísticas de ventas y administrar la información de sus productos.
+- **Ofrecer** a los compradores una experiencia completa de navegación, búsqueda, carrito y envío de artículos.
+- **Aplicar** los principios de patrones arquitectónicos, de usabilidad y las normas WCAG para desarrollar el prototipo funcional.
+
+
+---
+
+## Objetivos Técnicos  {.smaller}
+
+- **Implementar** una arquitectura backend robusta con FastAPI y PostgreSQL
+- **Desarrollar** un frontend accesible siguiendo estándares WCAG 2.1/2.2 AA
+- **Aplicar** patrones de diseño arquitectónicos y de software
+- **Garantizar** la usabilidad para usuarios con diferentes capacidades
+- **Crear** un MVE de un sistema de comercio electrónico funcional y escalable
+
+---
+
+## ¿Qué es Accessibility Things? {.smaller}
+
+### Definición del Proyecto {.smaller}
+> **Accessibility Things** es una plataforma creada para facilitar la compra y venta de artículos enfocados en mejorar la calidad de vida de personas con discapacidad, adultos mayores y otros grupos contemplados en la Ley 7600.
+
+### Propósito {.smaller}
+- Facilitar el acceso y centralizar la oferta de productos de asistencia.
+- Promover la inclusión, la independencia y mejorar la calidad de vida de los usuarios.
+- Crear un espacio digital que garantice una experiencia de usuario accesible e intuitiva.
+
+
+
+::: {.callout-note}
+## Enfoque {.smaller}
+**Accesibilidad Universal** como principio fundamental del diseño.
+<img src="./Imagenes/empresa-accesible.jpg" alt="Empresa accesible" style="width: 250px; height: auto; display: block; margin-left: auto; margin-right: auto; max-width: 100%;">
+
+:::
+
+---
+
+## Tecnologías Utilizadas {.smaller}
+
+
+### Diseño y Frontend {.smaller}
+- **Figma**: Herramienta principal para el diseño de la interfaz y la creación de prototipos interactivos de alta fidelidad.
+- **HTML5 Semántico**: Para construir una estructura accesible desde la base.
+- **CSS3 Avanzado**: Para crear estilos responsivos y cumplir con criterios de accesibilidad visual.
+- **JavaScript (ES6+)**: Para la funcionalidad interactiva y el manejo de la lógica del lado del cliente.
+
+
+### Backend {.smaller}
+- **FastAPI**: Framework web para la creación de la API.
+- **PostgreSQL**: Como base de datos relacional robusta.
+- **SQLAlchemy**: ORM para el mapeo de objetos y el manejo de datos.
+- **JWT**: Para la gestión de autenticación segura basada en tokens.
+
+
+### Infraestructura y Despliegue{.smaller}
+- **Docker & Docker Compose**: Para la containerización y orquestación de los servicios de la aplicación.
+- **Alembic**: Para gestionar las migraciones de la base de datos.
+
+---
+
+## Arquitectura del Sistema
+
+<img src="Imagenes/Arquitectura Genera.png" alt="Arquitectura Genera" style="width: 1000px; height: auto; display: block; margin-left: auto; margin-right: auto; max-width: 100%;">
+
+---
+---
+
+## Arquitectura Frontend - Módulos {.smaller}
+
+El frontend implementa una arquitectura basada en módulos especializados, donde cada uno tiene responsabilidades bien definidas para asegurar un código organizado y mantenible.
+
+- **Presentation Layer (Capa de Presentación)**
+    - Responsable de la estructura visual y el estilo de la interfaz.
+    - Compuesta por HTML semántico, CSS para estilos y plantillas dinámicas para el contenido.
+
+- **UI Controller Layer (Capa de Controlador de UI)**
+    - Maneja toda la interacción del usuario, como clics y eventos del teclado.
+    - Orquesta la manipulación del DOM y el renderizado de los componentes en la página.
+
+- **Data Management Layer (Capa de Gestión de Datos)**
+    - Actúa como el estado central de la aplicación, gestionando la información.
+    - Administra tanto los datos locales (carrito, sesión de usuario) como los datos que se obtienen del backend.
+
+- **API Communication Layer (Capa de Comunicación con API)**
+    - Encapsula toda la comunicación HTTP con la API del backend.
+    - Es responsable de gestionar los tokens de autenticación JWT y manejar los errores de conexión.
+
+- **Accessibility Layer (Capa de Accesibilidad)**
+    - Contiene la lógica para los controles de usuario, como el modo de alto contraste y el ajuste del tamaño de fuente.
+    - Asegura el cumplimiento de las pautas WCAG y la correcta implementación de atributos ARIA.
+
+---
+
+## Arquitectura Backend - Capas {.smaller}
+
+El backend sigue una estricta arquitectura en 5 capas, donde cada una tiene una responsabilidad única para mejorar la mantenibilidad y la testabilidad del código.
+
+- **API Layer (Capa de Presentación)**
+    - Responsable de exponer los endpoints de la API REST y manejar las solicitudes HTTP de los clientes.
+    - Gestiona la validación de datos de entrada y la serialización de las respuestas (DTOs).
+
+- **Service Layer (Capa de Lógica de Negocio)**
+    - Contiene toda la lógica de negocio de la aplicación y las reglas que no pertenecen a una entidad específica.
+    - Coordina las operaciones entre diferentes repositorios para realizar tareas complejas.
+
+- **Repository Layer (Capa de Acceso a Datos)**
+    - Implementa el Patrón Repositorio para abstraer y centralizar toda la comunicación con la base de datos.
+    - Proporciona una interfaz limpia para realizar operaciones CRUD (Crear, Leer, Actualizar, Borrar) sobre las entidades.
+
+- **Model Layer (Capa de Dominio)**
+    - Define las entidades del sistema (como Usuario, Producto, Orden) a través de los modelos del ORM de SQLAlchemy.
+    - Establece las relaciones y restricciones entre las diferentes tablas de la base de datos.
+
+- **Configuration & Infrastructure Layer**
+    - Gestiona la configuración de la aplicación, como la conexión a la base de datos y las variables de entorno.
+
+
+---
+
+
+## Base de Datos y Persistencia {.smaller}
+
+El sistema utiliza PostgreSQL como motor de base de datos, con un esquema relacional gestionado a través de SQLAlchemy para asegurar la integridad y consistencia de los datos.
+
+### Modelo Relacional {.smaller}
+- El esquema se organiza en torno a entidades principales como **Usuario, Producto, Orden y Categoría**.
+- Las relaciones complejas (muchos a muchos) se manejan con tablas de enlace, como las que conectan productos con sus colores e imágenes.
+
+### Patrones de Persistencia {.smaller}
+- Se utiliza el ORM de **SQLAlchemy**, que implementa patrones de diseño clave:
+    - **Active Record:** Donde los modelos no solo almacenan datos, sino que también pueden encapsular comportamiento.
+    - **Unit of Work:** SQLAlchemy gestiona automáticamente las transacciones como una unidad de trabajo, asegurando que todas las operaciones se completen con éxito o ninguna lo haga.
+
+### Gestión de Cambios (Migraciones) {.smaller}
+- El versionado y la evolución del esquema de la base de datos se gestionan con **Alembic**.
+- Este enfoque permite aplicar cambios de forma controlada, segura y reversible, lo cual es fundamental para el mantenimiento a largo plazo.
+
+---
+
+## Funcionalidades Implementadas {.smaller}
+
+Para el proyecto, nos enfocamos en desarrollar un Producto Mínimo Viable (MVP) que validara los flujos esenciales para compradores y vendedores.
+
+### Gestión de Usuarios y Autenticación {.smaller}
+- **Registro y Login**: Sistema de creación de cuentas e inicio de sesión seguro utilizando tokens JWT.
+- **Gestión de Perfil de Usuario**: Los usuarios pueden ver y editar su información personal desde su panel.
+
+### Flujo de Compra {.smaller}
+- **Catálogo y Detalle de Productos**: Visualización de los productos disponibles con su información completa.
+- **Gestión de Carrito de Compras**: Funcionalidad para añadir, modificar y eliminar productos del carrito.
+- **Proceso de Checkout**: Flujo para que el comprador finalice la orden ingresando sus datos de envío.
+- **Historial de Órdenes**: Los compradores pueden consultar un resumen de los pedidos que han realizado.
+
+---
+
+
+
+## Características de Accesibilidad {.smaller}
+
+El proyecto se construyó con un enfoque central en el cumplimiento de las pautas WCAG 2.1/2.2 (Nivel AA), garantizando una experiencia inclusiva.
+
+### 1. Perceptible {.smaller}
+- **Contraste de Color:** Se asegura un alto contraste entre el texto y el fondo para facilitar la lectura, y se ofrece un modo de "Alto Contraste" opcional.
+- **Texto Alternativo:** Todas las imágenes significativas incluyen descripciones para que los lectores de pantalla puedan interpretarlas.
+- **Adaptabilidad:** El diseño se adapta a diferentes tamaños de pantalla y orientaciones sin pérdida de información.
+
+### 2. Operable {.smaller}
+- **Navegación por Teclado:** Toda la funcionalidad del sitio es accesible utilizando únicamente el teclado, con un orden de foco lógico y predecible.
+- **Control del Usuario:** Se ofrecen controles para ajustar el tamaño de la fuente y se evitan las animaciones que puedan causar molestias o distracciones.
+
+### 3. Comprensible {.smaller}
+- **Estructura Semántica:** Se utiliza HTML semántico (`<main>`, `<nav>`, etc.) y roles ARIA para dar una estructura clara y significativa al contenido, facilitando la navegación para tecnologías asistivas.
+- **Etiquetas e Instrucciones:** Todos los campos de formulario, botones y controles están claramente etiquetados para indicar su propósito y funcionamiento.
+
+### 4. Robusto {.smaller}
+- **Compatibilidad:** El código está diseñado para ser compatible con una amplia gama de navegadores y tecnologías de asistencia, incluyendo los lectores de pantalla más comunes.
+- **Gestión de Foco y Anuncios Dinámicos:** Se gestiona el foco de manera predecible en las interacciones y se usan "Live Regions" de ARIA para anunciar cambios importantes (como "producto añadido al carrito") sin interrumpir al usuario.
+
+
+
+---
+
+## Patrones de Diseño Implementados {.smaller}
+
+El sistema implementa patrones de diseño probados para garantizar un código mantenible, escalable y robusto tanto en el backend como en el frontend.
+
+### Patrones Clave del Backend
+- **Arquitectura en Capas:** Organiza el código en capas (API, Lógica, Datos) para una máxima separación de responsabilidades.
+- **Repositorio:** Centraliza el acceso a la base de datos (CRUD), desacoplando la lógica de negocio de la persistencia.
+- **Inyección de Dependencias:** Usada por FastAPI para proveer recursos a los endpoints (como la sesión de BD), lo que simplifica las pruebas.
+- **Data Transfer Object (DTO):** Define esquemas con Pydantic para validar y serializar de forma segura los datos de la API.
+
+### Patrones Clave del Frontend
+- **Módulo y Singleton:** Organiza el código en módulos y usa Singleton para garantizar una única fuente de verdad para el estado de la aplicación.
+- **Observer:** Permite que la interfaz reaccione a cambios en los datos (ej. en el carrito) de forma desacoplada y eficiente.
+- **Strategy:** Aplica diferentes estrategias para manejar los datos, como obtener productos desde la API y gestionar el carrito de forma local.
+- **Progressive Enhancement:** Asegura la funcionalidad con HTML básico y la mejora progresivamente con CSS y JavaScript para un acceso universal.
+
+---
+
+## Despliegue e Infraestructura {.smaller}
+
+El entorno de desarrollo está diseñado para ser desacoplado y replicable, utilizando tecnologías de containerización para separar los servicios.
+
+### Containerización con Docker
+- **Backend Aislado:** El backend se ejecuta en un contenedor Docker, lo que garantiza un entorno de aplicación consistente y aislado.
+- **Dependencias Gestionadas:** El `Dockerfile` instala todas las dependencias de Python, creando una imagen portable y lista para usar.
+
+### Orquestación con Docker Compose
+- **Gestión de Servicios:** Se usa `docker-compose` para definir y orquestar los servicios del backend y la base de datos PostgreSQL.
+- **Comunicación Segura:** Docker Compose crea una red interna para que el backend y la base de datos se comuniquen de forma segura.
+
+### Entorno de Desarrollo Local
+- **Separación de Entornos:** El frontend se ejecuta con un servidor Python independiente, mientras el backend y la base de datos usan `docker-compose`.
+- **Flexibilidad y Rapidez:** Este desacoplamiento permite modificar el frontend en tiempo real sin necesidad de reconstruir los contenedores.
+
+---
+
+
+
+## Demostración de la Aplicación  
+
+
+---
+
+## Próximos Pasos {.smaller}
+
+### Mejoras Técnicas {.smaller}
+-  **Finalización del flujo administrativo** 
+-  **Optimización del flujo de vendedor** 
+
+
+### Expansión de Funcionalidades {.smaller}
+- **Móvil App**: Aplicación nativa para dispositivos móviles
+- **Pagos Online**: Integración con pasarelas de pago
+- **Notificaciones**: Sistema de alertas y recordatorios
+
+### Accesibilidad Avanzada {.smaller}
+- **Voice Navigation**: Navegación por comandos de voz
+- **AI Assistant**: Asistente inteligente para búsquedas
+- **Multilingüe**: Soporte para múltiples idiomas
+
+
+---
+
+## Conclusiones Clave {.smaller}
+
+El desarrollo del proyecto nos permitió llegar a las siguientes conclusiones fundamentales, basadas en el análisis de mercado, las necesidades de los usuarios y el proceso de diseño.
+
+### Conclusiones del Análisis y Diseño {.smaller}
+- **Oportunidad en el Mercado:** El análisis competitivo reveló que, aunque existen múltiples plataformas, hay una clara oportunidad para diferenciarse a través de una **accesibilidad superior** y un **flujo de compra simplificado**, ya que el 75% de los competidores analizados presentan procesos de compra complejos. 
+- **La Confianza como Factor Clave:** Para los usuarios de este nicho, la confianza es decisiva. La encuesta mostró que el 87.5% de los potenciales compradores se preocupa por la calidad y procedencia de los productos. 
+- **Nuevos Modelos de Negocio:** La encuesta identificó un número mayor de potenciales compradores que de vendedores, lo que valida la oportunidad de incluir un **modelo de venta de artículos de segunda mano** entre usuarios para fomentar una comunidad más activa. 
+
+### Logros Principales del Prototipo
+- **Diseño Centrado en el Usuario Real:** Se diseñó una arquitectura de información y una interfaz que responden directamente a los problemas detectados en el análisis, como la **desorganización de la información** y la **falta de datos esenciales** en otras plataformas. 
+- **Base para una Comunidad Inclusiva:** El prototipo sienta las bases para una plataforma que integra las herramientas esenciales tanto para el **flujo de compra como para el de venta**, creando un ecosistema completo para la comunidad. 
+
+### Aprendizajes del Proceso
+- **La Accesibilidad como Diferenciador:** El principal hallazgo es que un enfoque estricto en la accesibilidad no es solo un requisito, sino el **diferenciador competitivo más importante** frente a otras plataformas. 
+- **Balance entre Estética y Norma:** El mayor desafío técnico y de diseño fue encontrar un balance entre una estética atractiva y el **cumplimiento riguroso de los criterios WCAG**, una lección clave del proceso de prototipado en Figma.
+
+---
+
+
+## Gracias por su Atención 
+
+### Preguntas y Discusión {.smaller}
+
+
+::: {.callout-important}
+## Recordatorio
+La accesibilidad web no es solo una buena práctica o una característica adicional, es un derecho y un principio del diseño fundamental que debemos garantizar en todas nuestras aplicaciones.
+::: 

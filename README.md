@@ -163,3 +163,9 @@ docker exec accesibility-things-backend-1 python -m pytest test_api.py -v
 - `frontend/FRONTEND_DOCUMENTATION.md` - Documentación detallada del frontend
 - `backend/IMPLEMENTATION_SUMMARY.md` - Resumen de implementación del backend
 - `backend/PHONE_FIELD_IMPLEMENTATION.md` - Implementación específica del campo teléfono 
+
+
+### Para Renderizar la Presentación
+
+# Renderizar presentación HTML
+quarto render presentacion-accesibilidad.qmd
